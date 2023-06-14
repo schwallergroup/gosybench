@@ -1,8 +1,13 @@
+"""
+LLMChain for extraction. Prepared for GPT-4
+"""
+
+
 import os
 
 from dotenv import load_dotenv
 from langchain import chains
-from langchain.llms import OpenAI
+from langchain.chat_models import ChatOpenAI
 
 from .prompt import *
 
@@ -11,7 +16,7 @@ load_dotenv()
 openai_key = os.getenv("OPENAI_API_KEY")
 
 # language model
-llm = OpenAI(
+llm = ChatOpenAI(
     model_name="gpt-4",
     temperature=0.1,
     max_tokens=2048,

@@ -27,6 +27,10 @@ logger = logging.getLogger(__name__)
 @click.group()
 @click.version_option()
 def main():
+    """
+    Main data processing pipeline for USPTO
+    """
+
     # Import data
     path_data_applications = "data/Extracted_Data_2001_Sep2016_USPTOapplications_new.csv"
     path_data_grant = "data/Extracted_Data_1976_Sep2016_USPTOgrants_new.csv"

@@ -1,3 +1,7 @@
+"""
+prompt library for data extraction
+"""
+
 from langchain import PromptTemplate
 
 ptemplate = PromptTemplate(

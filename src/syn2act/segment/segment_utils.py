@@ -1,9 +1,17 @@
+"""
+utilities for segmentation
+"""
+
 import json
 import re
 
 
 # segment paragraph texts into
 def paragraph2SegmentDict(paragraph):
+    """
+    Segment a paragraph into semantic categories
+    """
+
     output = []
     segments = re.split("Step end #", paragraph)  # split the paragraph text into segments by step
 
@@ -26,4 +34,8 @@ def paragraph2SegmentDict(paragraph):
 
 # print output as csv structure
 def printOutput(output):
+    """
+    Pretty print
+    """
+
     print(json.dumps(output, sort_keys=False, indent=3, ensure_ascii=False))

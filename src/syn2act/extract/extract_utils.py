@@ -1,4 +1,7 @@
-# extract info from segmented text
+"""
+extract info from segmented text
+"""
+
 import time
 
 from syn2act.segment.gpt import chain
@@ -12,6 +15,10 @@ from .rxn_workup import *
 
 
 def paragraph2json(text):
+    """
+    Convert a synthesis description paragraph into a JSON using LLMs
+    """
+
     # step 1
     start_time = time.time()
     segmented_paragraph = chain.run({"example": example, "paragraph": text})
