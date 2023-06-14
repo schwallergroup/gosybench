@@ -2,7 +2,6 @@
 LLMChain for extraction. Prepared for GPT-4
 """
 
-
 import os
 
 from dotenv import load_dotenv
