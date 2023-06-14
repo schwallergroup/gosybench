@@ -4,7 +4,8 @@ Reaction set_up extraction schema built by Kor API
 
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
-from segment.gpt import llm
+
+from syn2act.segment.gpt import llm
 
 from .utils import *
 

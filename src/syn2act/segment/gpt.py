@@ -1,8 +1,14 @@
-from api import OPENAI_API_KEY
+import os
+
+from dotenv import load_dotenv
 from langchain import chains
 from langchain.llms import OpenAI
 
 from .prompt import *
+
+# Load OPENAI API key
+load_dotenv()
+openai_key = os.getenv("OPENAI_API_KEY")
 
 # language model
 llm = OpenAI(
@@ -10,7 +16,7 @@ llm = OpenAI(
     temperature=0.1,
     max_tokens=2048,
     request_timeout=3000,
-    openai_api_key=OPENAI_API_KEY,
+    openai_api_key=openai_key,
 )
 
 # build up a chain

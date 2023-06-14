@@ -1,9 +1,9 @@
 # extract info from segmented text
 import time
 
-from segment.gpt import chain
-from segment.prompt import example
-from segment.segment_utils import paragraph2SegmentDict
+from syn2act.segment.gpt import chain
+from syn2act.segment.prompt import example
+from syn2act.segment.segment_utils import paragraph2SegmentDict
 
 from .analysis import *
 from .purification import *
