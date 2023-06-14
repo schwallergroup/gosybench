@@ -11,9 +11,7 @@ from langchain.chat_models import ChatOpenAI
 from .prompt import *
 
 # Load OPENAI API key
-print(load_dotenv())
 openai_key = os.getenv("OPENAI_API_KEY")
-print(len(openai_key))
 
 # language model
 llm = ChatOpenAI(
