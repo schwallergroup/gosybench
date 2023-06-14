@@ -1,6 +1,19 @@
+from langchain.llms import OpenAI
+from langchain import chains
 
-def paragraph2json(paragraph):
-    """Input a synthesis paragraph and ouputs a json file."
+from .prompt import *
+from api import OPENAI_API_KEY
 
-    a = 1
-    return a
+# language model
+llm = OpenAI(model_name="gpt-4",
+    temperature=0.1,
+    max_tokens=2048,
+    request_timeout=3000,
+    openai_api_key=OPENAI_API_KEY,
+)
+
+# build up a chain
+chain = chains.LLMChain(
+    prompt = ptemplate,
+    llm = llm    
+)
