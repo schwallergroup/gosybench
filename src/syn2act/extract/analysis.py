@@ -6,7 +6,7 @@ from kor.extraction import create_extraction_chain
 from kor.nodes import Object, Text, Number
 
 from .utils import *
-from segment.gpt import llm
+from syn2act.segment.gpt import llm
 
 
 nmr_data = Object(

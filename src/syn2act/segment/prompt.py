@@ -1,9 +1,8 @@
 from langchain import PromptTemplate
 
 ptemplate = PromptTemplate(
-    input_variables = ["example", "paragraph"],
-    
-    template = """ You are an adept experimentalist in chemistry. Your role is to teach new researchers how to recognize reaction steps of a chemical reaction and to chunk the procedure into steps based on steps' meanings in the context of a chemical reaction.
+    input_variables=["example", "paragraph"],
+    template=""" You are an adept experimentalist in chemistry. Your role is to teach new researchers how to recognize reaction steps of a chemical reaction and to chunk the procedure into steps based on steps' meanings in the context of a chemical reaction.
 Steps in a chemical reaction have an outline to follow as below: 
 - 'reaction set-up': the preparation of a chemical synthesis procedure, where reactants, solvents, and catalysts are specified. Specific conditions in which the reaction is initiated, such as temperature, pressure, atmosphere, are indicated. Chemical treatments may come along to stop the reaction, such as the portionwise addition of acid, base, water or liquid.
 - 'work-up': the process of isolating the desired product from the reaction mixture after the chemical reaction has taken place. It always comes after the completion of reaction-set up in order to separate products from unreacted starting materials, byproducts, and other impurities. Common techniques in work-up includes quenching, extraction, washing, phase separation, evaporation and filtration. Some key words of work-up steps in sentence include 'adding acid (ex. HCL, H2SO4) or base (ex. NaOH) into reaction mixture/residue', 'cooling the mixture to ambient temperature or below 0 degree celsius', 'solvents being removed/filtered/concentrated by rotary evaporation', 'diluting the solution or forming two layers to do extraction'.
@@ -37,7 +36,7 @@ Here's the paragraph you need to complete:
 Think step-by-step. Then give the output!
 Begin!
 
-"""
+""",
 )
 
 example = """Input:
@@ -83,4 +82,3 @@ explanation: this is the analysis as the analytical methods (LCMS-ESI+, 1H NMR (
 step order: 4
 Step end #
 """
-

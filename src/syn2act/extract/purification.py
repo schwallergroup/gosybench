@@ -3,31 +3,19 @@ Purification extraction schema built by Kor API
 """
 
 from kor.extraction import create_extraction_chain
-from kor.nodes import Object, Text, Number
-
-from .utils import *
+from kor.nodes import Number, Object, Text
 from segment.gpt import llm
 
+from .utils import *
+
 chromatography = Object(
-
-    id = 'chromatography',
-    description = ' chromatography is a laboratory technique for the separation of a mixture into its components.',
-
-    attributes =[
-        Text(
-            id = 'name',
-            description = 'the name of the method'
-        ),
-        Text(
-            id = 'solvent',
-            description = (
-            'the solvent used in this purification step'
-            ''
-            )
-        )
+    id="chromatography",
+    description=" chromatography is a laboratory technique for the separation of a mixture into its components.",
+    attributes=[
+        Text(id="name", description="the name of the method"),
+        Text(id="solvent", description=("the solvent used in this purification step" "")),
     ],
-    
-    examples =[
+    examples=[
         (
             "tert-Butanol (2.0 mL, 21.1 mmol) was added to a solution of chlorosulfonyl-isocyanate (1.8 mL, 21.1 mmol) in \
             CH2Cl2 (40 mL).  The reaction mixture was stirred at ambient temperature for 0.5 hours and then treated with a \
@@ -35,41 +23,26 @@ chromatography = Object(
             The reaction mixture was stirred at ambient temperature for an additional 1.5 hours and then filtered through \
             a 0.25 inch silica gel plug. The solvent was removed under reduced pressure and the residue was purified by \
             flash chromatography on silica gel (elution with EtOAc) to provide 1.17 g of the title compound as a white solid.\
-            MS (ESI+) m/z 274 (M+H)+.", 
-
+            MS (ESI+) m/z 274 (M+H)+.",
             [
                 {
                     "name": "flash chromatography",
                     "solvent": "silica gel (elution with EtOAc)",
                 },
-                
             ],
         )
     ],
     many=True,
-
 )
 
 crystallization = Object(
-
-    id = 'crystallization',
-    description = ' crystallization is a procedure for purifying an impure compound in a solvent.',
-
-    attributes =[
-        Text(
-            id = 'name',
-            description = 'the name of the method'
-        ),
-        Text(
-            id = 'solvent',
-            description = (
-            'the solvent used in this purification step'
-            ''
-            )
-        )
+    id="crystallization",
+    description=" crystallization is a procedure for purifying an impure compound in a solvent.",
+    attributes=[
+        Text(id="name", description="the name of the method"),
+        Text(id="solvent", description=("the solvent used in this purification step" "")),
     ],
-    
-    examples =[
+    examples=[
         (
             "To a MeOH (3 mL) solution of 4 Å powdered molecular sieves (0.11 g) under argon is added \
             3-amino6,7-dimethoxy-quinoline hydrochloride (0.17 g, 0.68 mmol) and NaOMe (0.039 g, 0.71 mmol). The reaction \
@@ -79,31 +52,25 @@ crystallization = Object(
             then made strongly basic with 5N NaOH. The mix is partitioned between EtOAC and H2O, and the aqueous layer is \
             washed with EtOAc (2×). The combined organic layers are washed with brine, (1×), dried (MgSO4), \
             chromatographed (50% EtOAc/hexanes), and recrystallized from EtOAc/hexanes to obtain 0.112 g light-yellow solid \
-            in 57% yield (m.p. 164-165). Anal. calcd for C17H22N2O2: C, 71.30; H, 7.74; N, 9.78. Found: C, 71.45; H, 7.49; N, 9.80.", 
-
+            in 57% yield (m.p. 164-165). Anal. calcd for C17H22N2O2: C, 71.30; H, 7.74; N, 9.78. Found: C, 71.45; H, 7.49; N, 9.80.",
             [
                 {
                     "name": "recrystallized",
                     "solvent": "EtOAc/hexanes",
                 },
-                
             ],
         )
     ],
     many=True,
-
 )
 
 purification_schema = Object(
-    id = 'properties',
-    description = 'purification in a chemical reaction',
-    attributes=[
-        chromatography,
-        crystallization,
-        reaction,
-        product
-    ],
+    id="properties",
+    description="purification in a chemical reaction",
+    attributes=[chromatography, crystallization, reaction, product],
     many=True,
 )
 
-chain_purification = create_extraction_chain(llm, purification_schema, encoder_or_encoder_class='json')
+chain_purification = create_extraction_chain(
+    llm, purification_schema, encoder_or_encoder_class="json"
+)
