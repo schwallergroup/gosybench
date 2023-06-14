@@ -27,7 +27,29 @@ logger = logging.getLogger(__name__)
 @click.group()
 @click.version_option()
 def main():
-    """CLI for syn2act."""
+    # Import data 
+    path_data_applications = 'data/Extracted_Data_2001_Sep2016_USPTOapplications_new.csv'
+    path_data_grant = 'data/Extracted_Data_1976_Sep2016_USPTOgrants_new.csv'
+
+    data_app = pd.read_csv(path_data_applications,  encoding='utf8')
+    data_grant = pd.read_csv(path_data_grant,  encoding='utf8')
+
+    # segment paragraph, extract data and save as json 
+    json_list = []
+    for text in data_app.head(1)['Paragraph Text']:
+        json_text = paragraph2json(text)
+        json_list.append(json_text)
+        print('\n\n')
+
+    for text in data_grant.head(1)['Paragraph Text']:
+        json_text = paragraph2json(text)
+        json_list.append(json_text)
+        print('\n\n')
+
+    json_string = json.dumps(json_list)
+    # Using a JSON string
+    with open('json_data_test.json', 'w') as outfile:
+        outfile.write(json_string)
 
 
 if __name__ == "__main__":
