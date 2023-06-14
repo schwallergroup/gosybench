@@ -71,6 +71,11 @@ jobs:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
         run: pip install tox
+      - name: Print key
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
+        run: |
+          echo "OPENAI_API_KEY=$OPENAI_API_KEY"
       - name: Test with pytest and generate coverage file
         run:
           tox run -e py
