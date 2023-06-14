@@ -29,10 +29,16 @@ jobs:
       - name: Check manifest
         run: tox run -e manifest
       - name: Check code quality with flake8
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: tox run -e flake8
       - name: Check package metadata with Pyroma
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: tox run -e pyroma
       - name: Check static typing with MyPy
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: tox run -e mypy
   docs:
     name: Documentation
@@ -51,10 +57,16 @@ jobs:
           pip install tox
           sudo apt-get install graphviz
       - name: Check RST conformity with doc8
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: tox run -e doc8
       - name: Check docstring coverage
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: tox run -e docstr-coverage
       - name: Check documentation build with Sphinx
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run: tox run -e docs-test
   tests:
     name: Tests
@@ -72,6 +84,8 @@ jobs:
       - name: Install dependencies
         run: pip install tox
       - name: Test with pytest and generate coverage file
+        env:
+          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
         run:
           tox run -e py
       - name: Upload coverage report to codecov
