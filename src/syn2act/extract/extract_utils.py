@@ -22,9 +22,9 @@ def paragraph2json(text):
     # step 1
     start_time = time.time()
     segmented_paragraph = chain.run({"example": example, "paragraph": text})
-    print(segmented_paragraph)
+    # print(segmented_paragraph)
     end_time = time.time()
-    print("time: ", end_time - start_time)
+    # print("time: ", end_time - start_time)
 
     paragraph = paragraph2SegmentDict(segmented_paragraph)
     paragraph.pop()
@@ -57,6 +57,6 @@ def paragraph2json(text):
             # if (output):  # if the Kor-extracted data exist, append the segmented paragraph with the extracted-data
             #     paragraph[i]['properties'] = output['properties']
 
-    print(paragraph)
+    # print(paragraph)
 
-    return paragraph
+    # return paragraph
