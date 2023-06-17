@@ -9,9 +9,8 @@ import re
 # segment paragraph texts into
 def paragraph2SegmentDict(paragraph):
     """
-    Segment a paragraph into semantic categories
+    paragraph input will be segmented, together with text class, explanation and step order 
     """
-
     output = []
     segments = re.split("Step end #", paragraph)  # split the paragraph text into segments by step
 
@@ -19,7 +18,7 @@ def paragraph2SegmentDict(paragraph):
         dict_temp = {}
         sentences = re.split(
             "\n", segments[segment]
-        )  # split text egment, text class, explanation and step order
+        )  # split text segment, text class, explanation and step order
         for j in range(0, len(sentences)):
             item = sentences[j].split(": ")  # split label and its content
             #            print('item:', item)
@@ -30,7 +29,6 @@ def paragraph2SegmentDict(paragraph):
 
         output.append(dict_temp)  # save the dictionary into the list
     return output
-
 
 # print output as csv structure
 def printOutput(output):

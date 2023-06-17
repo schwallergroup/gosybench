@@ -13,6 +13,7 @@ from .prompt import *
 # Load OPENAI API key
 openai_key = os.getenv("OPENAI_API_KEY")
 
+
 # language model
 llm = ChatOpenAI(
     model_name="gpt-4",
