@@ -42,8 +42,33 @@ Convert a synthetic procedure paragraph into a structured data object.
 
 ## 💪 Getting Started
 
-> TODO show in a very small amount of space the **MOST** useful thing your package can do.
-> Make it as short as possible! You have an entire set of docs for later.
+```python
+from syn2act import paragraph2json
+
+paragraph = "methylamide: 30g of iodomethane were mixed with a lot of ammonia. The product has a mass of 10 g/mol"
+
+json = paragraph2json(paragraph)
+
+print(json)
+```
+
+Produces: 
+```
+[
+   {
+      "text segment": "'30g of iodomethane were mixed with a lot of ammonia.'",
+      "text class": "reaction set-up",
+      "explanation": "this is the reaction set-up because the main reactants (iodomethane and ammonia) are specified in this segment.",
+      "step order": "1"
+   },
+   {
+      "text segment": "'The product has a mass of 10 g/mol'",
+      "text class": "analysis",
+      "explanation": "this is the analysis step because the mass of the product is given in this segment.",
+      "step order": "2"
+   }
+]
+```
 
 ### Command Line Interface
 
