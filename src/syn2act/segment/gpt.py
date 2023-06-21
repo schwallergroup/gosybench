@@ -11,9 +11,8 @@ from langchain import llms
 
 from .prompt import *
 
-load_dotenv()
-
 # Load OPENAI API key
+load_dotenv()
 openai_key = os.getenv("OPENAI_API_KEY")
 anthropic_api_key = os.getenv("ANTHROPIC_API_KEY")
 

@@ -1,20 +1,45 @@
 """
 utilities for segmentation
 """
-import time
 import json
 import re
+from time import time
 
 from syn2act.segment.gpt import chain
 from syn2act.segment.prompt import example
 
-# segment paragraph texts into
-def paragraph2SegmentDict(paragraph):
+
+def syn2segment(parag: str):
     """
-    paragraph input will be segmented, together with text class, explanation and step order
+    Semantical segmentation of synthesis paragraph into
+    ['reaction set-up', 'workup', 'purification', 'analysis']
+
+    Input:
+        parag: a string containing synthesis paragraph text
+
+    Output:
+        json object with ['segment', 'class', 'order'] properties for each segment.
     """
+
+    segmented_paragraph = chain.run({"example": example, "paragraph": parag})
+
+    paragraph = _parse_llm_segm(segmented_paragraph)
+    return paragraph
+
+
+def _parse_llm_segm(llm_segm: str):
+    """
+    Parse the output of LLMChain for paragraph segmentation into a JSON object.
+
+    Input:
+        llm_segm: the output of the segmentation LLM.
+
+    Output:
+        a formated JSON object with all information.
+    """
+
     output = []
-    segments = re.split("Step end #", paragraph)  # split the paragraph text into segments by step
+    segments = re.split("Step end #", llm_segm)  # split the paragraph text into segments by step
 
     for segment in range(0, len(segments)):
         dict_temp = {}
@@ -31,31 +56,3 @@ def paragraph2SegmentDict(paragraph):
 
         output.append(dict_temp)  # save the dictionary into the list
     return output
-
-
-# print output as csv structure
-def printOutput(output):
-    """
-    Pretty print
-    """
-
-    print(json.dumps(output, sort_keys=False, indent=3, ensure_ascii=False))
-
-
-def paragraph2SegmentJson(text):
-    """
-    Segment a synthesis description paragraph, using LLMs, into numerous segmented paragraph, together with class, explanation and step order.
-    Save these segments into a JSON .
-    """
-
-    # step 1
-    start_time = time.time()
-    segmented_paragraph = chain.run({"example": example, "paragraph": text})
-    # print(segmented_paragraph)
-    end_time = time.time()
-    # print("time: ", end_time - start_time)
-
-    paragraph = paragraph2SegmentDict(segmented_paragraph)
-    paragraph.pop()
-
-    printOutput(paragraph)

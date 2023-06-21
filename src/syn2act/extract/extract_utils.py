@@ -6,7 +6,6 @@ import time
 
 from syn2act.segment.gpt import chain
 from syn2act.segment.prompt import example
-from syn2act.segment.segment_utils import paragraph2SegmentDict, printOutput
 
 from .analysis import *
 from .purification import *
@@ -26,7 +25,8 @@ def paragraph2json(text):
     end_time = time.time()
     # print("time: ", end_time - start_time)
 
-    paragraph = paragraph2SegmentDict(segmented_paragraph)
+    # TODO: Instead of this, call the other module. paragraph2SegmentDict is an internal function of the other module
+    # paragraph = paragraph2SegmentDict(segmented_paragraph)
     paragraph.pop()
 
     # step 2
