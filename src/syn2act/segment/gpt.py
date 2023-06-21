@@ -26,7 +26,7 @@ llm_gpt4 = ChatOpenAI(
     openai_api_key=openai_key,
 )
 
-llm_gpt35_turbo = = ChatOpenAI(
+llm_gpt35_turbo = ChatOpenAI(
     model_name="gpt-3.5-turbo",
     temperature=0.1,
     max_tokens=2048,
@@ -45,4 +45,8 @@ llm_anthropicai = llms.Anthropic(
 
 
 # build up a chain
-chain = chains.LLMChain(prompt=ptemplate, llm=llm)
+chain_gpt4 = chains.LLMChain(prompt=ptemplate, llm=llm_gpt4)
+
+chain_gpt35_turbo = chains.LLMChain(prompt=ptemplate, llm=llm_gpt35_turbo)
+
+chain_anthropicai = chains.LLMChain(prompt=ptemplate, llm=llm_anthropicai)
