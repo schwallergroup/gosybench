@@ -63,18 +63,18 @@ def segment(model):
                 DATABASE = pickle.load(f)
         else:
             DATABASE = {}
-        print(f"DB size: {len(DATABASE)}")
+
+        if len(DATABASE)%50==0:
+            print(f"DB size: {len(DATABASE)}")
 
         # step 1: check if paragraph (p) has been processed and saved into DATABASE;
         # if not, undergo paragraph segmentation
         # generate a random number in the range of DATASET_PARAGRAPH_Q2_Q3
         num = random.randint(0, len(DATA) - 1)
-        print(num)
 
         parag = DATA[num]
 
         if parag not in DATABASE.keys():
-            print("segmenting")
             segm_parag = segmenter.syn2segment(parag)
 
             # update the DB
