@@ -63,6 +63,7 @@ def segment(model):
                 DATABASE = pickle.load(f)
         else:
             DATABASE = {}
+        print(f"DB size: {len(DATABASE)}")
 
         # step 1: check if paragraph (p) has been processed and saved into DATABASE;
         # if not, undergo paragraph segmentation
@@ -71,9 +72,8 @@ def segment(model):
         print(num)
 
         parag = DATA[num]
-        if parag in DATABASE.keys():
-            continue
-        else:
+
+        if parag not in DATABASE.keys():
             print("segmenting")
             segm_parag = segmenter.syn2segment(parag)
 
@@ -84,11 +84,13 @@ def segment(model):
             with open(name_db, "wb") as f:
                 pickle.dump(DATABASE, f)
 
-        print(f"DB size: {len(DATABASE)}")
+        else:
 
-        # Stop the program if no more samples possible
-        if len(DATABASE) == len(DATA):
-            break
+            # Stop the program if no more samples possible
+            if len(DATABASE) == len(DATA):
+                break
+
+            continue
 
 
 @click.group()
