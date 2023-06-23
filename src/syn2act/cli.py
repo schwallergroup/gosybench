@@ -75,7 +75,7 @@ def segment(model):
             continue
         else:
             print("segmenting")
-            segm_parag = 0  # segmenter.syn2segment(parag)
+            segm_parag = segmenter.syn2segment(parag)
 
             # update the DB
             DATABASE[parag] = segm_parag
