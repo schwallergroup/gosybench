@@ -5,8 +5,8 @@ LLMChain for extraction. Prepared for GPT-4
 import os
 
 from dotenv import load_dotenv
-from langchain import chains, llms
-from langchain.chat_models import ChatOpenAI
+from langchain import chains
+from langchain.chat_models import ChatAnthropic, ChatOpenAI
 
 from .prompt import *
 
@@ -33,12 +33,11 @@ llm_gpt35_turbo = ChatOpenAI(
     openai_api_key=openai_key,
 )
 
-llm_anthropicai = llms.Anthropic(
+llm_anthropicai = ChatAnthropic(
     model="claude-v1.3",
     temperature=0.1,
     anthropic_api_key=anthropic_api_key,
     max_tokens_to_sample=2000,
-    openai_api_key=openai_key,
 )
 
 

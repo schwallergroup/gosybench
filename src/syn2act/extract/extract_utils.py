@@ -4,7 +4,7 @@ extract info from segmented text
 
 import time
 
-from syn2act.segment.gpt import chain
+# from syn2act.segment.gpt import chain
 from syn2act.segment.prompt import example
 
 from .analysis import *
@@ -20,7 +20,7 @@ def paragraph2json(text):
 
     # step 1
     start_time = time.time()
-    segmented_paragraph = chain.run({"example": example, "paragraph": text})
+    # segmented_paragraph = chain.run({"example": example, "paragraph": text})
     # print(segmented_paragraph)
     end_time = time.time()
     # print("time: ", end_time - start_time)

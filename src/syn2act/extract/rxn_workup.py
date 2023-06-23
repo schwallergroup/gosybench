@@ -5,9 +5,10 @@ work_up extraction schema built by Kor API
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
 
-from syn2act.segment.gpt import llm
-
 from .utils import *
+
+# from syn2act.segment.gpt import llm
+
 
 work_up = Object(
     # 'id' defines what will appear in the output.
@@ -123,4 +124,4 @@ work_up_schema = Object(
     many=True,
 )
 
-chain_work_up = create_extraction_chain(llm, work_up_schema, encoder_or_encoder_class="json")
+# chain_work_up = create_extraction_chain(llm, work_up_schema, encoder_or_encoder_class="json")

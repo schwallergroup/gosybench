@@ -5,9 +5,10 @@ Reaction set_up extraction schema built by Kor API
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
 
-from syn2act.segment.gpt import llm
-
 from .utils import *
+
+# from syn2act.segment.gpt import llm
+
 
 reactant = Object(
     # 'id' defines what will appear in the output.
@@ -56,4 +57,4 @@ object_schema = Object(
     many=True,
 )
 
-chain_object = create_extraction_chain(llm, object_schema, encoder_or_encoder_class="json")
+# chain_object = create_extraction_chain(llm, object_schema, encoder_or_encoder_class="json")
