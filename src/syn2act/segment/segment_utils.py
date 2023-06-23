@@ -24,6 +24,7 @@ def syn2segment(parag: str):
     segmented_paragraph = chain.run({"example": example, "paragraph": parag})
 
     paragraph = _parse_llm_segm(segmented_paragraph)
+    paragraph.pop()
     return paragraph
 
 
@@ -49,14 +50,19 @@ def _parse_llm_segm(llm_segm: str):
         for j in range(0, len(sentences)):
             item = sentences[j].split(": ")  # split label and its content
             #            print('item:', item)
-            try: 
-                if (item[0] == "text segment" or item[0] == "text class" or item[0] == "explanation" or item[0] == "step order"):  # continue if the label does not exist
+            try:
+                if (
+                    item[0] == "text segment"
+                    or item[0] == "text class"
+                    or item[0] == "explanation"
+                    or item[0] == "step order"
+                ):  # continue if the label does not exist
                     dict_temp[item[0]] = item[1]  # save index and value in the dictionary
-                
+
                 else:
                     continue
             except:
-                if item[0] == "" :  # continue if the label does not exist
+                if item[0] == "":  # continue if the label does not exist
                     continue
 
                 else:
