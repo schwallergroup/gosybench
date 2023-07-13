@@ -248,4 +248,4 @@ analysis_schema = Object(
     many=True,
 )
 
-chain_analysis = create_extraction_chain(llm, analysis_schema, encoder_or_encoder_class="json")
+chain_analysis = create_extraction_chain(llm_gpt4, analysis_schema, encoder_or_encoder_class="json")

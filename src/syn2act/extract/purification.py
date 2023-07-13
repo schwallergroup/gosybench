@@ -73,5 +73,5 @@ purification_schema = Object(
 )
 
 chain_purification = create_extraction_chain(
-    llm, purification_schema, encoder_or_encoder_class="json"
+    llm_gpt4, purification_schema, encoder_or_encoder_class="json"
 )

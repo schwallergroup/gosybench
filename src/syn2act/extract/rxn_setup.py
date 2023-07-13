@@ -80,5 +80,5 @@ set_up_schema = Object(
     many=True,
 )
 
-chain_set_up = create_extraction_chain(llm, set_up_schema, encoder_or_encoder_class="json")
-chain_reactants = create_extraction_chain(llm, reactant, encoder_or_encoder_class="json")
+chain_set_up = create_extraction_chain(llm_gpt4, set_up_schema, encoder_or_encoder_class="json")
+chain_reactants = create_extraction_chain(llm_gpt4, reactant, encoder_or_encoder_class="json")
