@@ -7,7 +7,7 @@ from kor.nodes import Number, Object, Text
 
 from syn2act.segment.gpt import llm
 
-from .utils import *
+from .utils import product, reaction
 
 chromatography = Object(
     id="chromatography",
@@ -66,7 +66,7 @@ crystallization = Object(
 )
 
 purification_schema = Object(
-    id="properties",
+    id="purification_properties",
     description="purification in a chemical reaction",
     attributes=[chromatography, crystallization, reaction, product],
     many=True,

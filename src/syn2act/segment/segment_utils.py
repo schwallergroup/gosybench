@@ -54,5 +54,8 @@ def _parse_llm_segm(llm_segm: str):
             else:
                 dict_temp[item[0]] = item[1]  # save index and value in the dictionary
 
-        output.append(dict_temp)  # save the dictionary into the list
+        if dict_temp != {}:
+            output.append(
+                dict_temp
+            )  # save the dictionary into the list ONLY IF DICTIONARY IS NOT EMPTY
     return output

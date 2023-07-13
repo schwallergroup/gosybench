@@ -2,61 +2,99 @@
 extract info from segmented text
 """
 
-import time
+from kor.extraction import create_extraction_chain
+from kor.nodes import Number, Object, Text
 
-from syn2act.segment.gpt import chain
-from syn2act.segment.prompt import example
+from syn2act.segment.gpt import llm
 
-from .analysis import *
-from .purification import *
-from .rxn_setup import *
-from .rxn_workup import *
+from .analysis import chain_analysis
+from .purification import chain_purification
+from .rxn_setup import chain_set_up
+from .rxn_workup import chain_work_up
+from .utils import chain_reaction_schema, chain_set_up_schema
 
 
-def paragraph2json(text):
+def get_set_up_summary(text: str):
+    """
+    Extracts the product list and the set-up step from a chemical synthesis description paragraph.
+    Outputs them as a JSON using LLMs
+
+    Args:
+        text (str): synthesis paragraph
+
+    Returns:
+        dict: dictionary following schema
+        {
+            'set_up_schema: [
+                {
+                    'products':
+                        [
+                            {
+                                name,
+                                reference_num,
+                                mass,
+                                yield
+                            }
+
+                        ],
+                    'steps': [
+                        {
+                            type: set_up,
+                            text
+                        }
+                    ]
+                }
+            ]
+        }
+    """
+    set_up_schema = chain_set_up_schema.predict_and_parse(text=text)["data"]
+
+    if "set_up_schema" not in set_up_schema.keys():
+        return {}
+
+    for rxn in set_up_schema["set_up_schema"]:
+        if "products" not in rxn.keys():
+            rxn["products"] = []
+
+        if "steps" not in rxn.keys():
+            rxn["steps"] = []
+
+    return set_up_schema
+
+
+def paragraph2json(text: str):
     """
     Convert a synthesis description paragraph into a JSON using LLMs
     """
 
-    # step 1
-    start_time = time.time()
-    segmented_paragraph = chain.run({"example": example, "paragraph": text})
-    # print(segmented_paragraph)
-    end_time = time.time()
-    # print("time: ", end_time - start_time)
+    # Get steps and products from paragraph
+    synthesis_dict = chain_reaction_schema.predict_and_parse(text=text)["data"]
 
-    # TODO: Instead of this, call the other module. paragraph2SegmentDict is an internal function of the other module
-    # paragraph = paragraph2SegmentDict(segmented_paragraph)
-    paragraph.pop()
+    if "rxn_schema" not in synthesis_dict.keys():
+        return {}
 
-    # step 2
-    for i in range(len(paragraph)):
-        if paragraph[i]["text class"] == "reaction set-up":
-            output = chain_object.predict_and_parse(text=(paragraph[i]["text segment"]))["data"]
-            # print(output, "\n\n")
-            # if (output):  # if the Kor-extracted data exist, append the segmented paragraph with the extracted-data
-            #     paragraph[i]['properties'] = output['properties']
+    for rxn in synthesis_dict["rxn_schema"]:
+        if "products" not in rxn.keys():
+            rxn["products"] = []
 
-        elif paragraph[i]["text class"] == "work-up":
-            output = chain_work_up.predict_and_parse(text=(paragraph[i]["text segment"]))["data"]
-            # print(output, "\n\n")
-            # if (output):  # if the Kor-extracted data exist, append the segmented paragraph with the extracted-data
-            #     paragraph[i]['properties'] = output['properties']
+        if "steps" not in rxn.keys():
+            rxn["steps"] = []
 
-        elif paragraph[i]["text class"] == "purification":
-            output = chain_purification.predict_and_parse(text=(paragraph[i]["text segment"]))[
-                "data"
-            ]
-            # print(output, "\n\n")
-            # if (output):  # if the Kor-extracted data exist, append the segmented paragraph with the extracted-data
-            #     paragraph[i]['properties'] = output['properties']
+        steps_list = rxn["steps"]
 
-        elif paragraph[i]["text class"] == "analysis":
-            output = chain_analysis.predict_and_parse(text=(paragraph[i]["text segment"]))["data"]
-            # print(output, "\n\n")
-            # if (output):  # if the Kor-extracted data exist, append the segmented paragraph with the extracted-data
-            #     paragraph[i]['properties'] = output['properties']
+        # Iterate over steps and depending on the type, call appropriate extraction chain for details
+        for step in steps_list:
+            step_details = ""
+            match step["type"]:
+                case "set-up":
+                    step_details = chain_set_up.predict_and_parse(text=step["text"])["data"]
+                case "work-up":
+                    step_details = chain_work_up.predict_and_parse(text=step["text"])["data"]
+                case "purification":
+                    step_details = chain_purification.predict_and_parse(text=step["text"])["data"]
+                case "analysis":
+                    step_details = chain_analysis.predict_and_parse(text=step["text"])["data"]
 
-    # print(paragraph)
+            step["details"] = step_details
 
-    # return paragraph
+    return synthesis_dict
