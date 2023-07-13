@@ -2,11 +2,6 @@
 extract info from segmented text
 """
 
-from kor.extraction import create_extraction_chain
-from kor.nodes import Number, Object, Text
-
-from syn2act.segment.gpt import llm
-
 from .analysis import chain_analysis
 from .purification import chain_purification
 from .rxn_setup import chain_set_up
@@ -56,6 +51,9 @@ def get_set_up_summary(text: str):
         if "products" not in rxn.keys():
             rxn["products"] = []
 
+        if "steps" not in rxn.keys():
+            rxn["steps"] = []
+
     return set_up_schema
 
 
@@ -64,7 +62,8 @@ def paragraph2json(text: str):
     Convert a synthesis description paragraph into a JSON using LLMs
     """
 
-
+    # Get steps and products from paragraph
+    synthesis_dict = chain_reaction_schema.predict_and_parse(text=text)["data"]
 
     if "rxn_schema" not in synthesis_dict.keys():
         return {}

@@ -5,12 +5,9 @@ work_up extraction schema built by Kor API
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
 
-from syn2act.segment.gpt import llm
+from syn2act.segment.gpt import llm_gpt4
 
 from .utils import catalyst, product, solvent
-
-# from syn2act.segment.gpt import llm
-
 
 work_up = Object(
     # 'id' defines what will appear in the output.

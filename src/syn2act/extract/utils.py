@@ -5,7 +5,7 @@ utiliy schema built by Kor API which are multiply used in many schemas
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
 
-from syn2act.segment.gpt import llm
+from syn2act.segment.gpt import llm_gpt4
 
 solvent = Object(
     id="solvents",

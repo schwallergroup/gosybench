@@ -127,8 +127,5 @@ class Segmentor:
                     else:
                         dict_temp[item[0]] = item[1]  # save index and value in the dictionary
 
-        if dict_temp != {}:
-            output.append(
-                dict_temp
-            )  # save the dictionary into the list ONLY IF DICTIONARY IS NOT EMPTY
-    return output
+            output.append(dict_temp)  # save the dictionary into the list
+        return output

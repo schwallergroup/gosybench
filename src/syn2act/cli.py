@@ -64,7 +64,7 @@ def segment(model):
         else:
             DATABASE = {}
 
-        if len(DATABASE)%50==0:
+        if len(DATABASE) % 50 == 0:
             print(f"DB size: {len(DATABASE)}")
 
         # step 1: check if paragraph (p) has been processed and saved into DATABASE;
@@ -85,7 +85,6 @@ def segment(model):
                 pickle.dump(DATABASE, f)
 
         else:
-
             # Stop the program if no more samples possible
             if len(DATABASE) == len(DATA):
                 break
