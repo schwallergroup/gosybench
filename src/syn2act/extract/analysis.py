@@ -7,7 +7,10 @@ from kor.nodes import Number, Object, Text
 
 from syn2act.segment.gpt import llm
 
-from .utils import product
+from .utils import *
+
+# from syn2act.segment.gpt import llm
+
 
 nmr_data = Object(
     id="nmr_data",
@@ -248,4 +251,4 @@ analysis_schema = Object(
     many=True,
 )
 
-chain_analysis = create_extraction_chain(llm, analysis_schema, encoder_or_encoder_class="json")
+# chain_analysis = create_extraction_chain(llm, analysis_schema, encoder_or_encoder_class="json")

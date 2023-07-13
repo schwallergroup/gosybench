@@ -9,6 +9,9 @@ from syn2act.segment.gpt import llm
 
 from .utils import catalyst, product, solvent
 
+# from syn2act.segment.gpt import llm
+
+
 work_up = Object(
     # 'id' defines what will appear in the output.
     id="procedures",

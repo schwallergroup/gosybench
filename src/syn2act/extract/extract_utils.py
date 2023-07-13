@@ -56,9 +56,6 @@ def get_set_up_summary(text: str):
         if "products" not in rxn.keys():
             rxn["products"] = []
 
-        if "steps" not in rxn.keys():
-            rxn["steps"] = []
-
     return set_up_schema
 
 
@@ -67,8 +64,7 @@ def paragraph2json(text: str):
     Convert a synthesis description paragraph into a JSON using LLMs
     """
 
-    # Get steps and products from paragraph
-    synthesis_dict = chain_reaction_schema.predict_and_parse(text=text)["data"]
+
 
     if "rxn_schema" not in synthesis_dict.keys():
         return {}

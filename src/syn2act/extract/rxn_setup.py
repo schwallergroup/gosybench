@@ -7,7 +7,10 @@ from kor.nodes import Number, Object, Text
 
 from syn2act.segment.gpt import llm
 
-from .utils import catalyst, product, reaction, solvent
+from .utils import *
+
+# from syn2act.segment.gpt import llm
+
 
 reactant = Object(
     # 'id' defines what will appear in the output.

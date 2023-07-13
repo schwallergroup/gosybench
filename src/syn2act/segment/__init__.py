@@ -2,4 +2,4 @@
 
 from .gpt import *
 from .prompt import *
-from .segment_utils import syn2segment
+from .segment_utils import Segmentor
