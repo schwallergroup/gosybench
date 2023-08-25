@@ -5,10 +5,9 @@ Analysis extraction schema built by Kor API
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
 
-from .utils import *
+from syn2act.segment.gpt import llm_gpt4
 
-# from syn2act.segment.gpt import llm
-
+from .utils import product
 
 nmr_data = Object(
     id="nmr_data",
@@ -188,14 +187,7 @@ bp_data = Object(
     ],
     examples=[
         (
-            "Dissolve 2-methyl-2-phenyl-propionic acid (15.0 g, 91.2 mmol) in toluene (80 mL) and add,\
-            by dropwise addition over 5 minutes, thionyl chloride (15 mL, 206 mmol). Stir at room temperature \
-            overnight, add additional thionyl chloride (3 mL, 41.1 mmol) and heat to reflux for 1 hour. Remove \
-            excess thionyl chloride by azeotropic distillation with toluene (40 mL). Add toluene (20 mL) to the \
-            reaction mixture along with a solution of potassium carbonate (28.0 g, 203 mmol) in water (40 mL). \
-            Add, by dropwise addition, a solution of N,O-dimethylhydroxylamine hydrochloride (8.9 g, 91.2 mmol) \
-            in water (20 mL) without cooling and stir for 2 hours. Add tert-butylmethyl ether (75 mL) following \
-            by slow addition of aqueous HCl (2N, 75 mL) with vigorous stirring. Separate the organic layer and wash \
+            "Separate the organic layer and wash \
             with aqueous HCl (2N, 75 mL), saturated sodium hydrogen carbonate (25 mL) and brine (50 mL). Dry the \
             organic layer over (Na2SO4), filter, evaporate the filtrate in vacuo and purify by vacuum distillation \
             to give 2-methyl-2-phenyl-propionic acid, N-methoxy-N-methylamide (18.0 g, 95%); bp 91-103° C./5 mm Hg. \
@@ -216,14 +208,7 @@ mp_data = Object(
     ],
     examples=[
         (
-            " suspension of 4-chlorobiphenyl (9.43 g, 0.0500 mol), succinic anhydride (5.50 g, 0.0550 mol), and \
-            anhydrous aluminum chloride (14.8 g, 0.111 mol) in nitrobenzene (25 mL) at 5° C. under nitrogen was \
-            stirred 4 hours, then allowed to warm to room temperature. After 3 days, the mixture was heated at 95° C. \
-            to 120° C. for 1 hour, cooled to 5° C., and quenched with a mixture of ice (15 g), water (8 mL), and \
-            concentrated hydrochloric acid (HCl) solution (8 mL). Additional water (150 mL) was added, followed by ethyl \
-            acetate. The ethyl acetate layer was washed with 0.2 M HCl and extracted with saturated aqueous sodium \
-            bicarbonate solution. The bicarbonate layer was rotary evaporated briefly to remove residual ethyl acetate, \
-            then acidified by the dropwise addition of concentrated HCl solution. The resulting tan precipitate was filtered \
+            "The resulting tan precipitate was filtered \
             off, washed with 0.2 M HCl, and air dried. The solids were dissolved in hot toluene/acetone, and the solution was \
             decolorized with activated carbon, and filtered hot through celite. The filtrate was concentrated, and the resulting\
             crystals were filtered, washed, and dried in vacuo to give 1.96 g of 4-(4′-chloro-biphenyl-4-yl)-4-oxo-butyric acid \
@@ -257,10 +242,10 @@ nd30 = Object(
 )
 
 analysis_schema = Object(
-    id="properties",
+    id="analysis_properties",
     description="analysis in the chemical step",
     attributes=[nmr, ms, bp_data, mp_data, product, nd30],
     many=True,
 )
 
-# chain_analysis = create_extraction_chain(llm, analysis_schema, encoder_or_encoder_class="json")
+chain_analysis = create_extraction_chain(llm_gpt4, analysis_schema, encoder_or_encoder_class="json")

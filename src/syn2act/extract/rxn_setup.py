@@ -1,14 +1,13 @@
-"""
+""" 
 Reaction set_up extraction schema built by Kor API
 """
 
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
 
-from .utils import *
+from syn2act.segment.gpt import llm_gpt4
 
-# from syn2act.segment.gpt import llm
-
+from .utils import catalyst, product, reaction, solvent
 
 reactant = Object(
     # 'id' defines what will appear in the output.
@@ -18,6 +17,7 @@ reactant = Object(
     # Fields to capture fro m a piece of text about the object
     attributes=[
         Text(id="name", description="The name of the reactant"),
+        Text(id="reference_num", description="Number code used to reference the reactant"),
         Text(id="mass", description="The mass of the reactant"),
         Text(id="moles", description="The moles of the reactant"),
         Text(id="volume", description="The volume of the reactant"),
@@ -46,15 +46,39 @@ reactant = Object(
             "PL 137,526 describes the hydrogenation of p-tert-butylphenol to form p-tert-butylcyclohexanol using a nickel catalyst. ",
             [{"name": "p-tert-butylphenol"}],
         ),
+        (
+            "To a stirred solution of alkyne 17 3 (3.00 g, 8.86 mmol, 1.0 equiv) in CH2Cl2 (10 mL) at 25 °C was added Co2(CO)8 (3.63 g, 10.6 mmol, 1.2 equiv) in one portion. After 20 min, a solution of oleﬁn 16 4 (3.90 g, 17.7 mmol, 2.0 equiv) in CH2Cl2 (8 mL) was added. The reaction mixture was cooled to 0 °C, and BF3∙Et2O (2.19 mL, 17.7 mmol, 2.0 equiv) was added dropwise.",
+            [
+                {
+                    "name": "alkyne",
+                    "reference_num": "17",
+                    "mass": "3.00 g",
+                    "moles": "8.86 mmol",
+                },
+                {
+                    "name": "Co2(CO)8",
+                    "mass": "3.63 g",
+                    "moles": "10.6 mmol",
+                },
+                {
+                    "name": "oleﬁn",
+                    "reference_num": "16",
+                    "mass": "3.90 g",
+                    "moles": "17.7 mmol",
+                },
+                {"name": "BF3∙Et2O", "volume": "2.19 mL", "moles": "17.7 mmol"},
+            ],
+        ),
     ],
     many=True,
 )
 
-object_schema = Object(
-    id="properties",
-    description="object in a chemical reaction",
+set_up_schema = Object(
+    id="set_up_properties",
+    description="set-up step in a chemical reaction",
     attributes=[reactant, solvent, catalyst, product, reaction],
     many=True,
 )
 
-# chain_object = create_extraction_chain(llm, object_schema, encoder_or_encoder_class="json")
+chain_set_up = create_extraction_chain(llm_gpt4, set_up_schema, encoder_or_encoder_class="json")
+chain_reactants = create_extraction_chain(llm_gpt4, reactant, encoder_or_encoder_class="json")

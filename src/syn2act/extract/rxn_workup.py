@@ -5,14 +5,13 @@ work_up extraction schema built by Kor API
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
 
-from .utils import *
+from syn2act.segment.gpt import llm_gpt4
 
-# from syn2act.segment.gpt import llm
-
+from .utils import catalyst, product, solvent
 
 work_up = Object(
     # 'id' defines what will appear in the output.
-    id="reactants",
+    id="procedures",
     # Natural language description about the object, helping LLM understand what info to collect
     description="objects reacting in reaction set-up stage in a chemical procedure",
     # Fields to capture fro m a piece of text about the object
@@ -118,10 +117,10 @@ work_up = Object(
 )
 
 work_up_schema = Object(
-    id="properties",
+    id="work_up_properties",
     description="work-up in a chemical reaction",
     attributes=[work_up, product],
     many=True,
 )
 
-# chain_work_up = create_extraction_chain(llm, work_up_schema, encoder_or_encoder_class="json")
+chain_work_up = create_extraction_chain(llm_gpt4, work_up_schema, encoder_or_encoder_class="json")

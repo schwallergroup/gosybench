@@ -5,10 +5,9 @@ Purification extraction schema built by Kor API
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
 
-from .utils import *
+from syn2act.segment.gpt import llm_gpt4
 
-# from syn2act.segment.gpt import llm
-
+from .utils import product, reaction
 
 chromatography = Object(
     id="chromatography",
@@ -67,12 +66,12 @@ crystallization = Object(
 )
 
 purification_schema = Object(
-    id="properties",
+    id="purification_properties",
     description="purification in a chemical reaction",
     attributes=[chromatography, crystallization, reaction, product],
     many=True,
 )
 
-# chain_purification = create_extraction_chain(
-#    llm, purification_schema, encoder_or_encoder_class="json"
-# )
+chain_purification = create_extraction_chain(
+    llm_gpt4, purification_schema, encoder_or_encoder_class="json"
+)
