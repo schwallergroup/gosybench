@@ -1,3 +1,5 @@
+"""Test suite for the segment module"""
+
 import os
 
 import pytest
