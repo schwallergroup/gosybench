@@ -8,7 +8,7 @@ from time import time
 
 from dotenv import load_dotenv
 from langchain import chains
-from langchain.chat_models import ChatAnthropic, ChatOpenAI
+from langchain.chat_models import ChatOpenAI
 
 from syn2act.segment.prompt import example, ptemplate
 
@@ -74,16 +74,16 @@ class Segmentor:
             chain = chains.LLMChain(prompt=ptemplate, llm=llm)
             return chain
 
-        elif self.model == "anthropicai":
-            llm = ChatAnthropic(
-                model="claude-v1.3",
-                temperature=0.1,
-                anthropic_api_key=self.anthropic_api_key,
-                max_tokens_to_sample=2000,
-            )
+        # elif self.model == "anthropicai":
+        #    llm = ChatAnthropic(
+        #        model="claude-v1.3",
+        #        temperature=0.1,
+        #        anthropic_api_key=self.anthropic_api_key,
+        #        max_tokens_to_sample=2000,
+        #    )
 
-            chain = chains.LLMChain(prompt=ptemplate, llm=llm)
-            return chain
+        #    chain = chains.LLMChain(prompt=ptemplate, llm=llm)
+        #    return chain
 
     def _parse_llm_segm(self, llm_segm: str):
         """

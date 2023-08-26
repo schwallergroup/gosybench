@@ -1,18 +1,29 @@
-from .utils import tree_chain, examples
+"""This module implements utilities for obtaining sinthetic trees from pdf files.
+Combines all the pipelines"""
+
+
 import json
 import os
+
+import fitz
+import networkx as nx
+from bigtree import (
+    Node,
+    copy_nodes_from_tree_to_tree,
+    findall,
+    nested_dict_to_tree,
+    print_tree,
+    tree_to_dataframe,
+)
 from pandas import DataFrame
 
-from .pdf2pars import PDFProcessor
-import fitz
-
 from syn2act.extract.extract_utils import get_set_up_summary
-from bigtree import nested_dict_to_tree, findall, copy_nodes_from_tree_to_tree, print_tree, tree_to_dataframe, Node
 
-import networkx as nx
+from .pdf2pars import PDFProcessor
+from .utils import examples, tree_chain
 
 
-def pdf2trees(doc_path: str, start = 0, end='a'):
+def pdf2trees(doc_path: str, start=0, end="a"):
     """
     Converts a PDF document (supplemental info from total synthesis paper) into a list of networkx DiGraph objects.
 
@@ -24,29 +35,26 @@ def pdf2trees(doc_path: str, start = 0, end='a'):
     Returns:
         networks (list): A list of networkx DiGraph objects representing the structures extracted from the PDF.
     """
-    
+
     # Extract paragraphs from the PDF document
     doc_source = fitz.open(doc_path)
     document = PDFProcessor(doc=doc_source)
-    paragraphs = document.get_paragraphs(start,end)
-    
+    paragraphs = document.get_paragraphs(start, end)
+
     # Convert paragraphs to dictionaries showing a single compound and its reagents
     # This step uses the GPT-4 model to convert paragraphs to dictionaries
     dictionaries = pars2dictionaries(paragraphs=paragraphs)
-    
+
     # Convert dictionaries into trees representing chemical structures
     trees = dictionaries2trees(dict_list=dictionaries)
-    
+
     # Merge trees to create bigger structures
     merged = merge_trees(tree_list=trees)
-    
+
     # Convert trees to networkx objects
     networks = bigtrees_to_networks(tree_list=merged)
-    
+
     return networks
-    
-
-
 
 
 def pars2dictionaries(paragraphs: list):
@@ -59,16 +67,16 @@ def pars2dictionaries(paragraphs: list):
     Returns:
         step3 (list): A list of dictionaries extracted from the input paragraphs.
     """
-    
+
     # Step 1: Convert paragraphs to JSON dictionaries
     step1 = __make_dictionaries(paragraphs=paragraphs)
-    
+
     # Step 2: Flatten out nested lists in the output
     step2 = __flatten_lists(lst=step1)
-    
+
     # Step 3: Delete empty dictionaries
     step3 = [elem for elem in step2 if elem]
-    
+
     return step3
 
 
@@ -83,14 +91,14 @@ def __make_dictionaries(paragraphs: list):
     Returns:
         all_dicts (list): A list of dictionaries extracted from the input paragraphs.
     """
-    
+
     all_dicts = []
-    
+
     # Convert each paragraph to a dictionary
     for paragraph in paragraphs:
         new_dict = make_dict_from_par(paragraph)
         all_dicts.append(new_dict)
-    
+
     return all_dicts
 
 
@@ -105,19 +113,21 @@ def __flatten_lists(lst: list):
     Returns:
         clean_list (list): A flattened list with no nested lists.
     """
-    
+
     clean_list = []
-    
-    # Recursively check if there are lists and extract their elements
+
     def remove_nestings(lst):
+        """
+        Recursively check if there are lists and extract their elements
+        """
         for elem in lst:
             if type(elem) is list:
                 remove_nestings(elem)
             else:
                 clean_list.append(elem)
-    
+
     remove_nestings(lst)
-    
+
     return clean_list
 
 
@@ -132,25 +142,24 @@ def make_dict_from_par(text: str):
     Returns:
         json.loads(json_tree) (dict): A dictionary representing the input text in JSON format.
     """
-    
+
     # Check input is str
     if type(text) is not str:
         raise ValueError("Input must be string")
-    
+
     # Obtain the schema of the set-up step from the text
     schema = get_set_up_summary(text)
     schema_string = str(schema)
 
     # Convert the schema into an appropriate tree-like dictionary using a prediction model (tree_chain)
     json_tree = tree_chain.predict(examples=examples, user_input=schema_string)
-    
+
     return json.loads(json_tree)
 
 
-
-
-
-def dictionaries2trees(dict_list: list, name_key: str = "reference_num", child_key: str = "reagents"):
+def dictionaries2trees(
+    dict_list: list, name_key: str = "reference_num", child_key: str = "reagents"
+):
     """
     Converts a list of dictionaries representing tree-like structures into a list of bigtree Node objects.
 
@@ -160,22 +169,22 @@ def dictionaries2trees(dict_list: list, name_key: str = "reference_num", child_k
     Returns:
         tree_list (list): A list of trees converted from the input dictionaries.
     """
-    
+
     tree_list = []
-    
+
     # Convert each dictionary to a tree
     for dictionary in dict_list:
         if name_key not in dictionary.keys() or child_key not in dictionary.keys():
-            raise KeyError(f"Expected name_key '{name_key}' or child_key '{child_key}' not in dictionary {dictionary}")
-        
-        new_tree = nested_dict_to_tree(node_attrs=dictionary, name_key=name_key, child_key=child_key)
+            raise KeyError(
+                f"Expected name_key '{name_key}' or child_key '{child_key}' not in dictionary {dictionary}"
+            )
+
+        new_tree = nested_dict_to_tree(
+            node_attrs=dictionary, name_key=name_key, child_key=child_key
+        )
         tree_list.append(new_tree)
-    
+
     return tree_list
-
-
-
-
 
 
 def merge_trees(tree_list: list):
@@ -188,13 +197,12 @@ def merge_trees(tree_list: list):
     Returns:
         merged + solo_nodes (list): A list of merged trees and solo nodes.
     """
-    
+
     # If the input tree list is empty, return an empty list
     if not tree_list:
         return []
-    
+
     if all(isinstance(t, Node) for t in tree_list):
-    
         # Separate the trees with no children (solo nodes)
         solo_nodes = [t for t in tree_list if not t.children]
         tree_structs = [t for t in tree_list if t.children]
@@ -204,10 +212,9 @@ def merge_trees(tree_list: list):
 
         # Combine lists of merged trees and solo nodes
         return merged + solo_nodes
-    
+
     else:
         raise ValueError("Input list is not a list of only bigtree Node objects.")
-
 
 
 def __merge_trees_helper(tree_list: list, results: list):
@@ -221,46 +228,45 @@ def __merge_trees_helper(tree_list: list, results: list):
     Returns:
         results (list): A list of merged trees accumulated during the tail-recursive process.
     """
-    
+
     # Use first tree as a base to see what other trees can merge into it
     final_tree = tree_list.pop(0)
-    
+
     # List to append trees that didn't merge with final_tree
     retry_list = []
-    
+
     for tree in tree_list:
         # Check if a merge tree -> final_tree is possible
         merge_1 = __find_and_copy_to_tree(final_tree, tree)
-        
+
         if merge_1[0] == 0:
             # If it was, final_tree is now the bigger resulting tree from the merge
             final_tree = merge_1[1]
-            
+
         else:
             # If it wasn't, check if merge final_tree -> tree is possible
             merge_2 = __find_and_copy_to_tree(tree, final_tree)
-            
+
             if merge_2[0] == 0:
                 # If it was, final_tree is now the bigger resulting tree from the merge
                 final_tree = merge_2[1]
             else:
                 # If it wasn't, tree has no common nodes with final_tree so it will go into the retry_list
                 retry_list.append(tree)
-    
+
     # Add the resulting merged tree to results
     results.append(final_tree)
-    
 
-    # If the retry_list is not empty, rerun the function. The results list will keep growing    
+    # If the retry_list is not empty, rerun the function. The results list will keep growing
     if retry_list:
         __merge_trees_helper(tree_list=retry_list, results=results)
-        
+
     return results
 
 
 def __find_and_copy_to_tree(big_tree: Node, small_tree: Node):
     """
-    Find nodes with the same name as 'small_tree' in 'big_tree' 
+    Find nodes with the same name as 'small_tree' in 'big_tree'
     and copy the 'small_tree' into the first node found.
 
     Parameters:
@@ -273,11 +279,10 @@ def __find_and_copy_to_tree(big_tree: Node, small_tree: Node):
         - 1: If there were no nodes with the same name found in big_tree.
         - big_tree: The modified 'big_tree' after the merge operation.
     """
-    
-    
+
     # Find all nodes in 'big_tree' that have the same name as 'small_tree'
     search = findall(big_tree, lambda node: node.name == small_tree.name)
-    
+
     if not search:
         # If there are no nodes with the name 'small_tree' in 'big_tree', return 1 and the original 'big_tree'
         return 1, big_tree
@@ -286,7 +291,7 @@ def __find_and_copy_to_tree(big_tree: Node, small_tree: Node):
         # Merge 'small_tree' into the first node with the same name in 'big_tree' (will not merge to other nodes)
         dest_path = search[0].path_name
         orig_path = small_tree.path_name
-        
+
         # Merge 'small_tree' into 'big_tree'
         # Obtained from Tips and Tricks page in bigtree documentation
         copy_nodes_from_tree_to_tree(
@@ -294,16 +299,15 @@ def __find_and_copy_to_tree(big_tree: Node, small_tree: Node):
             to_tree=big_tree,
             from_paths=[orig_path],
             to_paths=[dest_path],
-            overriding=True
+            overriding=True,
         )
-        
-        
+
         ## this code would copy small_tree into every single ocurrence in big_tree
         # for res in search:
         #     dest_path = res.path_name
-        
+
         #     orig_path = small_tree.path_name
-            
+
         #     copy_nodes_from_tree_to_tree(
         #         from_tree=small_tree,
         #         to_tree=big_tree,
@@ -311,12 +315,9 @@ def __find_and_copy_to_tree(big_tree: Node, small_tree: Node):
         #         to_paths=[dest_path],
         #         overriding=True
         #     )
-        
+
         # Return 0 and the new merged 'big_tree'
         return 0, big_tree
-
-
-
 
 
 def print_tree_list(tree_list: list, all_attrs: bool = False):
@@ -326,16 +327,18 @@ def print_tree_list(tree_list: list, all_attrs: bool = False):
     if all(isinstance(t, Node) for t in tree_list):
         for t in tree_list:
             print_tree(t, all_attrs=all_attrs)
-            print('')
-    
+            print("")
+
     else:
         raise ValueError("Input list is not a list of only bigtree Node objects.")
 
 
-
-
-
-def bigtrees_to_networks(tree_list: list, name_col: str = 'reference_num', parent_col: str = 'parent', all_attrs: bool = True):
+def bigtrees_to_networks(
+    tree_list: list,
+    name_col: str = "reference_num",
+    parent_col: str = "parent",
+    all_attrs: bool = True,
+):
     """
     Converts a list of bigtree Node objects to a list of networkx DiGraph objects.
     Each tree is first converted to a dataframe and then transformed into a directed graph.
@@ -350,28 +353,34 @@ def bigtrees_to_networks(tree_list: list, name_col: str = 'reference_num', paren
     Returns:
         networks (list): A list of networkx DiGraph objects representing the input trees.
     """
-    
+
     if not tree_list:
         return []
-    
+
     if all(isinstance(t, Node) for t in tree_list):
         networks = []
-    
+
         # Convert each tree to a dataframe and then to a directed graph
         for tree in tree_list:
-            df = tree_to_dataframe(tree, name_col=name_col, parent_col=parent_col, all_attrs=all_attrs)
+            df = tree_to_dataframe(
+                tree, name_col=name_col, parent_col=parent_col, all_attrs=all_attrs
+            )
             graph = df_to_graph(df, node_name_col=name_col, parent_col=parent_col)
-            
+
             networks.append(graph)
-    
+
         return networks
-    
+
     else:
         raise ValueError("Input list is not a list of only bigtree Node objects.")
 
 
-
-def df_to_graph(df: DataFrame, node_name_col: str = 'reference_num', parent_col: str = 'parent', cols_to_ignore: list = ['path']):
+def df_to_graph(
+    df: DataFrame,
+    node_name_col: str = "reference_num",
+    parent_col: str = "parent",
+    cols_to_ignore: list = ["path"],
+):
     """
     Converts a dataframe representing a tree to a networkx DiGraph object.
     The dataframe should have columns for node names, parent node names, and any additional attributes for each node.
@@ -384,42 +393,48 @@ def df_to_graph(df: DataFrame, node_name_col: str = 'reference_num', parent_col:
 
     Returns:
         graph (networkx.DiGraph): A directed graph representing the input dataframe as a tree.
-    """ 
-    
+    """
+
     if df.empty:
         raise ValueError("Database is empty")
-    
+
     # Check cols_to_ignore only has strings
     if not all(isinstance(elem, str) for elem in cols_to_ignore):
-        raise ValueError("The list 'cols_to_ignore' must only contain strings corresponding to columns in the DataFrame df")
-    
+        raise ValueError(
+            "The list 'cols_to_ignore' must only contain strings corresponding to columns in the DataFrame df"
+        )
+
     # Check all elems in cols_to_ignore are valid column names in the dataframe
     for elem in cols_to_ignore:
         if elem not in list(df.columns):
-            raise ValueError(f"String '{elem}' in 'cols_to_ignore' does not correspond to a valid column in the dataframe")
-    
+            raise ValueError(
+                f"String '{elem}' in 'cols_to_ignore' does not correspond to a valid column in the dataframe"
+            )
+
     # Create DiGraph object
     graph = nx.DiGraph()
-    
-     # Iterate over each row in the dataframe to add nodes and edges to the graph
+
+    # Iterate over each row in the dataframe to add nodes and edges to the graph
     for _, row in df.iterrows():
         node_name = row[node_name_col]
         parent_node = row[parent_col]
-        
+
         # Create a unique node identifier by combining reference_num and parent_node
         unique_node_name = f"{node_name}_[{parent_node}]"
-        
+
         parent_unique_name = None
-        
+
         if parent_node is not None:
             # Get parent node unique name
             parent_row = df.loc[df[node_name_col] == parent_node]
             if not parent_row.empty:
-                parent_unique_name = f"{parent_row.iloc[0][node_name_col]}_[{parent_row.iloc[0][parent_col]}]"
-        
+                parent_unique_name = (
+                    f"{parent_row.iloc[0][node_name_col]}_[{parent_row.iloc[0][parent_col]}]"
+                )
+
         # Add node
         graph.add_node(unique_node_name)
-        
+
         # Add attributes to node for each column (excluding the node_name_col, the parent_col, and anything in 'cols_to_ignore')
         for column, value in row.drop([node_name_col, parent_col] + cols_to_ignore).items():
             graph.nodes[unique_node_name][column] = value
@@ -427,21 +442,20 @@ def df_to_graph(df: DataFrame, node_name_col: str = 'reference_num', parent_col:
         # Add edges except to root node and avoiding edges that point to self
         if parent_unique_name is not None and parent_unique_name != unique_node_name:
             graph.add_edge(parent_unique_name, unique_node_name)
-    
+
     return graph
 
 
-
 def images_from_graphs(
-    networks: list, 
-    path: str ="./network_images", 
-    default_img_name: str ="graph", 
+    networks: list,
+    path: str = "./network_images",
+    default_img_name: str = "graph",
     prog: str = "dot",
-    node_color1: str = '#fc60ac',
-    node_color2: str = '#fcb6d8',
+    node_color1: str = "#fc60ac",
+    node_color2: str = "#fcb6d8",
     split_label: bool = True,
-    split_char: str = '_'
-    ):  
+    split_char: str = "_",
+):
     """
     Save images of networkx DiGraph objects as PNG files.
 
@@ -454,37 +468,34 @@ def images_from_graphs(
     Returns:
         None: The function saves images of the input graphs to the specified directory.
     """
-    
+
     import pygraphviz as pgv
-    
+
     if all(isinstance(t, nx.classes.digraph.DiGraph) for t in networks):
-        
         if not os.path.exists(path):
             os.makedirs(path)
-        
+
         for i, network in enumerate(networks):
-            
             file_name = f"{default_img_name}{str(i)}.png"
             file_path = os.path.join(path, file_name)
-            
+
             if os.path.exists(file_path):
                 os.remove(file_path)
-            
+
             py_net = nx.nx_agraph.to_agraph(network)
-            py_net.node_attr['style']='filled'
-            
+            py_net.node_attr["style"] = "filled"
+
             for node in py_net:
                 if split_label:
-                    node.attr['label'] = node.split(split_char, 1)[0]
-                
+                    node.attr["label"] = node.split(split_char, 1)[0]
+
                 if network.out_degree(node) != 0:
-                    node.attr['fillcolor'] = node_color1
+                    node.attr["fillcolor"] = node_color1
                 else:
-                    node.attr['fillcolor'] = node_color2
-            
+                    node.attr["fillcolor"] = node_color2
+
             py_net.layout(prog=prog)
             py_net.draw(file_path)
-    
+
     else:
         raise ValueError("Input list must only contain DiGraph networkx objects")
-        

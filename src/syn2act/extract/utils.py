@@ -343,7 +343,9 @@ reaction_schema = Object(
 )
 
 
-chain_set_up_schema = create_extraction_chain(llm_gpt4, set_up_schema, encoder_or_encoder_class="json")
+chain_set_up_schema = create_extraction_chain(
+    llm_gpt4, set_up_schema, encoder_or_encoder_class="json"
+)
 chain_reaction_schema = create_extraction_chain(
     llm_gpt4, reaction_schema, encoder_or_encoder_class="json"
 )

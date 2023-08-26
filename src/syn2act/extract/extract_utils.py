@@ -80,16 +80,14 @@ def paragraph2json(text: str):
         # Iterate over steps and depending on the type, call appropriate extraction chain for details
         for step in steps_list:
             step_details = ""
-            match step["type"]:
-                case "set-up":
-                    step_details = chain_set_up.predict_and_parse(text=step["text"])["data"]
-                case "work-up":
-                    step_details = chain_work_up.predict_and_parse(text=step["text"])["data"]
-                case "purification":
-                    step_details = chain_purification.predict_and_parse(text=step["text"])["data"]
-                case "analysis":
-                    step_details = chain_analysis.predict_and_parse(text=step["text"])["data"]
-
+            if step["type"] == "set-up":
+                step_details = chain_set_up.predict_and_parse(text=step["text"])["data"]
+            elif step["type"] == "work-up":
+                step_details = chain_work_up.predict_and_parse(text=step["text"])["data"]
+            elif step["type"] == "purification":
+                step_details = chain_purification.predict_and_parse(text=step["text"])["data"]
+            elif step["type"] == "analysis":
+                step_details = chain_analysis.predict_and_parse(text=step["text"])["data"]
             step["details"] = step_details
 
     return synthesis_dict

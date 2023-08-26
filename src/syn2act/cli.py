@@ -14,8 +14,11 @@ later, but that will cause problems--the code will get executed twice:
 """
 
 import logging
+from time import sleep
 
 import click
+
+from .par2tree.utils import tree_chain
 
 __all__ = [
     "segment",
@@ -92,10 +95,10 @@ def segment(model):
             continue
 
 
-@click.group()
+@click.command()
 def main():
     """main"""
-    return 0
+    tree_chain.run("jsut test")
 
 
 if __name__ == "__main__":

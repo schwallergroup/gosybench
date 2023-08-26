@@ -1,9 +1,8 @@
+"""prompts. rename"""
+
+from langchain import PromptTemplate, chains
+
 from syn2act.segment.gpt import llm_gpt4
-
-from langchain import PromptTemplate
-from langchain import chains
-
-
 
 tree_extract_prompt = """Your goal is to extract structured information from the user's input about how compounds are related in a chemical synthesis. When extracting information, please make sure it matches the type of information exactly. Do not add any attributes that do not appear in the schema shown below.
 
@@ -31,7 +30,6 @@ To produce the output, think step-by-step, but do not include any of your reason
 
 Input: {{ user_input }}
 Output: """
-
 
 
 examples = """
@@ -87,5 +85,7 @@ Output:
 """
 
 
-tree_extract_template = PromptTemplate.from_template(template=tree_extract_prompt, template_format="jinja2")
+tree_extract_template = PromptTemplate.from_template(
+    template=tree_extract_prompt, template_format="jinja2"
+)
 tree_chain = chains.LLMChain(prompt=tree_extract_template, llm=llm_gpt4)
