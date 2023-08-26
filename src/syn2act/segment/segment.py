@@ -34,7 +34,6 @@ class Segmentor:
         """
         self.llm = self._init_llm(llm, api_key)
 
-
     def syn2segment(self, paragraph: str) -> List[dict]:
         """
         Segment a synthesis paragraph semantically into sequences of
@@ -67,12 +66,7 @@ class Segmentor:
         ______
             JSON object with ['segment', 'class', 'order'] properties for each segment.
         """
-        valid_entries = [
-            "text segment",
-            "text class",
-            "explanation",
-            "step order"
-        ]
+        valid_entries = ["text segment", "text class", "explanation", "step order"]
 
         output = []
         segments = re.split(
@@ -88,7 +82,7 @@ class Segmentor:
             for j in range(0, len(sentences)):
                 item = sentences[j].split(": ")  # split label and its content
                 try:
-                    if item[0] in valid_entries: # continue if the label does not exist
+                    if item[0] in valid_entries:  # continue if the label does not exist
                         # save index and value in the dictionary
                         dict_temp[item[0]] = item[1]
                     else:
@@ -102,7 +96,6 @@ class Segmentor:
 
             output.append(dict_temp)  # save the dictionary into the list
         return output
-
 
     def _init_llm(self, llm: str, api_key: Optional[str] = None) -> LLMChain:
         """
