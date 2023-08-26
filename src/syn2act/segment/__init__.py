@@ -1,5 +1,4 @@
-"""Segment a synthethic procedure paragraph into semantically distinct pieces."""
+"""Segment a synthethic procedure paragraph into semantically distinct pieces using Language Models. This facilitates subsequent parsing"""
 
-from .gpt import *
-from .prompt import *
-from .segment_utils import Segmentor
+from .llms import *
+from .segment import Segmentor
