@@ -1,8 +1,11 @@
 """prompts. rename"""
 
-from langchain import PromptTemplate, chains
+import os
 
-from syn2act.segment.gpt import llm_gpt4
+from dotenv import load_dotenv
+from langchain import PromptTemplate
+from langchain.chains import LLMChain
+from langchain.chat_models import ChatOpenAI
 
 tree_extract_prompt = """Your goal is to extract structured information from the user's input about how compounds are related in a chemical synthesis. When extracting information, please make sure it matches the type of information exactly. Do not add any attributes that do not appear in the schema shown below.
 
@@ -84,8 +87,18 @@ Output:
   }
 """
 
+load_dotenv()
+openai_key = os.getenv("OPENAI_API_KEY")
+
+llm_gpt4 = ChatOpenAI(
+    model_name="gpt-4",
+    temperature=0.1,
+    max_tokens=2048,
+    request_timeout=3000,
+    openai_api_key=openai_key,
+)
 
 tree_extract_template = PromptTemplate.from_template(
     template=tree_extract_prompt, template_format="jinja2"
 )
-tree_chain = chains.LLMChain(prompt=tree_extract_template, llm=llm_gpt4)
+tree_chain = LLMChain(prompt=tree_extract_template, llm=llm_gpt4)

@@ -4,7 +4,7 @@ import json
 import os
 import re
 from time import time
-from typing import List
+from typing import List, Optional
 
 from dotenv import load_dotenv
 from langchain.chains import LLMChain
@@ -19,11 +19,12 @@ class Segmentor:
     Segment a synthesis paragraph semantically.
     Initializes pretrained LLMs for segmentation.
 
-    Attributes
+    Methods
     __________
+    syn2segment: Segment a synthesis paragraph semantically into sequences of
     """
 
-    def __init__(self, llm: str) -> None:
+    def __init__(self, llm: str, api_key: Optional[str] = None) -> None:
         """
         Input
         _____
@@ -31,15 +32,8 @@ class Segmentor:
             reference to the LLM used for segmentation.
             One of 'gpt4', 'gpt3.5', 'claude', 'flant5'
         """
+        self.llm = self._init_llm(llm, api_key)
 
-        llm_dict = {
-            "gpt4": gpt4_segment,
-            "gpt35": gpt35_segment,
-            "claude": claude_segment,
-            "flant5": flant5_segment,
-        }
-
-        self.llm = llm_dict[llm]
 
     def syn2segment(self, paragraph: str) -> List[dict]:
         """
@@ -55,45 +49,48 @@ class Segmentor:
             JSON object with ['segment', 'class', 'order'] properties for each segment.
         """
 
-        segmented_paragraph = self.chain.run({"example": human_example, "paragraph": parag})
+        segmented_paragraph = self.llm.run({"example": human_example, "paragraph": paragraph})
 
-        paragraph = self._parse_llm_segm(segmented_paragraph)
-        paragraph.pop()
-        return paragraph
+        json_out = self._parse_llm_segm(segmented_paragraph)
+        json_out.pop()
+        return json_out
 
     def _parse_llm_segm(self, llm_output: str) -> List[dict]:
         """
-        Parse the output of LLMChain for paragraph segmentation into a JSON object.
+        Parse the output of an LLM for paragraph segmentation into a JSON object.
 
-        Input:
-            llm_segm: the output of the segmentation LLM.
+        Input
+        _____
+            llm_segm: the (string) output of a segmentation LLM.
 
-        Output:
-            a formated JSON object with all information.
+        Output
+        ______
+            JSON object with ['segment', 'class', 'order'] properties for each segment.
         """
+        valid_entries = [
+            "text segment",
+            "text class",
+            "explanation",
+            "step order"
+        ]
 
         output = []
         segments = re.split(
-            "Step end #", llm_segm
+            "Step end #", llm_output
         )  # split the paragraph text into segments by step
 
-        for segment in range(0, len(segments)):
+        for segment in range(len(segments)):
             dict_temp = {}
             sentences = re.split(
                 "\n", segments[segment]
             )  # split text segment, text class, explanation and step order
+
             for j in range(0, len(sentences)):
                 item = sentences[j].split(": ")  # split label and its content
-                #            print('item:', item)
                 try:
-                    if (
-                        item[0] == "text segment"
-                        or item[0] == "text class"
-                        or item[0] == "explanation"
-                        or item[0] == "step order"
-                    ):  # continue if the label does not exist
-                        dict_temp[item[0]] = item[1]  # save index and value in the dictionary
-
+                    if item[0] in valid_entries: # continue if the label does not exist
+                        # save index and value in the dictionary
+                        dict_temp[item[0]] = item[1]
                     else:
                         continue
                 except:
@@ -105,3 +102,23 @@ class Segmentor:
 
             output.append(dict_temp)  # save the dictionary into the list
         return output
+
+
+    def _init_llm(self, llm: str, api_key: Optional[str] = None) -> LLMChain:
+        """
+        Initialize a model for segmentation.
+        Input
+        _____
+        llm : str
+            LLM to use for segmentation.
+        """
+        if api_key is not None:
+            if llm == "gpt4":
+                return gpt4_segment(api_key)
+            elif llm == "gpt35":
+                return gpt35_segment(api_key)
+            elif llm == "claude":
+                return claude_segment(api_key)
+        elif llm == "flant5":
+            return flant5_segment()
+        return None
