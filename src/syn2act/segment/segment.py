@@ -18,10 +18,6 @@ class Segmentor:
     """
     Segment a synthesis paragraph semantically.
     Initializes pretrained LLMs for segmentation.
-
-    Methods
-    __________
-    syn2segment: Segment a synthesis paragraph semantically into sequences of
     """
 
     def __init__(self, llm: str, api_key: Optional[str] = None) -> None:
