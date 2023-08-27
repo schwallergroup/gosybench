@@ -266,35 +266,6 @@ set_up_step = Object(
     many=True,
 )
 
-set_up_schema = Object(
-    id="set_up_schema",
-    description="Summary of a set-up step in a chemical procedure",
-    attributes=[product, set_up_step],
-    examples=[
-        (
-            "'Methyl (14S)-2-O-acetyl-8,12-anhydro-3,4,6,7,10,13-hexadeoxy-3,7-dimethyl-9-O-(triethylsilyl)-D-lyxo-D-manno-tetradecodialdo-14,11-furanosid-5-ulose (32b): A solution of benzyl ether 39b (2.30 g, 3.88 mmol, 1.0 equiv) and Pd/C (30 wt% Pd/C, 20% loading of 39b, 460 mg) in THF (50 mL) was stirred under a hydrogen atmosphere (1 bar) at 23 °C for 1.5 h. The resulting mixture was ﬁltered through a pad of Celite and the ﬁltrate was concentrated under reduced pressure to give the crude alcohol which was used for the next step without further puriﬁcation. To a stirred solution of the above alcohol in CH2Cl2 (50 mL) were added NaHCO3 (2.28 g, 27.2 mmol, 7.0 equiv) and Dess–Martin periodinane (4.11 g, 9.70 mmol, 2.5 equiv). The resulting mixture was allowed to warm to 23 °C and stirred for 1 h before it was quenched by the addition of sat. aq. NaHCO3 solution (30 mL) and sat. aq. Na2S2O3 solution (50 mL). The layers were separated, and the aqueous layer was extracted with CH2Cl2 (3 × 50 mL). The organic layer was washed with brine (50 mL), dried over Na2SO4, ﬁltered, and concentrated under reduced pressure. Flash column chromatography (SiO2, hexanes/EtOAc 10:1, v/v  →  1:1, v/v) aﬀorded fragment A’ (32b; 1.26 g, 2.52 mmol, 65% yield for the two steps) as a colorless oil. 32b: Rf = 0.50 (SiO2, hexanes/EtOAc 2:1, v/v); [α]D23 = +19.5 (c = 0.62, EtOAc); ",
-            [
-                {
-                    "products": [
-                        {
-                            "name": "Methyl (14S)-2-O-acetyl-8,12-anhydro-3,4,6,7,10,13-hexadeoxy-3,7-dimethyl-9-O-(triethylsilyl)-D-lyxo-D-manno-tetradecodialdo-14,11-furanosid-5-ulose",
-                            "reference_num": "32b",
-                            "mass": "1.26 g",
-                            "yield": "65%",
-                        }
-                    ],
-                    "steps": [
-                        {
-                            "type": "set-up",
-                            "text": "A solution of benzyl ether 39b (2.30 g, 3.88 mmol, 1.0 equiv) and Pd/C (30 wt% Pd/C, 20% loading of 39b, 460 mg) in THF (50 mL) was stirred under a hydrogen atmosphere (1 bar) at 23 °C for 1.5 h. The resulting mixture was ﬁltered through a pad of Celite and the ﬁltrate was concentrated under reduced pressure to give the crude alcohol which was used for the next step without further puriﬁcation. To a stirred solution of the above alcohol in CH2Cl2 (50 mL) were added NaHCO3 (2.28 g, 27.2 mmol, 7.0 equiv) and Dess–Martin periodinane (4.11 g, 9.70 mmol, 2.5 equiv). The resulting mixture was allowed to warm to 23 °C and stirred for 1 h before it was quenched by the addition of sat. aq. NaHCO3 solution (30 mL) and sat. aq. Na2S2O3 solution (50 mL). The layers were separated, and the aqueous layer was extracted with CH2Cl2 (3 × 50 mL). The organic layer was washed with brine (50 mL), dried over Na2SO4, ﬁltered, and concentrated under reduced pressure.",
-                        }
-                    ],
-                }
-            ],
-        )
-    ],
-    many=True,
-)
 
 reaction_schema = Object(
     id="rxn_schema",
@@ -343,9 +314,6 @@ reaction_schema = Object(
 )
 
 
-chain_set_up_schema = create_extraction_chain(
-    llm_gpt4, set_up_schema, encoder_or_encoder_class="json"
-)
 chain_reaction_schema = create_extraction_chain(
     llm_gpt4, reaction_schema, encoder_or_encoder_class="json"
 )

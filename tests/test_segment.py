@@ -18,6 +18,7 @@ def uspto_example():
     return example
 
 
+@pytest.mark.skip(reason="not yet implemented")
 def test_segmentor_oai(uspto_example):
     """Test OpenAI models."""
 

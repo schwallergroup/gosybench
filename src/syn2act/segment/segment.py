@@ -20,7 +20,7 @@ class Segmentor:
     Initializes pretrained LLMs for segmentation.
     """
 
-    def __init__(self, llm: str, api_key: str = None) -> None:
+    def __init__(self, llm: str, api_key: Optional[str] = None) -> None:
         """
         Input
         _____
@@ -93,7 +93,7 @@ class Segmentor:
             output.append(dict_temp)  # save the dictionary into the list
         return output
 
-    def _init_llm(self, llm: str, api_key: str) -> LLMChain:
+    def _init_llm(self, llm: str, api_key: Optional[str] = None) -> LLMChain:
         """
         Initialize a model for segmentation.
         Input
@@ -101,13 +101,16 @@ class Segmentor:
         llm : str
             LLM to use for segmentation.
         """
-        if llm == "gpt4":
-            return gpt4_segment(api_key)
-        elif llm == "gpt35":
-            return gpt35_segment(api_key)
-        elif llm == "claude":
-            return claude_segment(api_key)
-        elif llm == "flant5":
-            return flant5_segment()
+        if api_key is None:
+            pass
+        else:
+            if llm == "gpt4":
+                return gpt4_segment(api_key)
+            elif llm == "gpt35":
+                return gpt35_segment(api_key)
+            elif llm == "claude":
+                return claude_segment(api_key)
+            elif llm == "flant5":
+                return flant5_segment()
 
         return None
