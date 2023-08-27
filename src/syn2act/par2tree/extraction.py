@@ -4,6 +4,7 @@ Combines all the pipelines"""
 
 import json
 import os
+from typing import Any, List
 
 import fitz
 import networkx as nx
@@ -41,8 +42,8 @@ def pdf2trees(doc_path: str, start=0, end="a"):
 
     # Convert paragraphs to dictionaries showing a single compound and its reagents
     # This step uses the GPT-4 model to convert paragraphs to dictionaries
-    #dictionaries = pars2dictionaries(paragraphs=paragraphs)
-    dictionaries = []
+    # dictionaries = pars2dictionaries(paragraphs=paragraphs)
+    dictionaries: List[Any] = []
 
     # Convert dictionaries into trees representing chemical structures
     trees = dictionaries2trees(dict_list=dictionaries)
@@ -55,7 +56,6 @@ def pdf2trees(doc_path: str, start=0, end="a"):
     networks = bigtrees_to_networks(tree_list=merged)
 
     return networks
-
 
 
 def dictionaries2trees(

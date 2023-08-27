@@ -1,3 +1,5 @@
+"""Definition of kor schemas for data extraction."""
+
 from kor.nodes import Number, Object, Text
 
 set_up_step = Object(
