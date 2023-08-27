@@ -48,7 +48,7 @@ def gpt35_segment(api_key: str) -> LLMChain:
     openai_key = api_key or os.getenv("OPENAI_API_KEY")
 
     llm_gpt35_turbo = ChatOpenAI(
-        model_name="gpt-3.5-turbo",
+        model_name="gpt-3.5-turbo-16k",
         temperature=0.1,
         max_tokens=2048,
         request_timeout=3000,
