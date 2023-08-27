@@ -39,7 +39,9 @@ Table of Contents
 
    installation
    usage
+   examples
    cli
+   api
 
 Indices and Tables
 ------------------
