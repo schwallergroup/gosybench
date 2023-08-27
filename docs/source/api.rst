@@ -1,7 +1,7 @@
 API Documentation
 ==================
 
-Segmentor 
+Segmentor
 -------------------
 
 .. automodule:: syn2act.segment.segment

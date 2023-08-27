@@ -4,5 +4,4 @@
 
 from .api import *  # noqa
 
-# from .extract import *
 from .segment import *
