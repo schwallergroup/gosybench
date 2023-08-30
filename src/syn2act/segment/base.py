@@ -88,4 +88,3 @@ class Segmentor:
 
         output.pop()
         return output
-
