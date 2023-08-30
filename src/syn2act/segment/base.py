@@ -4,14 +4,11 @@ import json
 import os
 import re
 from time import time
-from typing import List, Optional
+from typing import List, Optional, Union
 
 from dotenv import load_dotenv
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
-
-from .llms import *
-from .llms.prompts import human_example
 
 
 class Segmentor:
@@ -20,17 +17,11 @@ class Segmentor:
     Initializes pretrained LLMs for segmentation.
     """
 
-    def __init__(self, llm: str, api_key: Optional[str] = None) -> None:
-        """
-        Input
-        _____
-        llm : str
-            reference to the LLM used for segmentation.
-            One of 'gpt4', 'gpt35', 'claude', 'flant5'
-        """
-        self.llm = self._init_llm(llm, api_key)
+    def __init__(self) -> None:
+        """Base class for segmentation of synthetic paragraphs."""
+        pass
 
-    def syn2segment(self, paragraph: str) -> List[dict]:
+    def syn2segment(self, paragraph: str) -> List[list]:
         """
         Segment a synthesis paragraph semantically into sequences of
         'reaction set-up', 'workup', 'purification', 'analysis'
@@ -44,11 +35,14 @@ class Segmentor:
             JSON object with ['segment', 'class', 'order'] properties for each segment.
         """
 
-        segmented_paragraph = self.llm.run({"example": human_example, "paragraph": paragraph})
+        segm_paragrs = self._run(paragraph)
 
-        json_out = self._parse_llm_segm(segmented_paragraph)
-        json_out.pop()
+        json_out = [self._parse_llm_segm(sp) for sp in segm_paragrs]
         return json_out
+
+    def _run(self, inputs: Union[List, str]) -> Union[List, str]:
+        """Execute the LLM segmentation"""
+        return []
 
     def _parse_llm_segm(self, llm_output: str) -> List[dict]:
         """
@@ -91,26 +85,7 @@ class Segmentor:
                         dict_temp[item[0]] = item[1]  # save index and value in the dictionary
 
             output.append(dict_temp)  # save the dictionary into the list
+
+        output.pop()
         return output
 
-    def _init_llm(self, llm: str, api_key: Optional[str] = None) -> LLMChain:
-        """
-        Initialize a model for segmentation.
-        Input
-        _____
-        llm : str
-            LLM to use for segmentation.
-        """
-        if api_key is None:
-            pass
-        else:
-            if llm == "gpt4":
-                return gpt4_segment(api_key)
-            elif llm == "gpt35":
-                return gpt35_segment(api_key)
-            elif llm == "claude":
-                return claude_segment(api_key)
-            elif llm == "flant5":
-                return flant5_segment()
-
-        return None

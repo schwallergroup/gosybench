@@ -1,4 +1,5 @@
-"""Segment a synthethic procedure paragraph into semantically distinct pieces using Language Models. This facilitates subsequent parsing"""
+"""Collection of LMs and LLMChains used for semantic segmentation of synthetic paragraphs."""
 
-from .llms import *
-from .segment import Segmentor
+from .anthropic import *
+from .flan_t5 import *
+from .openai import *

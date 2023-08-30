@@ -55,7 +55,6 @@ class SynthParagraph:
         self.data["rxn_setup"] = self._flatten_list(extractor(self.text))
         return self.data["rxn_setup"]
 
-
     def _flatten_list(self, lst: list):
         """
         Flattens a list that may contain nested lists into a single flat list.
