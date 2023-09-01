@@ -5,7 +5,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from syn2act.segment import SegGPT, SegFlanT5
+from syn2act.segment import SegFlanT5, SegGPT
 
 load_dotenv()
 

@@ -37,7 +37,6 @@ class ReactionSetup:
 
         self.tree_chain = LLMChain(prompt=tree_extract_template, llm=self.llm)
 
-
     def __call__(self, text: str):
         """Execute the extraction pipeline for a single snippet."""
 
@@ -57,7 +56,6 @@ class ReactionSetup:
         # Some inconsistencies in the examples.
         json_tree = self.tree_chain.predict(examples=examples_tree_chain, user_input=schema_string)
         return json.loads(json_tree)
-
 
     def _get_paragraph_schema(self, text: str) -> LLMChain:
         """

@@ -1,6 +1,7 @@
 """PDF Parsing utilities."""
 
 import json
+import os
 import re
 from itertools import chain
 from typing import Dict, List, Optional
@@ -91,7 +92,7 @@ class SynthDocument:
     Initialize from pdf files.
     """
 
-    def __init__(self, doc_src: str) -> None:
+    def __init__(self, doc_src: str, api_key: Optional[str] = None) -> None:
         """
         Input
         ______
@@ -99,12 +100,12 @@ class SynthDocument:
             path to the pdf file
         """
 
-        self.rs_extractor = Extractor(
-            "rxn_setup", "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"
-        )
+        api_key = api_key or os.environ["OPENAI_API_KEY"]
+
+        self.rs_extractor = Extractor("rxn_setup", api_key)
 
         self.doc = fitz.open(doc_src)
-        self.paragraphs = self._build_doc(self.doc)[:5]
+        self.paragraphs = self._build_doc(self.doc)
 
     def extract_rss(self) -> None:
         """
@@ -113,7 +114,6 @@ class SynthDocument:
 
         for p in self.paragraphs:
             p.extract(self.rs_extractor)
-            print(p)
 
         rxn_setups = [p.data["rxn_setup"] for p in self.paragraphs]
         self.rxn_setups = list(chain(*[p for p in rxn_setups if p[0]]))

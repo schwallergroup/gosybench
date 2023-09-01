@@ -1,3 +1,3 @@
 """Extract highly structured data from synthesis papers."""
 
-from .document import SynthDocument
+from .document import SynthDocument, SynthParagraph

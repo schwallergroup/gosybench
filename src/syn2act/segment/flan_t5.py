@@ -20,11 +20,22 @@ class SegFlanT5(Segmentor):
         """
 
         # TODO download model if not there
+
+        import pathlib
+
+        root_dir = pathlib.Path(__file__).parent.resolve()
+        model_dir = f'{root_dir}/../../../models/segment_flant5_large'
         self.model = AutoModelForSeq2SeqLM.from_pretrained(
-            "google/flan-t5-large", map_device="auto"
+            model_dir,
+            device_map="auto"
         )
-        self.tokenizer = AutoTokenizer.from_pretrained("google/flan-t5-large")
+        self.tokenizer = AutoTokenizer.from_pretrained(model_dir)
         self.device = "cuda:0"
+
+        adapter_model = "paragraph_segmentation"
+        self.model.set_active_adapters(adapter_model)
+
+
 
     def _run(self, inputs: Union[List, str]) -> Union[List, str]:
         """
@@ -39,7 +50,14 @@ class SegFlanT5(Segmentor):
 
         inputs = self.tokenizer(inputs, return_tensors="pt", padding=True).to(self.device)
 
-        raw_outputs = self.model.generate(**inputs, min_new_tokens=512)
-        outputs = self.tokenizer.batch_decode(raw_outputs, skip_special_tokens=True)
+        raw_outputs = self.model.generate(
+            **inputs,
+            max_length = 2048,
+            early_stopping = True
+        )
+        outputs = self.tokenizer.batch_decode(
+            raw_outputs,
+            skip_special_tokens=True
+        )
 
         return outputs
