@@ -18,10 +18,8 @@ class SegGPT(Segmentor):
         """Segmentor class with OpenAI GPT models for Chat.
         Input
         _____
-        model: str
-            one of `gpt-4` or `gpt-3.5-turbo-16k`
-        openai_key: str
-            api_key for OpenAI
+        model: one of `gpt-4` or `gpt-3.5-turbo-16k`
+        openai_key: api_key for OpenAI
         """
 
         load_dotenv()

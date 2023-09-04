@@ -21,7 +21,7 @@ class Segmentor:
         """Base class for segmentation of synthetic paragraphs."""
         pass
 
-    def syn2segment(self, paragraph: str) -> List[list]:
+    def __call__(self, inputs: Union[List, str]) -> List[List]:
         """
         Segment a synthesis paragraph semantically into sequences of
         'reaction set-up', 'workup', 'purification', 'analysis'
@@ -35,9 +35,9 @@ class Segmentor:
             JSON object with ['segment', 'class', 'order'] properties for each segment.
         """
 
-        segm_paragrs = self._run(paragraph)
+        segm_paragrs = self._run(inputs)
+        json_out = [self._parse_llm_segm(p) for p in segm_paragrs]
 
-        json_out = [self._parse_llm_segm(sp) for sp in segm_paragrs]
         return json_out
 
     def _run(self, inputs: Union[List, str]) -> Union[List, str]:
