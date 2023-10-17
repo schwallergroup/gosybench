@@ -41,10 +41,13 @@ class SegFlanT5(Segmentor):
         if isinstance(inputs, str):
             inputs = [inputs]
 
-        inputs = self.tokenizer(inputs, return_tensors="pt", padding=True).to(self.device)
+        inputs = self.tokenizer(inputs, return_tensors="pt", padding=True, max_length=500, truncation=True).to(self.device)
 
-        raw_outputs = self.model.generate(**inputs, max_length=2048, early_stopping=True)
+        raw_outputs = self.model.generate(**inputs, max_length=600, early_stopping=True)
         outputs = self.tokenizer.batch_decode(raw_outputs, skip_special_tokens=True)
+
+        del inputs, raw_outputs
+        torch.cuda.empty_cache()
 
         return outputs
 
