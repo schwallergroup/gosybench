@@ -1,5 +1,4 @@
-"""Segment a synthethic procedure paragraph into semantically distinct pieces."""
+"""Collection of LMs and LLMChains used for semantic segmentation of synthetic paragraphs."""
 
-from .gpt import *
-from .prompt import *
-from .segment_utils import Segmentor
+from .flan_t5 import * # noqa
+from .openai import * # noqa
