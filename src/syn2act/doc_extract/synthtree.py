@@ -1,7 +1,9 @@
-"""Define class SynthTree, which is a tree of SynthNodes that represent the chemical synthesis described in a document."""
+"""
+Define class SynthTree,
+which is a tree of SynthNodes that represent the chemical synthesis described in a document.
+"""
 
 import os
-from typing import List, Optional
 
 import networkx as nx
 from bigtree import (
@@ -9,26 +11,26 @@ from bigtree import (
     copy_nodes_from_tree_to_tree,
     findall,
     nested_dict_to_tree,
-    print_tree,
     tree_to_dataframe,
 )
 from pandas import DataFrame
+from typing import Optional
 
-from .document import SynthDocument
+from .synthdoc import SynthDocument
 
 
 class SynthTree(SynthDocument):
     """Extend SynthDocument to represent reaction tree."""
 
-    def __init__(self):
+    def __init__(self, doc_src: str, api_key: Optional[str] = None) -> None:
         """Initialize a SynthTree object."""
-        super(SynthTree, self).__init__()
+        super(SynthTree, self).__init__(doc_src, api_key)
 
         self.extract_rss()
 
         trees = self.dictionaries2trees(self.rxn_setups)
         merged_trees = self.merge_trees(trees)  # Merge trees to create bigger structures
-        networks = self.bigtrees_to_networks(merged_trees)  # Convert trees to networkx objects
+        self.networks = self.bigtrees_to_networks(merged_trees)  # Convert trees to networkx objects
 
     def dictionaries2trees(
         self, dict_list: list, name_key: str = "reference_num", child_key: str = "reagents"
@@ -101,10 +103,14 @@ class SynthTree(SynthDocument):
         Optionally, it can include all attributes for each node as node attributes in the graph.
 
         Parameters:
-            tree_list (list): A list of trees represented as dictionaries or dataframes.
-            name_col (str): The name to be assigned to the column containing the node name in each tree. Default is 'reference_num'.
-            parent_col (str): The name to be assigned to the column containing the parent node name in each tree. Default is 'parent'.
-            all_attrs (bool): A flag indicating whether to include all attributes for each node. Default is True.
+            tree_list (list):
+                A list of trees represented as dictionaries or dataframes.
+            name_col (str):
+                The name to be assigned to the column containing the node name in each tree. Default is 'reference_num'.
+            parent_col (str):
+                The name to be assigned to the column containing the parent node name in each tree. Default is 'parent'.
+            all_attrs (bool):
+                A flag indicating whether to include all attributes for each node. Default is True.
 
         Returns:
             networks (list): A list of networkx DiGraph objects representing the input trees.
@@ -214,20 +220,6 @@ class SynthTree(SynthDocument):
                 overriding=True,
             )
 
-            ## this code would copy small_tree into every single ocurrence in big_tree
-            # for res in search:
-            #     dest_path = res.path_name
-
-            #     orig_path = small_tree.path_name
-
-            #     copy_nodes_from_tree_to_tree(
-            #         from_tree=small_tree,
-            #         to_tree=big_tree,
-            #         from_paths=[orig_path],
-            #         to_paths=[dest_path],
-            #         overriding=True
-            #     )
-
             # Return 0 and the new merged 'big_tree'
             return 0, big_tree
 
@@ -240,13 +232,18 @@ class SynthTree(SynthDocument):
     ):
         """
         Converts a dataframe representing a tree to a networkx DiGraph object.
-        The dataframe should have columns for node names, parent node names, and any additional attributes for each node.
+        The dataframe should have columns for node names, parent node names,
+        and any additional attributes for each node.
 
         Parameters:
-            df (pandas.DataFrame): The input dataframe representing a tree.
-            node_name_col (str): The name of the column containing the node names in the dataframe. Default is 'reference_num'.
-            parent_col (str): The name of the column containing the parent node names in the dataframe. Default is 'parent'.
-            cols_to_ignore (list): A list of column names to ignore while adding attributes to the nodes. Default is ['path'].
+            df (pandas.DataFrame):
+                The input dataframe representing a tree.
+            node_name_col (str):
+                The name of the column containing the node names in the dataframe. Default is 'reference_num'.
+            parent_col (str):
+                The name of the column containing the parent node names in the dataframe. Default is 'parent'.
+            cols_to_ignore (list):
+                A list of column names to ignore while adding attributes to the nodes. Default is ['path'].
 
         Returns:
             graph (networkx.DiGraph): A directed graph representing the input dataframe as a tree.
@@ -292,7 +289,8 @@ class SynthTree(SynthDocument):
             # Add node
             graph.add_node(unique_node_name)
 
-            # Add attributes to node for each column (excluding the node_name_col, the parent_col, and anything in 'cols_to_ignore')
+            # Add attributes to node for each column
+            # (excluding the node_name_col, the parent_col, and anything in 'cols_to_ignore')
             for column, value in row.drop([node_name_col, parent_col] + cols_to_ignore).items():
                 graph.nodes[unique_node_name][column] = value
 
@@ -324,8 +322,6 @@ class SynthTree(SynthDocument):
         Returns:
             None: The function saves images of the input graphs to the specified directory.
         """
-
-        import pygraphviz as pgv
 
         if all(isinstance(t, nx.classes.digraph.DiGraph) for t in networks):
             if not os.path.exists(path):

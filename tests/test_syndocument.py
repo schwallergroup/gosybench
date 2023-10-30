@@ -15,7 +15,7 @@ def ex_document():
     """Initialize document."""
 
     oai_key = os.getenv("OPENAI_API_KEY")
-    doc = SynthDocument("tests/examples/synth_SI.pdf", oai_key)
+    doc = SynthDocument("tests/examples/synth_SI_sub.pdf", oai_key)
     return doc
 
 
