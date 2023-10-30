@@ -1,8 +1,6 @@
 """Data extractors for segments of chemical synthesis paragraphs."""
 
 from typing import List, Optional
-
-from dotenv import load_dotenv
 from langchain.chains import LLMChain
 
 from .rxn_setup.extract import ReactionSetup

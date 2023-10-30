@@ -8,7 +8,7 @@ from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 
 from .base import Segmentor
-from .prompts import *
+from .prompts import gpt_prompt_tmplt, human_example
 
 
 class SegGPT(Segmentor):
