@@ -4,6 +4,7 @@ which is a tree of SynthNodes that represent the chemical synthesis described in
 """
 
 import os
+from typing import Optional
 
 import networkx as nx
 from bigtree import (
@@ -14,7 +15,6 @@ from bigtree import (
     tree_to_dataframe,
 )
 from pandas import DataFrame
-from typing import Optional
 
 from .synthdoc import SynthDocument
 
@@ -28,9 +28,11 @@ class SynthTree(SynthDocument):
 
         self.extract_rss()
 
-        trees = self.dictionaries2trees(self.rxn_setups)
-        merged_trees = self.merge_trees(trees)  # Merge trees to create bigger structures
-        self.networks = self.bigtrees_to_networks(merged_trees)  # Convert trees to networkx objects
+        self.trees = self.dictionaries2trees(self.rxn_setups)
+        self.merged_trees = self.merge_trees(self.trees)  # Merge trees to create bigger structures
+        self.networks = self.bigtrees_to_networks(
+            self.merged_trees
+        )  # Convert trees to networkx objects
 
     def dictionaries2trees(
         self, dict_list: list, name_key: str = "reference_num", child_key: str = "reagents"
@@ -301,6 +303,7 @@ class SynthTree(SynthDocument):
         return graph
 
     def images_from_graphs(
+        self,
         networks: list,
         path: str = "./network_images",
         default_img_name: str = "graph",

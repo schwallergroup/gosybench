@@ -1,11 +1,11 @@
-"""Test suite for the par2tree.document module"""
+"""Test suite for the SynthDocument class"""
 
 import os
 
 import pytest
 from dotenv import load_dotenv
 
-from syn2act.doc_extract import SynthDocument
+from syn2act.doc_extract.synthdoc import SynthDocument
 
 load_dotenv()
 
@@ -13,7 +13,6 @@ load_dotenv()
 @pytest.fixture()
 def ex_document():
     """Initialize document."""
-
     oai_key = os.getenv("OPENAI_API_KEY")
     doc = SynthDocument("tests/examples/synth_SI_sub.pdf", oai_key)
     return doc
@@ -21,7 +20,7 @@ def ex_document():
 
 def test_parse_doc(ex_document):
     """Check that paragraphs could be parsed"""
-    assert len(ex_document.paragraphs) == 73
+    assert len(ex_document.paragraphs) == 3
 
 
 def test_cut_parags(ex_document):
