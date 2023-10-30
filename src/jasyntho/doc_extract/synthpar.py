@@ -3,7 +3,7 @@
 import json
 from typing import Dict, List, Optional
 
-from syn2act.extract import Extractor
+from jasyntho.extract import Extractor
 
 
 class SynthParagraph:

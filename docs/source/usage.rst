@@ -1,4 +1,4 @@
 Usage
 =====
-.. automodule:: syn2act.api
+.. automodule:: jasyntho.api
     :members:

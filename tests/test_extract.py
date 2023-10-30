@@ -5,7 +5,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from syn2act.extract import Extractor
+from jasyntho.extract import Extractor
 
 load_dotenv()
 

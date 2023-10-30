@@ -4,11 +4,11 @@ API Documentation
 Segmentor
 -------------------
 
-.. automodule:: syn2act.segment.base
+.. automodule:: jasyntho.segment.base
    :members:
 
-.. automodule:: syn2act.segment.flan_t5
+.. automodule:: jasyntho.segment.flan_t5
    :members:
 
-.. automodule:: syn2act.segment.openai
+.. automodule:: jasyntho.segment.openai
    :members:

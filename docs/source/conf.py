@@ -22,7 +22,7 @@ sys.path.insert(0, os.path.abspath("../../src"))
 
 # -- Project information -----------------------------------------------------
 
-project = "syn2act"
+project = "jasyntho"
 copyright = f"{date.today().year}, Andres M Bran"
 author = "Andres M Bran"
 
@@ -50,7 +50,7 @@ if parsed_version.group("release"):
 add_module_names = False
 
 # A list of prefixes that are ignored when creating the module index. (new in Sphinx 0.6)
-modindex_common_prefix = ["syn2act."]
+modindex_common_prefix = ["jasyntho."]
 
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
@@ -140,7 +140,7 @@ if os.path.exists("logo.png"):
 # -- Options for HTMLHelp output ---------------------------------------------
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "syn2act_doc"
+htmlhelp_basename = "jasyntho_doc"
 
 # -- Options for LaTeX output ------------------------------------------------
 
@@ -168,8 +168,8 @@ htmlhelp_basename = "syn2act_doc"
 # latex_documents = [
 #     (
 #         master_doc,
-#         'syn2act.tex',
-#         'syn2act Documentation',
+#         'jasyntho.tex',
+#         'jasyntho Documentation',
 #         author,
 #         'manual',
 #     ),
@@ -182,8 +182,8 @@ htmlhelp_basename = "syn2act_doc"
 man_pages = [
     (
         master_doc,
-        "syn2act",
-        "syn2act Documentation",
+        "jasyntho",
+        "jasyntho Documentation",
         [author],
         1,
     ),
@@ -197,8 +197,8 @@ man_pages = [
 texinfo_documents = [
     (
         master_doc,
-        "syn2act",
-        "syn2act Documentation",
+        "jasyntho",
+        "jasyntho Documentation",
         author,
         "Andres M Bran",
         "Convert a synthetic procedure paragraph into a structured data object.",

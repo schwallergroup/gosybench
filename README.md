@@ -1,31 +1,31 @@
 <!--
 <p align="center">
-  <img src="https://github.com/schwallergroup/syn2act/raw/main/docs/source/logo.png" height="150">
+  <img src="https://github.com/schwallergroup/jasyntho/raw/main/docs/source/logo.png" height="150">
 </p>
 -->
 
 <h1 align="center">
-  syn2act
+  jasyntho
 </h1>
 
 <p align="center">
-    <a href="https://github.com/schwallergroup/syn2act/actions/workflows/tests.yml">
-        <img alt="Tests" src="https://github.com/schwallergroup/syn2act/workflows/Tests/badge.svg" />
+    <a href="https://github.com/schwallergroup/jasyntho/actions/workflows/tests.yml">
+        <img alt="Tests" src="https://github.com/schwallergroup/jasyntho/workflows/Tests/badge.svg" />
     </a>
-    <a href="https://pypi.org/project/syn2act">
-        <img alt="PyPI" src="https://img.shields.io/pypi/v/syn2act" />
+    <a href="https://pypi.org/project/jasyntho">
+        <img alt="PyPI" src="https://img.shields.io/pypi/v/jasyntho" />
     </a>
-    <a href="https://pypi.org/project/syn2act">
-        <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/syn2act" />
+    <a href="https://pypi.org/project/jasyntho">
+        <img alt="PyPI - Python Version" src="https://img.shields.io/pypi/pyversions/jasyntho" />
     </a>
-    <a href="https://github.com/schwallergroup/syn2act/blob/main/LICENSE">
-        <img alt="PyPI - License" src="https://img.shields.io/pypi/l/syn2act" />
+    <a href="https://github.com/schwallergroup/jasyntho/blob/main/LICENSE">
+        <img alt="PyPI - License" src="https://img.shields.io/pypi/l/jasyntho" />
     </a>
-    <a href='https://syn2act.readthedocs.io/en/latest/?badge=latest'>
-        <img src='https://readthedocs.org/projects/syn2act/badge/?version=latest' alt='Documentation Status' />
+    <a href='https://jasyntho.readthedocs.io/en/latest/?badge=latest'>
+        <img src='https://readthedocs.org/projects/jasyntho/badge/?version=latest' alt='Documentation Status' />
     </a>
-    <a href="https://codecov.io/gh/schwallergroup/syn2act/branch/main">
-        <img src="https://codecov.io/gh/schwallergroup/syn2act/branch/main/graph/badge.svg" alt="Codecov status" />
+    <a href="https://codecov.io/gh/schwallergroup/jasyntho/branch/main">
+        <img src="https://codecov.io/gh/schwallergroup/jasyntho/branch/main/graph/badge.svg" alt="Codecov status" />
     </a>  
     <a href="https://github.com/cthoyt/cookiecutter-python-package">
         <img alt="Cookiecutter template from @cthoyt" src="https://img.shields.io/badge/Cookiecutter-snekpack-blue" /> 
@@ -33,7 +33,7 @@
     <a href='https://github.com/psf/black'>
         <img src='https://img.shields.io/badge/code%20style-black-000000.svg' alt='Code style: black' />
     </a>
-    <a href="https://github.com/schwallergroup/syn2act/blob/main/.github/CODE_OF_CONDUCT.md">
+    <a href="https://github.com/schwallergroup/jasyntho/blob/main/.github/CODE_OF_CONDUCT.md">
         <img src="https://img.shields.io/badge/Contributor%20Covenant-2.1-4baaaa.svg" alt="Contributor Covenant"/>
     </a>
 </p>
@@ -43,7 +43,7 @@ Convert a synthetic procedure paragraph into a structured data object.
 ## 💪 Getting Started
 
 ```python
-from syn2act import paragraph2json
+from jasyntho import paragraph2json
 
 paragraph = "methylamide: 30g of iodomethane were mixed with a lot of ammonia. The product has a mass of 10 g/mol"
 
@@ -72,11 +72,11 @@ Produces:
 
 ### Command Line Interface
 
-The syn2act command line tool is automatically installed. It can
+The jasyntho command line tool is automatically installed. It can
 be used from the shell with the `--help` flag to show all subcommands:
 
 ```shell
-$ syn2act --help
+$ jasyntho --help
 ```
 
 > TODO show the most useful thing the CLI does! The CLI will have documentation auto-generated
@@ -86,23 +86,23 @@ $ syn2act --help
 
 <!-- Uncomment this section after your first ``tox -e finish``
 The most recent release can be installed from
-[PyPI](https://pypi.org/project/syn2act/) with:
+[PyPI](https://pypi.org/project/jasyntho/) with:
 
 ```shell
-$ pip install syn2act
+$ pip install jasyntho
 ```
 -->
 
 The most recent code and data can be installed directly from GitHub with:
 
 ```bash
-$ pip install git+https://github.com/schwallergroup/syn2act.git
+$ pip install git+https://github.com/schwallergroup/jasyntho.git
 ```
 
 ## 👐 Contributing
 
 Contributions, whether filing an issue, making a pull request, or forking, are appreciated. See
-[CONTRIBUTING.md](https://github.com/schwallergroup/syn2act/blob/master/.github/CONTRIBUTING.md) for more information on getting involved.
+[CONTRIBUTING.md](https://github.com/schwallergroup/jasyntho/blob/master/.github/CONTRIBUTING.md) for more information on getting involved.
 
 ## 👋 Attribution
 
@@ -153,8 +153,8 @@ The final section of the README is for if you want to get involved by making a c
 To install in development mode, use the following:
 
 ```bash
-$ git clone git+https://github.com/schwallergroup/syn2act.git
-$ cd syn2act
+$ git clone git+https://github.com/schwallergroup/jasyntho.git
+$ cd jasyntho
 $ pip install -e .
 ```
 
@@ -167,15 +167,15 @@ run reproducibly with:
 $ tox
 ```
 
-Additionally, these tests are automatically re-run with each commit in a [GitHub Action](https://github.com/schwallergroup/syn2act/actions?query=workflow%3ATests).
+Additionally, these tests are automatically re-run with each commit in a [GitHub Action](https://github.com/schwallergroup/jasyntho/actions?query=workflow%3ATests).
 
 ### 📖 Building the Documentation
 
 The documentation can be built locally using the following:
 
 ```shell
-$ git clone git+https://github.com/schwallergroup/syn2act.git
-$ cd syn2act
+$ git clone git+https://github.com/schwallergroup/jasyntho.git
+$ cd jasyntho
 $ tox -e docs
 $ open docs/build/html/index.html
 ``` 
@@ -198,7 +198,7 @@ $ tox -e finish
 This script does the following:
 
 1. Uses [Bump2Version](https://github.com/c4urself/bump2version) to switch the version number in the `setup.cfg`,
-   `src/syn2act/version.py`, and [`docs/source/conf.py`](docs/source/conf.py) to not have the `-dev` suffix
+   `src/jasyntho/version.py`, and [`docs/source/conf.py`](docs/source/conf.py) to not have the `-dev` suffix
 2. Packages the code in both a tar archive and a wheel using [`build`](https://github.com/pypa/build)
 3. Uploads to PyPI using [`twine`](https://github.com/pypa/twine). Be sure to have a `.pypirc` file configured to avoid the need for manual input at this
    step
