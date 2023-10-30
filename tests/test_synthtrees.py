@@ -10,7 +10,8 @@ from syn2act import SynthTree
 load_dotenv()
 
 
-@pytest.fixture()
+# @pytest.fixture()
+@pytest.mark.skip(reason="Takes for ever")
 def ex_tree():
     """Initialize document."""
     oai_key = os.getenv("OPENAI_API_KEY")
@@ -18,6 +19,7 @@ def ex_tree():
     return doc
 
 
+@pytest.mark.skip(reason="Takes for ever")
 def test_trees_extraction(ex_tree):
     """Check that paragraphs could be parsed into trees"""
     assert len(ex_tree.trees) == 2

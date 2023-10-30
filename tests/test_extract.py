@@ -56,7 +56,7 @@ def uspto_example():
     return example
 
 
-@pytest.mark.skip(reason="not yet implemented")
+@pytest.mark.skip(reason="Takes forever")
 def test_extract_full(uspto_example):
     """Test extraction pipeline on rxn_setup.
     Ximena designed the pipeline for this use."""
@@ -71,7 +71,7 @@ def test_extract_full(uspto_example):
     assert "reference_num" in result
 
 
-@pytest.mark.skip(reason="not yet implemented")
+@pytest.mark.skip(reason="Takes forever")
 def test_extract_rxn_setup(segmented_example):
     """Test extraction pipeline on rxn_setup.
     Current pipeline not designed to handle segmented inputs.

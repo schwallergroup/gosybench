@@ -18,26 +18,29 @@ def uspto_example():
     return example
 
 
-@pytest.mark.skip(reason="not yet implemented")
+@pytest.mark.skip(reason="Takes forever")
 def test_segmentor_oai(uspto_example):
     """Test OpenAI models."""
 
     oai_key = os.getenv("OPENAI_API_KEY")
 
     gpt4segm = SegGPT("gpt-4", oai_key)
-    out_gpt4 = gpt4segm.syn2segment(uspto_example)
+    out_gpt4 = gpt4segm(uspto_example)
     assert isinstance(out_gpt4, list)
     assert list(out_gpt4[0][0].keys())[0] == "text segment"
 
     gpt35segm = SegGPT("gpt-3.5-turbo-16k", oai_key)
-    out_gpt35 = gpt35segm.syn2segment(uspto_example)
+    out_gpt35 = gpt35segm(uspto_example)
     assert isinstance(out_gpt35[0], list)
     print(gpt35segm)
     assert list(out_gpt35[0][0].keys())[0] == "text segment"
 
 
-@pytest.mark.skip(reason="not yet implemented")
+@pytest.mark.skip(reason="Takes forever")
 def test_segmentor_flant5(uspto_example):
     """Test fine-tuned Flan-T5 model."""
 
-    return 0
+    t5segm = SegFlanT5()
+    out_segm = t5segm(uspto_example)
+    assert isinstance(out_segm, list)
+    assert list(out_segm[0][0].keys())[0] == "text segment"
