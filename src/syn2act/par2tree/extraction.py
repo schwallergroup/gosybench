@@ -57,6 +57,104 @@ def pdf2trees(doc_path: str, start=0, end="a"):
 
     return networks
 
+def pars2dictionaries(paragraphs: list):
+    """
+    Converts a list of paragraphs or texts into a list of dictionaries.
+
+    Parameters:
+        paragraphs (list): A list of paragraphs or texts.
+
+    Returns:
+        step3 (list): A list of dictionaries extracted from the input paragraphs.
+    """
+
+    # Step 1: Convert paragraphs to JSON dictionaries
+    step1 = __make_dictionaries(paragraphs=paragraphs)
+
+    # Step 2: Flatten out nested lists in the output
+    step2 = __flatten_lists(lst=step1)
+
+    # Step 3: Delete empty dictionaries
+    step3 = [elem for elem in step2 if elem]
+
+    return step3
+
+
+def __make_dictionaries(paragraphs: list):
+    """
+    Converts a list of paragraphs or texts into a list of dictionaries.
+    This function is used internally by 'pars2dictionaries'.
+
+    Parameters:
+        paragraphs (list): A list of paragraphs or texts.
+
+    Returns:
+        all_dicts (list): A list of dictionaries extracted from the input paragraphs.
+    """
+
+    all_dicts = []
+
+    # Convert each paragraph to a dictionary
+    for paragraph in paragraphs:
+        new_dict = make_dict_from_par(paragraph)
+        all_dicts.append(new_dict)
+
+    return all_dicts
+
+
+def __flatten_lists(lst: list):
+    """
+    Flattens a list that may contain nested lists into a single flat list.
+    This function is used internally by 'pars2dictionaries'.
+
+    Parameters:
+        lst (list): A list that may contain nested lists.
+
+    Returns:
+        clean_list (list): A flattened list with no nested lists.
+    """
+
+    clean_list = []
+
+    def remove_nestings(lst):
+        """
+        Recursively check if there are lists and extract their elements
+        """
+        for elem in lst:
+            if type(elem) is list:
+                remove_nestings(elem)
+            else:
+                clean_list.append(elem)
+
+    remove_nestings(lst)
+
+    return clean_list
+
+
+def make_dict_from_par(text: str):
+    """
+    Converts a single paragraph or text into a dictionary.
+    The text is first converted to a tree-like dictionary representation using GPT-4 prompting.
+
+    Parameters:
+        text (str): A single paragraph or text.
+
+    Returns:
+        json.loads(json_tree) (dict): A dictionary representing the input text in JSON format.
+    """
+
+    # Check input is str
+    if type(text) is not str:
+        raise ValueError("Input must be string")
+
+    # Obtain the schema of the set-up step from the text
+    schema = get_set_up_summary(text)
+    schema_string = str(schema)
+
+    # Convert the schema into an appropriate tree-like dictionary using a prediction model (tree_chain)
+    json_tree = tree_chain.predict(examples=examples, user_input=schema_string)
+
+    return json.loads(json_tree)
 
 def dictionaries2trees(
     dict_list: list, name_key: str = "reference_num", child_key: str = "reagents"
@@ -400,3 +498,4 @@ def images_from_graphs(
 
     else:
         raise ValueError("Input list must only contain DiGraph networkx objects")
+

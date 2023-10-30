@@ -2,9 +2,9 @@
 
 import pickle
 
+import torch
 from sklearn.utils import gen_batches
 from tqdm import tqdm
-import torch
 
 from syn2act.segment import SegFlanT5
 
