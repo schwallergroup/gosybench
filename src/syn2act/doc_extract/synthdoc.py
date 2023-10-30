@@ -1,56 +1,100 @@
-"""pdf paring utilities"""
+"""Defines the SynthDocument class, which creates a collection of SynthParagraphs."""
 
 import json
+import os
 import re
+from itertools import chain
+from typing import Dict, List, Optional
 
 import fitz
+from dotenv import load_dotenv
+from fitz.fitz import Document
+
+from syn2act.extract import Extractor
+
+from .synthpar import SynthParagraph
+
+load_dotenv()
 
 
-class PDFProcessor:
-    """Process a pdf file, parse into paragraphs and obtain relevant information"""
+class SynthDocument:
+    """Synthesis document composed of multiple synthesis paragraph within a given context.
+    Initialize from pdf files.
+    """
 
-    def __init__(self, doc):
-        """init lol"""
-        self.doc = doc
-        self.all_paragraphs = self.get_paragraphs()
+    def __init__(self, doc_src: str, api_key: Optional[str] = None) -> None:
+        """
+        Input
+        ______
+        doc_src: str
+            path to the pdf file
+        """
 
-    def get_paragraphs(self, start=0, end="a"):
+        api_key = api_key or os.environ["OPENAI_API_KEY"]
+        self.rs_extractor = Extractor("rxn_setup", api_key)
+
+        self.paragraphs = self._build_doc(doc_src)
+        self.extract_rss()
+
+    def extract_rss(self) -> None:
+        """
+        Extract the reaction setups for each paragraph in the document.
+        """
+
+        # TODO: parallelize
+        rxn_setups = [p.extract(self.rs_extractor) for p in self.paragraphs]
+        self.rxn_setups = list(chain(*[p for p in rxn_setups if p[0]]))
+
+    def _build_doc(
+        self, doc_src: str, start: int = 0, end: Optional[int] = None
+    ) -> List[SynthParagraph]:
         """
         Creates a list of paragraphs from the document
 
         Args:
-            start (int, optional): Page to start obtaining paragraphs from. Defaults to 0.
-            end (str, optional): Last page to obtain paragraphs from. Defaults to 'a', signaling all.
-
-        Raises:
-            ValueError: if start < 0
-            ValueError: if start > total pages in document
-            ValueError: if start > end
+            doc_src: address of the pdf document.
+            start: Page to start obtaining paragraphs from. Defaults to 0.
+            end: Last page to obtain paragraphs from. Defaults to 'a', signaling all.
 
         Returns:
-            list[str]: List of strings corresponding to the paragraphs
+            List of strings corresponding to the paragraphs
         """
+        doc = fitz.open(doc_src)
 
-        if end == "a":
-            end = int(self.doc.page_count)
+        if end is None:
+            end = int(doc.page_count)
         else:
             end = int(end)
 
-        ## HOW TO DEBUG
         if start < 0:
             raise ValueError("start must be >= 0")
-        elif start >= self.doc.page_count:
+        elif start >= doc.page_count:
             raise ValueError("start must be < the doc page count")
         elif start > end:
             raise ValueError("start must be < end")
 
-        if end > int(self.doc.page_count):
-            end = self.doc.page_count
+        if end > int(doc.page_count):
+            end = doc.page_count
 
-        pars1 = self.__get_pars_per_page(start, end)
-        return self.__clean_up_pars(pars1)
+        parags_pages = self._get_pars_per_page(start, end)
+        return self._clean_up_pars(parags_pages)
 
-    def __get_pars_per_page(self, start, end):
+    def _clean_up_pars(self, pars):
+        """Merge and filter out paragraphs."""
+
+        all_paragraphs = []
+        new_paragraph = ""
+
+        for par in pars:
+            if par[0] == "bold":
+                if new_paragraph != "" and not new_paragraph.isspace():
+                    all_paragraphs.append(SynthParagraph(new_paragraph))
+                new_paragraph = ""
+            new_paragraph += par[1]
+
+        return all_paragraphs
+
+    def _get_pars_per_page(self, start, end):
         """
         Get all paragraphs in this page.
         """
@@ -78,7 +122,8 @@ class PDFProcessor:
                         for k in range(len(text_boxes)):
                             font = text_boxes[k]["font"]
                             text = text_boxes[k]["text"].replace("\n", "")
-                            flags = int(text_boxes[k]["flags"])  # to check if it is a superscript
+                            # to check if it is a superscript
+                            flags = int(text_boxes[k]["flags"])
 
                             if (
                                 not re.search("S\d+", text)
@@ -122,33 +167,3 @@ class PDFProcessor:
             all_paragraphs.extend(page_paragraphs)
 
         return all_paragraphs
-
-    def __clean_up_pars(self, pars):
-        """Clean the given paragraph"""
-        all_paragraphs = []
-        new_paragraph = ""
-
-        for par in pars:
-            if par[0] == "bold":
-                all_paragraphs.append(new_paragraph)
-                new_paragraph = ""
-            new_paragraph += par[1]
-
-        clean_up = [par for par in all_paragraphs if par != "" and not par.isspace()]
-
-        # paragraphs = []
-
-        # for par in clean_up:
-        #     new_par = Paragraph(par)
-        #     paragraphs.append(new_par)
-
-        return clean_up
-
-
-# class Paragraph:
-#     def __init__(self, text):
-#         self.text = text
-#         self.len = len(self.text)
-
-#     def get_text(self):
-#         return self.text

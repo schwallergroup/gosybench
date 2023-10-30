@@ -30,7 +30,7 @@ def test_cut_parags(ex_document):
     assert len(ex_document.paragraphs) == 3
 
 
-#@pytest.mark.skip(reason="Takes for ever")
+# @pytest.mark.skip(reason="Takes for ever")
 def test_extract(ex_document):
     """Check we can extract reaction setup"""
     ex_document.paragraphs = ex_document.paragraphs[6:7]

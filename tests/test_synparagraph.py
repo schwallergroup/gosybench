@@ -65,7 +65,6 @@ def test_synthparagraph(uspto_example):
     assert sp.text == uspto_example
 
 
-
 @pytest.mark.skip(reason="not yet implemented")
 def test_extract_paragraph(uspto_example):
     """Create SynthParagraph object."""

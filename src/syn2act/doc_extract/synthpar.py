@@ -1,24 +1,15 @@
-"""PDF Parsing utilities."""
+"""Defines the SynthParagraph class, which extracts and contains all data from a synthesis paragraph."""
 
 import json
-import os
-import re
-from itertools import chain
 from typing import Dict, List, Optional
 
-import fitz
-from dotenv import load_dotenv
-from fitz.fitz import Document
-
 from syn2act.extract import Extractor
-
-load_dotenv()
 
 
 class SynthParagraph:
     """
-    Synthesis paragraph. Contains details about preparation of a substance.
-    TODO: Include all extraction capabilities here.
+    Synthesis paragraph. Contains details about preparation of a (set of) substances.
+    TODO: Include all extraction capabilities here (extend to work-up, purification, analysis).
     """
 
     def __init__(self, text: str) -> None:
@@ -45,26 +36,32 @@ class SynthParagraph:
     def extract(self, extractor) -> List[dict]:
         """Extract information from this paragraph in a standard format.
 
-        Input
-        ______
+        Input:
         extractor: Extractor
             Initialized data extractor.
 
-        Stores extractor output internally, and returns the output.
+        Output:
+        extracted_data: List[dict]
+            Extracted list of products with preparation metadata.
         """
 
-        self.data["rxn_setup"] = self._flatten_list(extractor(self.text))
+        raw_output = extractor(self.text)
+        self.data["rxn_setup"] = self._flatten_list(raw_output)
+
         return self.data["rxn_setup"]
 
-    def _flatten_list(self, lst: list):
+    def _flatten_list(self, in_list: list):
         """
         Flattens a list that may contain nested lists into a single flat list.
 
-        Parameters:
-            lst (list): A list that may contain nested lists.
+        Input:
+        in_list: list
+            A list that may contain nested lists.
 
-        Returns:
-            clean_list (list): A flattened list with no nested lists.
+        Output:
+        cl_list: list
+            A flattened list with no nested lists.
+        AB: This seems to be needed as the output of LLM is not always a flat list.
         """
 
         clean_list = []
@@ -79,11 +76,9 @@ class SynthParagraph:
                 else:
                     clean_list.append(elem)
 
-        if isinstance(lst, list):
-            remove_nestings(lst)
+        if isinstance(in_list, list):
+            remove_nestings(in_list)
         else:
-            return [lst]
+            return [in_list]
 
         return clean_list
-
-
