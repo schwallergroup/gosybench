@@ -23,7 +23,8 @@ class SynthTree(SynthDocument):
     def __init__(self):
         """Initialize a SynthTree object."""
         super(SynthTree, self).__init__()
-        # Dicts of products with data are stored in self.rxn_setups
+
+        self.extract_rss()
 
         trees = self.dictionaries2trees(self.rxn_setups)
         merged_trees = self.merge_trees(trees)  # Merge trees to create bigger structures

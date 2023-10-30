@@ -5,8 +5,8 @@ import os
 import pytest
 from dotenv import load_dotenv
 
+from syn2act.doc_extract import SynthParagraph
 from syn2act.extract import Extractor
-from syn2act.par2tree import SynthParagraph
 
 load_dotenv()
 

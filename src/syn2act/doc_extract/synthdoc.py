@@ -30,11 +30,12 @@ class SynthDocument:
             path to the pdf file
         """
 
+        self.rxn_setup = None
+
         api_key = api_key or os.environ["OPENAI_API_KEY"]
         self.rs_extractor = Extractor("rxn_setup", api_key)
 
         self.paragraphs = self._build_doc(doc_src)
-        self.extract_rss()
 
     def extract_rss(self) -> None:
         """
@@ -60,6 +61,7 @@ class SynthDocument:
             List of strings corresponding to the paragraphs
         """
         doc = fitz.open(doc_src)
+        self.doc = doc
 
         if end is None:
             end = int(doc.page_count)

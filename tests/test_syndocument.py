@@ -5,7 +5,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from syn2act.par2tree import SynthDocument
+from syn2act.doc_extract import SynthDocument
 
 load_dotenv()
 
@@ -30,7 +30,7 @@ def test_cut_parags(ex_document):
     assert len(ex_document.paragraphs) == 3
 
 
-# @pytest.mark.skip(reason="Takes for ever")
+@pytest.mark.skip(reason="Takes for ever")
 def test_extract(ex_document):
     """Check we can extract reaction setup"""
     ex_document.paragraphs = ex_document.paragraphs[6:7]
@@ -40,6 +40,6 @@ def test_extract(ex_document):
     assert len(ex_document.rxn_setups) == 1
     assert "compound_name" in ex_document.rxn_setups[0].keys()
     assert (
-        ex_document.rxn_setups[0]["compound_name"]
+        ex_document.rxnsetups[0]["compound_name"]
         == "(2R,4R,6S)-6-[3-(Benzyloxy)propyl]-2-(2-{[tert-butyl(diphenyl)silyl]oxy}ethyl)-4-methyldihydro-2H-pyran-3(4H)-one"
     )
