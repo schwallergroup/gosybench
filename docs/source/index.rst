@@ -1,4 +1,5 @@
-jasyntho |release| Documentation
+ jasyntho |release| Documentation
+
 ===============================
 
 Cookiecutter
