@@ -1,16 +1,18 @@
 """Data extraction from reaction setup text segments"""
 
+import ast
 import json
 import os
 import re
-import ast
+
+from chemdataextractor import Document
+from chemdataextractor.doc import Heading
 from dotenv import load_dotenv
 from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
-from chemdataextractor import Document
-from chemdataextractor.doc import Heading
-from .prompts import prop_extr_ptpl, examples_tree_chain, tree_extract_prompt
+
+from .prompts import examples_tree_chain, prop_extr_ptpl, tree_extract_prompt
 
 
 class ReactionSetup:
@@ -22,7 +24,7 @@ class ReactionSetup:
         load_dotenv()
         openai_key = api_key or os.environ.get("OPENAI_API_KEY")
 
-        self.props_prod = ['mass', 'yield', 'moles']
+        self.props_prod = ["mass", "yield", "moles"]
         llm = ChatOpenAI(openai_api_key=openai_key)
         self.prod_prop_chain = LLMChain(prompt=prop_extr_ptpl, llm=llm)
 
@@ -73,33 +75,38 @@ class ReactionSetup:
         return merged_data
 
     def _split_paragraph(self, text: str) -> tuple:
+        """
+        Split paragraph into header and content.
+        """
         try:
             # Find occurence of (ID), where ID is product identifier:
             # any combination of letters and numbers
-            match = re.search(
-                r'\([A-Za-z\d]+\)\:',
-                text
-            ).span()  # type: ignore
+            match = re.search(r"\([A-Za-z\d]+\)\:", text).span()  # type: ignore
 
-            header = text[:match[1]]
-            parag = text[match[1]:]
+            header = text[: match[1]]
+            parag = text[match[1] :]
         except AttributeError:
             header = ""
             parag = text
         return header, parag
 
     def _extract_prods_header(self, head):
+        """Extract product name and label from header using CDE"""
         prg = Document(Heading(head))
         return prg.records.serialize()
 
     def _filter_sgmnt(self, prg):
+        """Get relevant excerpts from paragraph that may contain
+        analytical data from products"""
+
         segments = ""
-        for i, m in enumerate(re.finditer(r'yield|\%', prg)):
+        for i, m in enumerate(re.finditer(r"yield|\%", prg)):
             s = m.span()
             segments += f"{i+1}. {prg[s[0]-60:s[1]+60]}\n"
         return segments
 
     def _prod_data_llm(self, products, segments):
+        """Get analytical data for product using LLMs."""
         response = self.prod_prop_chain.run(
             products=products, properties=self.props_prod, segments=segments
         )
@@ -107,19 +114,16 @@ class ReactionSetup:
         return prod_props
 
     def _merge_prod_data(self, products, prod_props):
+        """Merge property and product ID dictionaries."""
         f_data = {}
         for p in products:
-            lbl = p['labels'][0]
+            lbl = p["labels"][0]
             try:
-                names = p['names']  # assume 'names' exists
+                names = p["names"]  # assume 'names' exists
             except KeyError:
                 names = lbl
 
-            f_data[lbl] = {
-                "prod_name": names,
-                "prod_ref": lbl,
-                **prod_props[lbl]
-            }
+            f_data[lbl] = {"prod_name": names, "prod_ref": lbl, **prod_props[lbl]}
         return f_data
 
     def _reformat_expand(self, prods_md: dict) -> dict:
@@ -138,24 +142,3 @@ class ReactionSetup:
         llm_out = tree_chain.predict(examples=examples_tree_chain, user_input=str(prods_md))
 
         return json.loads(llm_out)
-
-    ################## comments
-
-
-#        # Obtain the schema of the set-up step from the text
-#
-#        # AB: So they first extract a schema from full paragraph, and then process this object again?
-#
-#        # Seems like this step:
-#        # - gets info about product (name, ref num, mass, yield...)
-#        # - extracts the rxn set-up. Is simply a pair "type", "text". "type" is instructed to always be "set-up".
-#        # In the examples there is none where multiple set-ups are shown, so no reason to think this case is handled.
-#        schema = self._get_paragraph_schema(text)
-#        schema_string = str(schema)
-#
-#        # Convert the schema into an appropriate tree-like dictionary using LLM
-#        # AB: Inputs prev object. Outputs recursive sequence of ["ref num", "comp name", "reagents"], where "reagents" is a list of objects of with the same structure.
-#        # Some inconsistencies in the examples.
-#        json_tree = self.tree_chain.predict(examples=examples_tree_chain, user_input=schema_string)
-#        return json.loads(json_tree)
-#

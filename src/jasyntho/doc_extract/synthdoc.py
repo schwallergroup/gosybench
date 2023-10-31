@@ -133,7 +133,6 @@ class SynthDocument:
                                 or re.search("[T|t]able", text)
                                 or re.search("[F|f]igure", text)
                             ):
-
                                 if flags & 2**0:
                                     text = " " + text
 
