@@ -128,11 +128,12 @@ class SynthDocument:
                             flags = int(text_boxes[k]["flags"])
 
                             if (
-                                not re.search("S\d+", text)
-                                or (re.search("S\d+", text) and ("Bold" in font or "bold" in font))
+                                not re.search(r"S\d+", text)
+                                or (re.search(r"S\d+", text) and ("Bold" in font or "bold" in font))
                                 or re.search("[T|t]able", text)
                                 or re.search("[F|f]igure", text)
                             ):
+
                                 if flags & 2**0:
                                     text = " " + text
 

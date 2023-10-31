@@ -2,16 +2,15 @@
 
 import json
 import os
-from typing import List, Optional
-
+import re
+import ast
 from dotenv import load_dotenv
-from kor.extraction import create_extraction_chain
 from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
-
-from .kor_schemas import *
-from .prompts import *
+from chemdataextractor import Document
+from chemdataextractor.doc import Heading
+from .prompts import prop_extr_ptpl, examples_tree_chain, tree_extract_prompt
 
 
 class ReactionSetup:
@@ -23,6 +22,10 @@ class ReactionSetup:
         load_dotenv()
         openai_key = api_key or os.environ.get("OPENAI_API_KEY")
 
+        self.props_prod = ['mass', 'yield', 'moles']
+        llm = ChatOpenAI(openai_api_key=openai_key)
+        self.prod_prop_chain = LLMChain(prompt=prop_extr_ptpl, llm=llm)
+
         self.llm = ChatOpenAI(
             model_name="gpt-4",
             temperature=0.1,
@@ -31,49 +34,97 @@ class ReactionSetup:
             openai_api_key=openai_key,
         )
 
-    def __call__(self, text: str):
+    def __call__(self, text: str) -> dict:
         """Execute the extraction pipeline for a single paragraph."""
-
-        prods_md = self._products_metadata(text)
+        header, parag = self._split_paragraph(text)
+        prods_md = self._products_metadata(header, parag)
+        return prods_md
         full_out = self._reformat_expand(prods_md)
         return full_out
 
-    def _products_metadata(self, text: str) -> dict:
+    def _products_metadata(self, heading: str, content: str) -> dict:
         """Extract metadata for all products described in paragraph.
 
-        Extracts the product list and the set-up step from a chemical synthesis description paragraph.
-
         Input:
-            text : str
-                synthesis paragraph
+            heading : str
+                heading of paragr, containing the product names and labels
+            content : str
+                content of paragr, containing the reaction set-up and analysis
         Output:
             dict: list of products with metadata + reaction set-up
                 follows schema:
-                    {
-                        'products':[{'name', 'reference_num', 'mass', 'yield'}],
-                        'steps': [{'type': 'set-up', 'text': '...'}]
-                    ]
+                {
+                    'prod_label':
+                        {
+                            'prod_name': '...',
+                            'prod_ref': '...',
+                            'mass': '...',
+                            'yield': '...',
+                            'moles': '...',
+                        }
+                }
         """
+        products = self._extract_prods_header(heading)
+        segments = self._filter_sgmnt(content)
 
-        chain_set_up_schema = create_extraction_chain(
-            self.llm, set_up_schema, encoder_or_encoder_class="json"
+        prods_inp = str([p["labels"] for p in products])
+        prod_props = self._prod_data_llm(prods_inp, segments)
+        merged_data = self._merge_prod_data(products, prod_props)
+        return merged_data
+
+    def _split_paragraph(self, text: str) -> tuple:
+        try:
+            # Find occurence of (ID), where ID is product identifier:
+            # any combination of letters and numbers
+            match = re.search(
+                r'\([A-Za-z\d]+\)\:',
+                text
+            ).span()  # type: ignore
+
+            header = text[:match[1]]
+            parag = text[match[1]:]
+        except AttributeError:
+            header = ""
+            parag = text
+        return header, parag
+
+    def _extract_prods_header(self, head):
+        prg = Document(Heading(head))
+        return prg.records.serialize()
+
+    def _filter_sgmnt(self, prg):
+        segments = ""
+        for i, m in enumerate(re.finditer(r'yield|\%', prg)):
+            s = m.span()
+            segments += f"{i+1}. {prg[s[0]-60:s[1]+60]}\n"
+        return segments
+
+    def _prod_data_llm(self, products, segments):
+        response = self.prod_prop_chain.run(
+            products=products, properties=self.props_prod, segments=segments
         )
-        schem_result = chain_set_up_schema.predict_and_parse(text=text)["data"]
+        prod_props = ast.literal_eval(response)
+        return prod_props
 
-        if "set_up_schema" not in schem_result.keys():
-            return {}
+    def _merge_prod_data(self, products, prod_props):
+        f_data = {}
+        for p in products:
+            lbl = p['labels'][0]
+            try:
+                names = p['names']  # assume 'names' exists
+            except KeyError:
+                names = lbl
 
-        for rxn in schem_result["set_up_schema"]:
-            if "products" not in rxn.keys():
-                rxn["products"] = []
-
-            if "steps" not in rxn.keys():
-                rxn["steps"] = []
-
-        return schem_result
+            f_data[lbl] = {
+                "prod_name": names,
+                "prod_ref": lbl,
+                **prod_props[lbl]
+            }
+        return f_data
 
     def _reformat_expand(self, prods_md: dict) -> dict:
-        """Expand details of reaction set-up step for each product obtained in first step.
+        """Expand details of reaction set-up step for each product
+        obtained in first step.
         For each product, return a dict:
             {'reference_num', 'compound_name', 'reagents'}
         """

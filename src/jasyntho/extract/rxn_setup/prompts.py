@@ -1,5 +1,19 @@
 """Prompt definition for more flexible data extraction."""
 
+from langchain import PromptTemplate
+
+prop_extr_ptpl = PromptTemplate(
+    input_variables=["products", "properties", "segments"],
+    template=(
+        'You get excerpts of a synthesis procedure of products {products}. \n'
+        'Your task is to report the properties {properties} as a dictionary '
+        '{{"product_label":{{"property_name": "property_value"}} }}\n'
+        'Make sure to output something for both products {products}. '
+        'Give data in the format "value units"'
+        'Input: \n{segments}\n\nOutput:'
+    )
+)
+
 tree_extract_prompt = """Your goal is to extract structured information from the user's input about how compounds are related in a chemical synthesis. When extracting information, please make sure it matches the type of information exactly. Do not add any attributes that do not appear in the schema shown below.
 
 ```
