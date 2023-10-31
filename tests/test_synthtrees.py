@@ -5,7 +5,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from syn2act import SynthTree
+from jasyntho import SynthTree
 
 load_dotenv()
 

@@ -12,7 +12,7 @@ def segment_sample(model):
     import pickle
     import random
 
-    from syn2act.segment import Segmentor
+    from jasyntho.segment import Segmentor
 
     with open("DATASET_PARAGRAPH_Q2_Q3.pickle", "rb") as r:
         DATA = pickle.load(r)

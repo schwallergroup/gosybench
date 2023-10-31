@@ -5,7 +5,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from syn2act.doc_extract.synthdoc import SynthDocument
+from jasyntho.doc_extract.synthdoc import SynthDocument
 
 load_dotenv()
 

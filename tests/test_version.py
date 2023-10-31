@@ -4,7 +4,7 @@
 
 import unittest
 
-from syn2act.version import get_version
+from jasyntho.version import get_version
 
 
 class TestVersion(unittest.TestCase):

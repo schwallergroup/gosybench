@@ -10,7 +10,7 @@ import fitz
 from dotenv import load_dotenv
 from fitz.fitz import Document
 
-from syn2act.extract import Extractor
+from jasyntho.extract import Extractor
 
 from .synthpar import SynthParagraph
 

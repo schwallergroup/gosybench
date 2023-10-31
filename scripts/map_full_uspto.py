@@ -6,7 +6,7 @@ import torch
 from sklearn.utils import gen_batches
 from tqdm import tqdm
 
-from syn2act.segment import SegFlanT5
+from jasyntho.segment import SegFlanT5
 
 bs = 64
 backup_freq = 250  # backup every 200 epochs (~every hour)

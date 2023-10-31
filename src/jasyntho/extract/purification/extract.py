@@ -5,7 +5,7 @@ Purification extraction schema built by Kor API
 from kor.extraction import create_extraction_chain
 from kor.nodes import Number, Object, Text
 
-from syn2act.segment.gpt import llm_gpt4
+from jasyntho.segment.gpt import llm_gpt4
 
 from .utils import product, reaction
 

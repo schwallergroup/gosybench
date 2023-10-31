@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-"""Command line interface for :mod:`syn2act`."""
+"""Command line interface for :mod:`jasyntho`."""
 
 
 import logging

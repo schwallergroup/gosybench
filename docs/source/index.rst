@@ -1,4 +1,5 @@
-syn2act |release| Documentation
+ jasyntho |release| Documentation
+
 ===============================
 
 Cookiecutter
