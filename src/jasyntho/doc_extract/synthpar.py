@@ -1,21 +1,20 @@
-"""Defines the SynthParagraph class, which extracts and contains all data from a synthesis paragraph."""
+"""Defines the SynthParagraph class, which extracts
+and contains all data from a synthesis paragraph."""
 
-import json
-from typing import Dict, List, Optional
-
-from jasyntho.extract import Extractor
+from typing import Dict, List
 
 
 class SynthParagraph:
     """
-    Synthesis paragraph. Contains details about preparation of a (set of) substances.
-    TODO: Include all extraction capabilities here (extend to work-up, purification, analysis).
+    Synthesis paragraph.
+    Contains details about preparation of a (set of) substances.
+    TODO: Include all extraction capabilities here
+          (extend to work-up, purification, analysis).
     """
 
     def __init__(self, text: str) -> None:
         """
         Input
-        _____
         text: str
             paragraph text describing the synthesis.
         """
@@ -36,7 +35,7 @@ class SynthParagraph:
     def extract(self, extractor) -> List[dict]:
         """Extract information from this paragraph in a standard format.
 
-        Input:
+        Input
         extractor: Extractor
             Initialized data extractor.
 
@@ -61,7 +60,8 @@ class SynthParagraph:
         Output:
         cl_list: list
             A flattened list with no nested lists.
-        AB: This seems to be needed as the output of LLM is not always a flat list.
+        AB: This seems to be needed as the output of LLM
+        is not always a flat list.
         """
 
         clean_list = []

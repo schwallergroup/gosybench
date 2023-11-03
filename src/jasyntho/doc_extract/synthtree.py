@@ -29,16 +29,22 @@ class SynthTree(SynthDocument):
         self.extract_rss()
 
         self.trees = self.dictionaries2trees(self.rxn_setups)
-        self.merged_trees = self.merge_trees(self.trees)  # Merge trees to create bigger structures
+        print(self.trees)
+        # Merge trees to create bigger structures
+        self.merged_trees = self.merge_trees(self.trees)
         self.networks = self.bigtrees_to_networks(
             self.merged_trees
         )  # Convert trees to networkx objects
 
     def dictionaries2trees(
-        self, dict_list: list, name_key: str = "reference_num", child_key: str = "reagents"
+            self,
+            dict_list: list,
+            name_key: str = "reference_key",
+            child_key: str = "children"
     ):
         """
-        Converts a list of dictionaries representing tree-like structures into a list of bigtree Node objects.
+        Converts a list of dictionaries representing tree-like structures
+        into a list of bigtree Node objects.
 
         Parameters:
             dict_list (list): A list of dictionaries representing tree-like structures.
@@ -55,6 +61,12 @@ class SynthTree(SynthDocument):
                 raise KeyError(
                     f"Expected name_key '{name_key}' or child_key '{child_key}' not in dictionary {dictionary}"
                 )
+
+            print("@@@@@@@@@@@|")
+            print(dictionary)
+            print(name_key)
+            print(child_key)
+            print("@@@@@@@@@@@|")
 
             new_tree = nested_dict_to_tree(
                 node_attrs=dictionary, name_key=name_key, child_key=child_key
@@ -95,7 +107,7 @@ class SynthTree(SynthDocument):
     def bigtrees_to_networks(
         self,
         tree_list: list,
-        name_col: str = "reference_num",
+        name_col: str = "reference_key",
         parent_col: str = "parent",
         all_attrs: bool = True,
     ):

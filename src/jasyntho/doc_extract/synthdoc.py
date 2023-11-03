@@ -18,7 +18,8 @@ load_dotenv()
 
 
 class SynthDocument:
-    """Synthesis document composed of multiple synthesis paragraph within a given context.
+    """Synthesis document composed of multiple synthesis paragraph
+    within a given context.
     Initialize from pdf files.
     """
 
@@ -41,10 +42,10 @@ class SynthDocument:
         """
         Extract the reaction setups for each paragraph in the document.
         """
-
         # TODO: parallelize
         rxn_setups = [p.extract(self.rs_extractor) for p in self.paragraphs]
-        self.rxn_setups = list(chain(*[p for p in rxn_setups if p[0]]))
+        self.rxn_setups = list(chain(*[p for p in rxn_setups]))
+        print(self.rxn_setups)
 
     def _build_doc(
         self, doc_src: str, start: int = 0, end: Optional[int] = None
