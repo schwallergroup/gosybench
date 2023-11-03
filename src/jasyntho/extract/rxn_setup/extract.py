@@ -3,12 +3,14 @@
 import ast
 import os
 import re
+from typing import Union
 
 from chemdataextractor import Document
 from chemdataextractor.doc import Heading
 from dotenv import load_dotenv
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
+
 from .prompts import child_extr_ptpl, prop_extr_ptpl
 
 
@@ -26,17 +28,17 @@ class ReactionSetup:
             openai_api_key=openai_key,
             temperature=0.1,
             max_tokens=512,
-            request_timeout=60  # wait for max 1 min
+            request_timeout=60,  # wait for max 1 min
         )
         self.prod_prop_chain = LLMChain(prompt=prop_extr_ptpl, llm=self.llm)
         self.child_prop_chain = LLMChain(prompt=child_extr_ptpl, llm=self.llm)
 
-    def __call__(self, text: str) -> dict:
+    def __call__(self, text: str) -> Union[dict, list]:
         """Execute the extraction pipeline for a single paragraph."""
         header, parag = self._split_paragraph(text)
         prods_md = self._products_metadata(header, parag)
         if len(prods_md) != 0:
-            prods_md['procedure'] = text
+            prods_md["procedure"] = text
         else:
             return []
 
@@ -46,10 +48,10 @@ class ReactionSetup:
         prod_list = []
         for prod_key, prod_d in prods_md.items():
             print(prod_key)
-            if prods_child['status'] == 'success':
-                prod_d['children'] = prods_child['data']
+            if prods_child["status"] == "success":
+                prod_d["children"] = prods_child["data"]
             elif len(prods_md.keys()) > 0:
-                prod_d['children'] = []
+                prod_d["children"] = []
             prod_list.append(prod_d)
 
         return prod_list
@@ -99,10 +101,10 @@ class ReactionSetup:
             dt = ast.literal_eval(out_llm)
             print(dt)
             # Reformat data {'S1': {'name': ...}}
-            #dt_pp = {'reference_key': r['reference_key']: 'name': r['name']} for r in dt}
-            data = {'status': 'success', 'data': dt}
+            # dt_pp = {'reference_key': r['reference_key']: 'name': r['name']} for r in dt}
+            data = {"status": "success", "data": dt}
         except SyntaxError:
-            data = {'status': 'failure', 'data': out_llm}
+            data = {"status": "failure", "data": out_llm}
 
         return data
 

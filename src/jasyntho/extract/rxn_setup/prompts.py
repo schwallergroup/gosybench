@@ -1,13 +1,13 @@
 """Define prompt templates for LLM extraction chains."""
 
-from langchain.prompts import ChatPromptTemplate
-from langchain.prompts import HumanMessagePromptTemplate, \
-    SystemMessagePromptTemplate
-
+from langchain.prompts import (
+    ChatPromptTemplate,
+    HumanMessagePromptTemplate,
+    SystemMessagePromptTemplate,
+)
 
 sys_msg = SystemMessagePromptTemplate.from_template(
-    "You are a data extractor. "
-    "Your priority is to produce data in the requested format."
+    "You are a data extractor. " "Your priority is to produce data in the requested format."
 )
 
 # Prompts for first step: extract identity of products

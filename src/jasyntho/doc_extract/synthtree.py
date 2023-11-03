@@ -37,10 +37,7 @@ class SynthTree(SynthDocument):
         )  # Convert trees to networkx objects
 
     def dictionaries2trees(
-            self,
-            dict_list: list,
-            name_key: str = "reference_key",
-            child_key: str = "children"
+        self, dict_list: list, name_key: str = "reference_key", child_key: str = "children"
     ):
         """
         Converts a list of dictionaries representing tree-like structures
