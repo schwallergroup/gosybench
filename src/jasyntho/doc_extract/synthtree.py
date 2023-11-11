@@ -4,7 +4,7 @@ which is a tree of SynthNodes that represent the chemical synthesis described in
 """
 
 import os
-from typing import Optional
+from typing import Optional, Union
 
 import networkx as nx
 from bigtree import (
@@ -14,30 +14,35 @@ from bigtree import (
     nested_dict_to_tree,
     tree_to_dataframe,
 )
-from pandas import DataFrame
-
+import pandas as pd
 from .synthdoc import SynthDocument
 
 
 class SynthTree(SynthDocument):
     """Extend SynthDocument to represent reaction tree."""
 
-    def __init__(self, doc_src: str, api_key: Optional[str] = None) -> None:
+    def __init__(
+            self,
+            doc_src: Union[str, list],
+            api_key: Optional[str] = None
+    ) -> None:
         """Initialize a SynthTree object."""
         super(SynthTree, self).__init__(doc_src, api_key)
 
-        self.extract_rss()
+        if isinstance(doc_src, str):
+            self.extract_rss()
 
-        self.trees = self.dictionaries2trees(self.rxn_setups)
-        print(self.trees)
-        # Merge trees to create bigger structures
-        self.merged_trees = self.merge_trees(self.trees)
-        self.networks = self.bigtrees_to_networks(
-            self.merged_trees
-        )  # Convert trees to networkx objects
+        # self.trees = self.dictionaries2trees(self.rxn_setups)
+        # self.merged_trees = self.merge_trees(self.trees)
+        # self.networks = self.bigtrees_to_networks(
+        #     self.merged_trees
+        # )
 
     def dictionaries2trees(
-        self, dict_list: list, name_key: str = "reference_key", child_key: str = "children"
+            self,
+            dict_list: list,
+            name_key: str = "reference_key",
+            child_key: str = "children"
     ):
         """
         Converts a list of dictionaries representing tree-like structures
@@ -58,12 +63,6 @@ class SynthTree(SynthDocument):
                 raise KeyError(
                     f"Expected name_key '{name_key}' or child_key '{child_key}' not in dictionary {dictionary}"
                 )
-
-            print("@@@@@@@@@@@|")
-            print(dictionary)
-            print(name_key)
-            print(child_key)
-            print("@@@@@@@@@@@|")
 
             new_tree = nested_dict_to_tree(
                 node_attrs=dictionary, name_key=name_key, child_key=child_key
@@ -236,7 +235,7 @@ class SynthTree(SynthDocument):
 
     def _df_to_graph(
         self,
-        df: DataFrame,
+        df: pd.DataFrame,
         node_name_col: str = "reference_num",
         parent_col: str = "parent",
         cols_to_ignore: list = ["path"],
@@ -247,7 +246,7 @@ class SynthTree(SynthDocument):
         and any additional attributes for each node.
 
         Parameters:
-            df (pandas.DataFrame):
+            df (pd.DataFrame):
                 The input dataframe representing a tree.
             node_name_col (str):
                 The name of the column containing the node names in the dataframe. Default is 'reference_num'.
@@ -266,7 +265,7 @@ class SynthTree(SynthDocument):
         # Check cols_to_ignore only has strings
         if not all(isinstance(elem, str) for elem in cols_to_ignore):
             raise ValueError(
-                "The list 'cols_to_ignore' must only contain strings corresponding to columns in the DataFrame df"
+                "The list 'cols_to_ignore' must only contain strings corresponding to columns in the pd.DataFrame df"
             )
 
         # Check all elems in cols_to_ignore are valid column names in the dataframe

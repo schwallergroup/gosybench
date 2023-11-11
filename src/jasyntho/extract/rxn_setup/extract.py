@@ -18,15 +18,15 @@ class ReactionSetup:
     """Extraction of structured data from reaction-setup snippet."""
 
     def __init__(self, api_key=None):
-        """Initialize LLMChain for data extraction with GPT-4"""
-
+        """Initialize LLMChain for data extraction with GPT-4."""
         load_dotenv()
         openai_key = api_key or os.environ.get("OPENAI_API_KEY")
 
         self.props_prod = ["mass", "yield", "moles"]
         self.llm = ChatOpenAI(
+            model_name="gpt-4-1106-preview",
             openai_api_key=openai_key,
-            temperature=0.1,
+            temperature=0.0,
             max_tokens=512,
             request_timeout=60,  # wait for max 1 min
         )
@@ -37,17 +37,16 @@ class ReactionSetup:
         """Execute the extraction pipeline for a single paragraph."""
         header, parag = self._split_paragraph(text)
         prods_md = self._products_metadata(header, parag)
-        if len(prods_md) != 0:
-            prods_md["procedure"] = text
-        else:
-            return []
+        # if len(prods_md) != 0:
+        #     prods_md["procedure"] = text
+        # else:
+        #     return []
 
         prods_child = self._reformat_extend(parag)
 
         # Finally complete prods_md with prods_child
         prod_list = []
         for prod_key, prod_d in prods_md.items():
-            print(prod_key)
             if prods_child["status"] == "success":
                 prod_d["children"] = prods_child["data"]
             elif len(prods_md.keys()) > 0:
@@ -94,15 +93,14 @@ class ReactionSetup:
         """
 
         # Preprocess paragraph
-        prg = prg[:200]  # Simply take 200 first chars: rxn setup
+        # TODO: this is only a proxy to getting reaction setup. find better way
+        prg = prg[:400]  # Simply take 200 first chars: rxn setup
 
         out_llm = self.child_prop_chain.run(prg)
         try:
             dt = ast.literal_eval(out_llm)
-            print(dt)
-            # Reformat data {'S1': {'name': ...}}
-            # dt_pp = {'reference_key': r['reference_key']: 'name': r['name']} for r in dt}
             data = {"status": "success", "data": dt}
+            print(dt)
         except SyntaxError:
             data = {"status": "failure", "data": out_llm}
 

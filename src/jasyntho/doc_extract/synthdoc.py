@@ -4,7 +4,8 @@ import json
 import os
 import re
 from itertools import chain
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
+from tqdm import tqdm
 
 import fitz
 from dotenv import load_dotenv
@@ -23,27 +24,34 @@ class SynthDocument:
     Initialize from pdf files.
     """
 
-    def __init__(self, doc_src: str, api_key: Optional[str] = None) -> None:
+    def __init__(
+            self,
+            doc_src: Union[str, list],
+            api_key: Optional[str] = None
+    ) -> None:
         """
         Input
         ______
-        doc_src: str
-            path to the pdf file
+        doc_src: Union[str, list]
+            if str: path to the pdf file
+            if list: list of extracted entities->out of extract.Extractor
         """
-
         self.rxn_setup = None
 
         api_key = api_key or os.environ["OPENAI_API_KEY"]
-        self.rs_extractor = Extractor("rxn_setup", api_key)
 
-        self.paragraphs = self._build_doc(doc_src)
+        if isinstance(doc_src, str):
+            self.rs_extractor = Extractor("rxn_setup", api_key)
+            self.paragraphs = self._build_doc(doc_src)
+        elif isinstance(doc_src, list):
+            self.rxn_setup = doc_src
 
     def extract_rss(self) -> None:
         """
         Extract the reaction setups for each paragraph in the document.
         """
         # TODO: parallelize
-        rxn_setups = [p.extract(self.rs_extractor) for p in self.paragraphs]
+        rxn_setups = [p.extract(self.rs_extractor) for p in tqdm(self.paragraphs)]
         self.rxn_setups = list(chain(*[p for p in rxn_setups]))
         print(self.rxn_setups)
 
