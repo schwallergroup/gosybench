@@ -1,0 +1,367 @@
+[
+  {
+    "input": "To a stirred solution of alkyne 13 1 (500 mg, 2.45 mmol, 1.0 equiv) in CH2Cl2 (10 mL) at 23 °C was added a Co2(CO)8 (1.00 g, 2.94 mmol, 1.2 equiv) in one portion. After 20 min, a solution of 11 2 (887 mg, 4.89 mmol, 2.0 equiv) in CH2Cl2 (6 mL) was added. The resulting mixture was cooled to 0 °C, and BF3∙Et2O (604 µL, 4.89 mmol, 2.0 equiv) was added dropwise. After 0.5 h, the reaction mixture was carefully quenched by the addition of saturated aqueous NaHCO3 solution (30 mL), and allowed to warm to 23 °C. The aqueous layer was extracted with CH2Cl2 (3 × 20 mL) and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure.  To a stirred solution of the so-obtained crude residue in acetone (30 mL) was added portion wise diammonium cerium(IV) nitrate (CAN) (6.71 g, 12.2 mmol, 5.0 equiv) at 0 °C. The resulting mixture was allowed to warm to 23 °C and stirred for 0.5 h before it was quenched by the addition of water (100 mL). The aqueous layer was extracted with EtOAc (3 × 50 mL) and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure. The obtained residue was puriﬁed by ﬂash column chromatography (SiO2, 5 → 20% ethyl acetate in hexanes) to aﬀord a mixture of diastereomers 14 (1:1 dr, 566 mg, 1.54 mmol, 63% yield overall) as colorless oil. 14: Rf = 0.40 (SiO2, hexanes/EtOAc 5:1, v/v); FT-IR (ﬁlm) νmax = 3293, 2931, 2859, 1495, 1454, 1361, 1091, 735 cm −1;  1H NMR (mixture of isomers, 600 MHz, CDCl3) δ = 7.36–7.33 (m, 4 H), 7.31–7.26 (m, 1 H), 4.51 (s, 2 H), 4.26 (dt, J = 6.2, 2.8 Hz, 0.53 H), 4.16 (dt, J = 6.2, 3.1 Hz, 0.45 H), 3.81 (dq, J = 7.5, 4.9 Hz, 0.51 H), 3.73 (tt, J = 6.6, 4.9 Hz, 0.46 H), 3.58 (dd, J = 10.3, 4.3 Hz, 0.48 H), 3.51 (td, J = 5.9, 3.2 Hz, 2 H), 3.46–3.36 (m, 1.6 H), 2.47–2.43 (m, 0.42 H), 2.41 (dd, J = 2.1, 0.8 Hz, 0.49 H), 1.88–1.77 (m, 4.0 H), 1.72–1.54 (m, 2.0 H), 1.46–1.23 (m, 4 H), 0.91 (t, J = 6.9 Hz, 3 H) ppm;  13C NMR (mixture of isomers, 151 MHz, CDCl3) δ = 138.7, 138.6, 128.5, 127.8, 127.7, 127.67, 127.65, 83.4, 83.0, 78.0, 76.2, 74.0, 73.9, 73.0, 70.0, 69.9, 68.8, 67.7, 35.4, 34.9, 33.5, 33.0, 32.9, 32.3, 27.4, 27.1, 25.63, 25.62, 22.8, 22.7, 14.14, 14.12 ppm; HRMS (ESI-TOF) calcd for C19H27BrO2Na + [M+Na] + 389.1087; Found 389.1089. ",
+    "output": [
+      {
+        "reference_key": "13 1",
+        "substance_name": "alkyne 13 1",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "Co2(CO)8",
+        "substance_name": "Co2(CO)8",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "11 2",
+        "substance_name": "11 2",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "BF3∙Et2O",
+        "substance_name": "BF3∙Et2O",
+        "role": "reactant"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of bromide 14 (0.10 g, 0.27 mmol, 1.0 equiv) in toluene (20 mL) was added n-Bu3SnH (0.11 mL, 0.41 mmol, 1.5 equiv) followed by AIBN (4.5 mg, 0.027 mmol, 0.1 equiv) in one portion, and the resulting mixture was heated to 90 °C. After 0.5 h, the reaction mixture was allowed to cool to 23 °C and the solvent was removed under reduced pressure. The obtained residue was puriﬁed by ﬂash column chromatography (SiO2, 2 → 10% EtOAc in hexanes) to aﬀord a mixture of diastereomers of tetrahydrofuran derivative 15 (3:2 dr, 64 mg, 0.22 mmol, 82% yield) as a colorless foam. 15: Rf = 0.20 (SiO2, hexanes/EtOAc 20:1, v/v); FT-IR (ﬁlm) νmax = 3030, 2929, 2857, 1496, 1454, 1361, 1204, 1098, 883, 734 cm −1;  1H NMR (mixture of isomers, 600 MHz, CDCl3) δ = 7.34 (d, J = 4.4 Hz, 4 H), 7.29–7.26 (m, 1 H), 4.97 (q, J = 2.2 Hz, 0.6 H), 4.94 (td, J = 2.5, 1.6 Hz, 0.4 H), 4.84 (q, J = 2.2 Hz, 0.6 H), 4.81 (dt, J = 3.4, 1.9 Hz, 0.4 H), 4.51 (s, 2 H), 4.39 (dq, J = 6.2, 2.2 Hz, 0.6 H), 4.30–4.24 (m, 0.4 H), 3.98 (p, J = 6.6 Hz, 0.6 H), 3.80 (dtd, J = 9.9, 6.4, 5.5 Hz, 0.4 H), 3.56–3.47 (m, 2 H), 2.65 (ddq, J = 15.5, 6.1, 2.0 Hz, 0.6 H), 2.59 (ddq, J = 15.4, 5.4, 1.5 Hz, 0.4 H), 2.24 (ddtd, J = 15.5, 7.0, 2.4, 0.9 Hz, 0.6 H), 2.16 (ddq, J = 15.2, 10.0, 2.6 Hz, 0.4 H), 1.85–1.64 (m, 3.6 H), 1.62–1.54 (m, 1.4 H), 1.54–1.44 (m, 0.4 H), 1.45–1.37 (m, 1 H), 1.37–1.23 (m, 3.6 H), 0.90 (td, J = 7.1, 2.1 Hz, 3 H) ppm;  13C NMR (mixture of isomers, 151 MHz, CDCl3) δ = 152.3, 152.1, 138.8, 138.8, 128.5, 127.8, 127.60, 127.59, 104.7, 104.2, 80.5, 79.6, 78.5, 77.4, 73.0, 72.9, 70.6, 70.5, 39.7, 39.0, 35.3, 35.1, 32.1, 31.9, 28.3, 28.3, 26.0, 25.6, 23.0, 22.9, 14.21, 14.19 ppm; HRMS (ESI-TOF) calcd for C19H28O2Na + [M+Na] + 311.1982; Found 311.1981.  ",
+    "output": [
+      {
+        "reference_key": "14",
+        "substance_name": "bromide 14",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "toluene",
+        "substance_name": "toluene",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "n-Bu3SnH",
+        "substance_name": "n-Bu3SnH",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "AIBN",
+        "substance_name": "AIBN",
+        "role": "reactant"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of alkyne 17 3 (3.00 g, 8.86 mmol, 1.0 equiv) in CH2Cl2 (10 mL) at 25 °C was added Co2(CO)8 (3.63 g, 10.6 mmol, 1.2 equiv) in one portion. After 20 min, a solution of oleﬁn 16 4 (3.90 g, 17.7 mmol, 2.0 equiv) in CH2Cl2 (8 mL) was added. The reaction mixture was cooled to 0 °C, and BF3∙Et2O (2.19 mL, 17.7 mmol, 2.0 equiv) was added dropwise. After 0.5 h, the reaction mixture was carefully quenched by the addition of saturated aqueous NaHCO3 solution (50 mL), and allowed to warm to 23 °C. The aqueous layer was extracted with CH2Cl2 (3 × 20 mL) and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure.  To a stirred solution of the so-obtained crude residue in acetone (30 mL) was added portion wise diammonium cerium(IV) nitrate (CAN) (24.3 g, 44.3 mmol, 5.0 equiv) at 0 °C. The resulting mixture was allowed to warm to 23 °C and stirred for 1 h before it was quenched by the addition of water (60 mL). The aqueous layer was extracted with EtOAc (3 × 50 mL) and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure. The obtained residue was puriﬁed by ﬂash column chromatography (SiO2, 1 → 5% ethyl acetate in hexanes) to aﬀord cis-isomer 18b (2.01 g, 3.72 mmol, 42% yield overall) and trans-isomer 18a (1.68 g, 3.10 mmol, 35% yield overall) as colorless oils. 18b (cis-isomer): Rf = 0.50 (SiO2, hexanes/EtOAc 20:1, v/v); [α]D23 = +6.65 (c = 2.0, CH2Cl2); FT-IR (ﬁlm) νmax = 3289, 2999, 2857, 2150, 1472, 1427, 1173, 1093, 700 cm −1;  1H NMR (600 MHz, CDCl3) δ = 7.67 (dt, J = 8.0, 1.6 Hz, 4 H), 7.41 (tdd, J = 6.1, 3.8, 2.2 Hz, 2 H), 7.37–7.32 (m, 4 H), 7.33 (d, J = 6.3 Hz, 4 H), 7.28 (td, J = 6.0, 2.6 Hz, 1 H), 5.87 (ddt, J = 17.2, 10.2, 7.0 Hz, 1 H), 5.14–5.00 (m, 2 H), 4.48 (d, J = 2.6 Hz, 2 H), 4.45–4.41 (m, 1 H), 3.88–3.74 (m, 2 H), 3.66 (p, J = 5.8 Hz, 1 H), 3.44 (td, J = 6.4, 2.2 Hz, 2 H), 2.44–2.30 (m, 3 H), 2.00 (dtd, J = 13.4, 7.0, 5.2 Hz, 1 H), 1.90 (dtd, J = 13.2, 6.7, 5.4 Hz, 1 H), 1.70 (ddt, J = 11.9, 8.1, 6.1 Hz, 1 H), 1.65–1.52 (m, 3 H), 1.05 (s, 9 H) ppm;  13C NMR (151 MHz, CDCl3) δ = 138.7, 135.70, 135.66, 135.2, 133.9, 133.8, 129.8, 128.5, 127.79, 127.77, 127.75, 127.6, 116.9, 84.1, 78.0, 73.2, 73.0, 70.6, 64.8, 60.0, 39.4, 39.1, 30.0, 27.0, 25.5, 19.3 ppm; HRMS (ESI-TOF) calcd for C35H44O3SiNa + [M+Na] + 563.2952; Found 563.2957. 18a (trans-isomer): Rf = 0.48 (SiO2, hexanes/EtOAc 20:1, v/v); [α]D23 = −26.6 (c = 1.5, CH2Cl2); FT-IR (ﬁlm) νmax = 3303, 3030, 2857, 2188, 1640, 1589, 1428, 1361, 1104, 1089, 735 cm −1;  1H NMR (600 MHz, CDCl3) δ = 7.69–7.64 (m, 4 H), 7.45–7.40 (m, 2 H), 7.40–7.36 (m, 4 H), 7.34 (d, J = 4.4 Hz, 4 H), 7.30–7.26 (m, 1 H), 5.80 (ddt, J = 17.3, 10.2, 7.2 Hz, 1 H), 5.13–4.97 (m, 2 H), 4.52–4.46 (m, 3 H), 3.85–3.76 (m, 2 H), 3.69 (ddt, J = 8.6, 6.4, 4.6 Hz, 1 H), 3.55–3.42 (m, 2 H), 2.31 (d, J = 2.0 Hz, 1 H), 2.30–2.23 (m, 2 H), 1.98 (dddd, J = 13.7, 7.6, 6.3, 5.0 Hz, 1 H), 1.90 (dddd, J = 13.4, 7.0, 6.1, 5.3 Hz, 1 H), 1.80 (dddd, J = 13.1, 9.7, 6.6, 5.0 Hz, 1 H), 1.73–1.59 (m, 2 H), 1.55–1.47 (m, 1 H), 1.05 (s, 9 H) ppm; 13C NMR (151 MHz, CDCl3) δ = 138.9, 135.7, 135.6, 134.7, 133.9, 133.8, 129.7, 128.5, 127.8, 127.7, 127.5, 117.4, 84.0, 76.8, 73.1, 72.9, 70.5, 64.2, 60.0, 39.3, 38.1, 31.0, 27.0, 25.9, 19.3 ppm; HRMS (ESI-TOF) calcd for C35H44O3SiNa + [M+Na] + 563.2952; Found 563.2952.",
+    "output": [
+      {
+        "reference_key": "17 3",
+        "substance_name": "alkyne 17 3",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "Co2(CO)8",
+        "substance_name": "Co2(CO)8",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "16 4",
+        "substance_name": "oleﬁn 16 4",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "BF3∙Et2O",
+        "substance_name": "BF3∙Et2O",
+        "role": "reactant"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of a mixture of alkynes 18b and 18a [2.00 g (18b:18a = 1.2:1), 3.70 mmol, 1.0 equiv] in Et2O (600 mL) at −78 °C was added Ti(Oi-Pr)4 (1.64 g, 5.55 mmol, 1.5 equiv), followed by diisoproyl magnesium chloride (2 M solution in THF, 5.55 mL, 11.1 mmol, 3.0 equiv). After 5 min of stirring, the reaction mixture was allowed to warm to 0 °C over 1 h and then quenched by the addition of 0.5 M aqueous HCl (100 mL). The layers were separated, the aqueous layer was extracted with Et2O (3 × 100 mL) and the combined organic layers were washed with sat. NaHCO3, dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure. The obtained residue was passed through pad of silica gel to obtain a mixture of compounds 19a–c (1.80 g, 3.33 mmol, 90% yield) that was used for the next step without further puriﬁcation. A stirred solution of the crude residue obtained above in CH2Cl2 (80 mL) was cooled to −78 °C. Freshly generated ozone was bubbled through this solution until the color of the mixture changed to light blue (ca. 15 min). The reaction mixture was quenched by the addition of dimethyl sulﬁde (2.72 mL, 37.0 mmol, 10.0 equiv), and allowed to warm to 23 °C. After stirring for 10 h, the solvent was removed under reduced pressure, and the obtained residue was puriﬁed by ﬂash column chromatography (SiO2, 5 → 20% ethyl acetate in hexanes) to aﬀord a mixture of three diastereomers 20 (1.57 g, 2.89 mmol, 87% yield overall) as a colorless oil. The mixture of diastereomers was subjected to isomerization under basic conditions without further puriﬁcation.  To a stirred solution of the above mixture of diastereomers 20 (1.50 g, 2.75 mmol, 1.0 equiv) in MeOH (30 mL) was added K2CO3 (571 mg, 4.13 mmol, 1.5 equiv) and the resulting mixture was heated to 70 °C. After 4 h, the reaction mixture was allowed to cool to 23 °C and quenched by the addition of saturated aqueous NH4Cl solution (40 mL). The aqueous layer was extracted with EtOAc (3 × 50 mL) and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure. The obtained residue was puriﬁed by ﬂash column chromatography (SiO2, 5 → 20% ethyl acetate in hexanes) to aﬀord the required isomer 20a (899 mg, 1.65 mmol, 60% yield) as a colorless oil. 20a: Rf = 0.45 (SiO2, hexanes/Et2O 5:1, v/v); [α]D23 = +4.75 (c = 2.8, CH2Cl2); FT-IR (ﬁlm) νmax = 3070, 2957, 2856, 1721, 1472, 1427, 1361, 1260, 1107, 1091, 822, 699 cm −1;  1H NMR (600 MHz, CDCl3) δ = 7.75–7.73 (m, 1 H), 7.69–7.64 (m, 4 H), 7.46–7.34 (m, 9 H), 7.32–7.28 (m, 1 H), 4.51 (AB quart, J = 11.2 Hz, 2 H), 4.14–4.04 (m, 1 H), 3.85 (tdd, J = 9.3, 4.7, 1.5 Hz, 1 H), 3.82–3.75 (m, 2 H), 3.56–3.43 (m, 2 H), 2.55 (dp, J = 12.9, 6.5 Hz, 1 H), 2.27–2.20 (m, 1 H), 2.19–2.15 (m, 1 H), 1.79 (ddt, J = 12.6, 9.8, 5.9 Hz, 1 H), 1.73–1.65 (m, 2 H), 1.64–1.52 (m, 3 H), 1.09 (d, J = 6.5 Hz, 3 H), 1.06 (s, 9 H) ppm;  13C NMR (151 MHz, CDCl3) δ = 209.6, 138.7, 135.6, 135.3, 134.9, 129.7, 128.5, 127.8, 127.78, 127.75, 78.4, 76.8, 73.0, 70.2, 59.9, 42.8, 42.6, 32.24, 32.17, 27.0, 26.7, 19.4, 14.5 ppm; HRMS (ESI-TOF) calcd for C34H44O4SiNa + [M+Na] + 567.2901; Found 567.2900.  ",
+    "output": [
+      {
+        "reference_key": "18b",
+        "substance_name": "alkynes 18b",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "18a",
+        "substance_name": "alkynes 18a",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "Et2O",
+        "substance_name": "Et2O",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "Ti(Oi-Pr)4",
+        "substance_name": "Ti(Oi-Pr)4",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "diisoproyl magnesium chloride",
+        "substance_name": "diisoproyl magnesium chloride",
+        "role": "reactant"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of methyl triphenyl phosphonium bromide (2.62 g, 7.34 mmol, 5.0 equiv) in THF (40 mL) at −78 °C was added dropwise n-butyl lithium (1.6 M in hexanes, 4.13 mL, 6.62 mmol, 4.5 equiv), and the reaction mixture was warmed to 0 °C. After 0.5 h, a solution of ketone 20a (800 mg, 1.47 mmol, 1.0 equiv) in THF (15 mL) was added to the preformed ylide solution and the resulting mixture was allowed to warm to 23 °C. After 1 h, the reaction mixture was carefully quenched by the addition of saturated aqueous NH4Cl solution (80 mL). The aqueous layer was extracted with EtOAc (3 × 30 mL) and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure. The obtained residue was puriﬁed by ﬂash column chromatography (SiO2, 2 → 10% EtOAc in hexanes) to aﬀord pure oleﬁn 19a (734 mg, 1.35 mmol, 92% yield) as a colorless foam. 19a: Rf = 0.55 (SiO2, hexanes/EtOAc 5:1, v/v); [α]D23 = +6.60 (c = 2.0, CH2Cl2); FT-IR (ﬁlm) νmax = 2956, 2929, 2855, 1649, 1472, 1361, 1261, 1105, 1084, 822, 735 cm −1;  1H NMR (600 MHz, CDCl3) δ = 7.72–7.65 (m, 4 H), 7.43–7.35 (m, 6 H), 7.35–7.32 (m, 4 H), 7.28 (tt, J = 6.9, 2.4 Hz, 1 H), 4.85 (d, J = 1.8 Hz, 1 H), 4.79 (d, J = 1.8 Hz, 1 H), 4.48 (AB quart, J = 11.5 Hz, 2 H), 3.96–3.89 (m, 2 H), 3.83 (ddd, J = 10.1, 6.5, 4.0 Hz, 1 H), 3.55–3.40 (m, 3 H), 2.28 (dqd, J = 12.2, 6.2, 3.1 Hz, 1 H), 2.13–2.04 (m, 1 H), 1.89–1.68 (m, 3 H), 1.67–1.59 (m, 1 H), 1.55–1.48 (m, 2 H), 1.10–1.08 (m, 4 H), 1.06 (s, 9 H) ppm;  13C NMR (151 MHz, CDCl3) δ = 151.9, 138.8, 135.7, 135.6, 134.2, 129.6, 128.4, 127.8, 127.7, 127.6, 104.3, 77.4, 74.9, 72.9, 70.5, 60.8, 43.4, 36.0, 34.7, 32.8, 27.0, 26.2, 19.4, 18.2 ppm; HRMS (ESI-TOF) calcd for C35H46O3SiNa + [M+Na] + 565.3108; Found 565.3111.",
+    "output": [
+      {
+        "reference_key": "methyl triphenyl phosphonium bromide",
+        "substance_name": "methyl triphenyl phosphonium bromide",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "THF",
+        "substance_name": "THF",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "n-butyl lithium",
+        "substance_name": "n-butyl lithium",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "20a",
+        "substance_name": "ketone 20a",
+        "role": "reactant"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of oleﬁn derivative 19a (500 mg, 0.921 mmol, 1.0 equiv) in THF (20 mL) at 0 °C was added dropwise tetra-n-butylammonium ﬂuoride (1 M in THF, 0.920 mL, 0.920 mmol, 1.0 equiv), and the reaction mixture was allowed to warm to 23 °C. After 2.5 h, the reaction mixture was quenched by the addition of saturated aqueous NH4Cl solution (15 mL). The aqueous layer was extracted with EtOAc (3 × 15 mL) and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure. The obtained residue was puriﬁed by ﬂash column chromatography (SiO2, 10 → 40% EtOAc in hexanes) to aﬀord pure alcohol S1 (264 mg, 0.866 mmol, 94% yield) as a colorless oil. S1: Rf = 0.40 (SiO2, hexanes/EtOAc 3:2, v/v); [α]D23 = +8.10 (c = 2.0, CH2Cl2); FT-IR (ﬁlm) νmax = 3431, 2954, 2850, 1650, 1454, 1364, 1312, 1091, 1058, 903, 736 cm −1;  1H NMR (600 MHz, CDCl3) δ = 7.36–7.32 (m, 4 H), 7.30–7.26 (m, 1 H), 4.87 (d, J = 1.6 Hz, 1 H), 4.82 (d, J = 1.6 Hz, 1 H), 4.49 (s, 2 H), 3.95–3.89 (m, 1 H), 3.84 (dd, J = 6.0, 4.9 Hz, 2 H), 3.66–3.57 (m, 1 H), 3.53–3.41 (m, 2 H), 2.31–2.23 (m, 1 H), 2.02–1.91 (m, 2 H), 1.81–1.61 (m, 3 H), 1.56 (td, J = 7.6, 6.1 Hz, 2 H), 1.13–1.06 (m, 4 H) ppm;  13C NMR (151 MHz, CDCl3) δ = 150.9, 138.7, 128.5, 127.8, 127.6, 105.0, 79.4, 77.7, 73.0, 70.3, 61.8, 42.6, 35.6, 33.5, 32.8, 26.1, 18.1 ppm; HRMS (ESI-TOF) calcd for C19H28O3Na + [M+Na] + 327.1931; Found 327.1930.",
+    "output": [
+      {
+        "reference_key": "19a",
+        "substance_name": "oleﬁn derivative 19a",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "THF",
+        "substance_name": "THF",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "tetra-n-butylammonium ﬂuoride",
+        "substance_name": "tetra-n-butylammonium ﬂuoride",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "NH4Cl",
+        "substance_name": "saturated aqueous NH4Cl solution",
+        "role": "work-up"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of alcohol S1 (200 mg, 0.657 mmol, 1.0 equiv) in CH2Cl2 (10 mL) at  23 °C was added DMP (418 mg, 0.985 mmol, 1.5 equiv) portion wise. After 0.5 h, the reaction mixture was quenched by the addition of saturated aqueous Na2S2O3 solution (20 mL) and the obtained suspension was further stirred for 2 h. The aqueous layer was extracted with CH2Cl2 (3 × 10 mL) and the combined organic layers were washed with saturated aqueous NaHCO3 solution (10 mL), dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure. The obtained residue was puriﬁed by ﬂash column chromatography (SiO2, 10 → 30% EtOAc in hexanes) to aﬀord pure aldehyde 21 (179 mg, 0.591 mmol, 90% yield) as a colorless foam. 21: Rf = 0.80 (SiO2, hexanes/EtOAc 3:2, v/v); [α]D23 = +17.0 (c = 2.0, CH2Cl2); FT-IR (ﬁlm) νmax = 3004, 2848, 2725, 1725, 1650, 1454, 1363, 1087, 1028, 904, 735 cm −1;  1H NMR (600 MHz, CDCl3) δ = 9.81 (dd, J = 2.7, 2.0 Hz, 1 H), 7.36–7.32 (m, 4 H), 7.30–7.26 (m, 1 H), 4.84 (dd, J = 1.9, 0.6 Hz, 1 H), 4.75 (d, J = 1.9 Hz, 1 H), 4.49 (s, 2 H), 4.29–4.22 (m, 1 H), 3.62–3.54 (m, 1 H), 3.47 (ddt, J = 26.7, 9.3, 6.5 Hz, 2 H), 2.79–2.65 (m, 2 H), 2.36–2.28 (m, 1 H), 1.84–1.68 (m, 2 H), 1.67–1.59 (m, 1 H), 1.57–1.47 (m, 2 H), 1.14–1.07 (m, 4 H) ppm;  13C NMR (151 MHz, CDCl3) δ = 201.9, 150.2, 138.7, 128.4, 127.8, 127.6, 105.4, 77.7, 74.4, 72.9, 70.3, 45.7, 42.6, 35.6, 32.5, 26.0, 18.0 ppm; HRMS (ESI-TOF) calcd for C19H26O3Na + [M+Na] + 325.1774; Found 325.1771.",
+    "output": [
+      {
+        "reference_key": "S1",
+        "substance_name": "alcohol S1",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "DMP",
+        "substance_name": "DMP",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "Na2S2O3",
+        "substance_name": "saturated aqueous Na2S2O3 solution",
+        "role": "work-up"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of lactone 24b (200 mg, 0.329 mmol, 1.0 equiv) in CH2Cl2 (10 mL) at −78 °C was added dropwise DIBAL-H (1.0 M in toluene, 395 µL, 0.395 mmol, 1.2 equiv). The resulting mixture was warmed to −20 °C and stirred for 1 h before it was diluted with ethyl acetate (20 mL) and quenched by the addition of saturated aqueous solution of Rochelle salt solution (40 mL), allowed to warm to 23 °C, and stirred for 2 h until the reaction mixture became a clear solution. The aqueous layer was extracted with EtOAc (3 × 10 mL), and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure.  The so-obtained crude residue was dissolved in MeOH (8 mL) and p-TsOH∙H2O (11.2 mg, 0.0658 mmol, 0.2 equiv) was added at 23 °C. After 0.5 h, the reaction mixture was quenched by the addition of saturated aqueous NaHCO3 (6 mL) and diluted with water (6 mL). The aqueous layer was extracted with EtOAc (3 × 10 mL), and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure. The obtained residue was puriﬁed by ﬂash column chromatography (SiO2, 5 → 20% EtOAc in hexanes) to aﬀord pure acetal 25 (154 mg, 0.247 mmol, 75% yield overall) as a colorless oil. 25: Rf = 0.60 (SiO2, hexanes/EtOAc 2:1, v/v); [α]D23 = +86.2 (c = 1.5, CH2Cl2); FT-IR (ﬁlm) νmax = 3286, 2927, 2853, 1454, 1366, 1211, 1114, 1093, 1057, 904, 698 cm −1;  1H NMR (600 MHz, CDCl3) δ = 7.36–7.31 (m, 4 H), 7.30–7.27 (m, 1 H), 5.13 (dd, J = 4.3, 3.1 Hz, 1 H), 4.83 (d, J = 1.8 Hz, 1 H), 4.79 (d, J = 1.8 Hz, 1 H), 4.50 (s, 2 H), 4.48 (q, J = 5.2 Hz, 1 H), 4.44 (dt, J = 11.0, 2.2 Hz, 1 H), 4.13 (q, J = 4.5 Hz, 1 H), 4.02–3.96 (m, 1 H), 3.71–3.60 (m, 2 H), 3.55–3.42 (m, 4 H), 3.29 (s, 3 H), 3.22 (dd, J = 10.5, 8.1 Hz, 1 H), 2.39 (d, J = 2.0 Hz, 1 H), 2.30–2.21 (m, 3 H), 2.14 (ddd, J = 14.1, 11.1, 2.1 Hz, 1 H), 2.06–1.90 (m, 3 H), 1.87–1.79 (m, 1 H), 1.77 (ddd, J = 12.8, 4.6, 2.1 Hz, 1 H), 1.68 (ddq, J = 12.8, 9.5, 6.7 Hz, 1 H), 1.55 (ddd, J = 8.8, 7.3, 4.3 Hz, 2 H), 1.11–1.05 (m, 4 H) ppm;  13C NMR (151 MHz, CDCl3) δ = 151.1, 138.6, 128.5, 127.7, 127.6, 104.5, 104.1, 83.8, 74.4, 73.2, 73.1, 73.0, 72.9, 72.6, 63.1, 54.9, 43.3, 40.0, 38.3, 35.9, 33.0, 27.3, 26.4, 18.1, 7.9 ppm; HRMS (ESI-TOF) calcd for C30H41O6INa + [M+Na] + 647.1840; Found 647.1842.",
+    "output": [
+      {
+        "reference_key": "24b",
+        "substance_name": "lactone 24b",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "DIBAL-H",
+        "substance_name": "DIBAL-H",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "ethyl acetate",
+        "substance_name": "ethyl acetate",
+        "role": "work-up"
+      },
+      {
+        "reference_key": "Rochelle salt solution",
+        "substance_name": "saturated aqueous solution of Rochelle salt solution",
+        "role": "work-up"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of S2 (7.60 g, 24.3 mmol, 1.0 equiv) in CH2Cl2 (100 mL) at 0 °C was added imidazole (3.31 g, 48.6 mmol, 2.0 equiv) and TESCl (4.00 mL, 31.6 mmol, 1.3 equiv). The resulting mixture was allowed to slowly warm to 23 °C and stirred for 1 h before it was quenched by the addition of sat. aq. NaHCO3 solution (50 mL). The layers were separated, and the aqueous layer was extracted with CH2Cl2 (3 × 100 mL). The combined organic layers were washed with brine (100 mL), dried over Na2SO4, ﬁltered, and concentrated under reduced pressure. Flash column chromatography (SiO2, hexanes/EtOAc 20:1, v/v  →  2:1, v/v) of the residue aﬀorded 34 (10.4 g, 24.3 mmol, quant. yield) as colorless oil. 34: Rf = 0.70 (SiO2, hexanes/EtOAc 5:1, v/v); [α]D23 = +93.5 (c = 1.0, CHCl3); FTIR (ﬁlm): νmax 2954, 2911, 2877, 1458, 1369, 1343, 1212, 1177, 1118, 1100, 1043, 1018, 1002, 918, 878, 805, 744, 728 cm −1;  1H NMR (600 MHz, CDCl3): δ 5.10 (dd, J = 5.6, 1.7 Hz, 1 H), 4.52 (dt, J = 7.3, 4.7 Hz, 1 H), 4.15 (q, J = 6.0 Hz, 1 H), 3.63 (td, J = 7.8, 5.7 Hz, 1 H), 3.42 (dd, J = 10.4, 3.0 Hz, 1 H), 3.35 (ddd, J = 7.9, 6.7, 3.0 Hz, 1 H), 3.31 (s, 3 H), 3.24 (dd, J = 10.4, 6.7 Hz, 1 H), 2.29–2.20 (m, 2 H), 2.17 (ddd, J = 14.4, 7.3, 1.7 Hz, 1 H), 1.82 (ddd, J = 13.8, 7.7, 6.2 Hz, 1 H), 0.96 (t, J = 8.0 Hz, 9 H), 0.62 (qd, J = 7.9, 1.4 Hz, 6 H) ppm; 13C NMR (151 MHz, CDCl3): δ 104.1, 75.3, 74.0, 73.6, 68.2, 55.0, 39.1, 34.2, 8.7, 7.0, 5.1 ppm; HRMS (ESI-TOF) m/z: [M+Na] + Calcd. for C15H29IO4SiNa + 451.0772; Found 451.0774.",
+    "output": [
+      {
+        "reference_key": "S2",
+        "substance_name": "S2",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "imidazole",
+        "substance_name": "imidazole",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "TESCl",
+        "substance_name": "TESCl",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "sat. aq. NaHCO3 solution",
+        "substance_name": "sat. aq. NaHCO3 solution",
+        "role": "work-up"
+      }
+    ]
+  },
+  {
+    "input": "A solution of benzyl ether 39b (2.30 g, 3.88 mmol, 1.0 equiv) and Pd/C (30 wt% Pd/C, 20% loading of 39b, 460 mg) in THF (50 mL) was stirred under a hydrogen atmosphere (1 bar) at 23 °C for 1.5 h. The resulting mixture was ﬁltered through a pad of Celite and the ﬁltrate was concentrated under reduced pressure to give the crude alcohol which was used for the next step without further puriﬁcation. To a stirred solution of the above alcohol in CH2Cl2 (50 mL) were added NaHCO3 (2.28 g, 27.2 mmol, 7.0 equiv) and Dess–Martin periodinane (4.11 g, 9.70 mmol, 2.5 equiv). The resulting mixture was allowed to warm to 23 °C and stirred for 1 h before it was quenched by the addition of sat. aq. NaHCO3 solution (30 mL) and sat. aq. Na2S2O3 solution (50 mL). The layers were separated, and the aqueous layer was extracted with CH2Cl2 (3 × 50 mL). The organic layer was washed with brine (50 mL), dried over Na2SO4, ﬁltered, and concentrated under reduced pressure. Flash column chromatography (SiO2, hexanes/EtOAc 10:1, v/v  →  1:1, v/v) aﬀorded fragment A’ (32b; 1.26 g, 2.52 mmol, 65% yield for the two steps) as a colorless oil. 32b: Rf = 0.50 (SiO2, hexanes/EtOAc 2:1, v/v); [α]D23 = +19.5 (c = 0.62, EtOAc); FT-IR (ﬁlm): νmax 2954, 2912, 2878, 1738, 1712, 1459, 1416, 1371, 1312, 1231, 1185, 1141, 1098, 1059, 1028, 973, 943, 881, 789, 741, 726 cm −1;  1H NMR (600 MHz, C6D6): δ 9.16 (s, 1 H), 5.20 (dd, J = 5.8, 3.8 Hz, 1 H), 4.77 (d, J = 3.8 Hz, 1 H), 3.73 (dd, J = 4.9, 2.5 Hz, 1 H), 3.60 (dd, J = 5.5, 2.5 Hz, 2 H), 3.28 (s, 3 H), 2.69–2.58 (m, 2 H), 2.57–2.45 (m, 2 H), 2.36 (dd, J = 17.7, 5.5 Hz, 1 H), 2.28 (dd, J = 14.2, 5.8 Hz, 1 H), 2.14 (dd, J = 15.3, 2.4 Hz, 1 H), 2.10–1.99 (m, 3 H), 1.69 (s, 3 H), 1.30 (dt, J = 15.3, 4.3 Hz, 1 H), 1.08 (t, J = 7.9 Hz, 9 H), 0.87 (d, J = 6.4 Hz, 3 H), 0.81 (d, J = 6.8 Hz, 3 H), 0.68–0.62 (m, 6 H) ppm;  13C NMR (151 MHz, C6D6): δ 207.6, 197.1, 169.7, 128.6, 105.1, 81.9, 81.5, 77.6, 72.8, 63.4, 55.3, 47.1, 44.2, 41.8, 33.2, 30.6, 28.7, 20.0, 17.0, 16.4, 7.2, 5.6 ppm; HRMS (ESI-TOF) m/z: [M+Na] + Calcd. for C25H44O8SiNa + 523.2698; Found 523.2703. ",
+    "output": [
+      {
+        "reference_key": "39b",
+        "substance_name": "benzyl ether 39b",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "Pd/C",
+        "substance_name": "Pd/C",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "THF",
+        "substance_name": "THF",
+        "role": "solvent"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of ketone 41 5 (1.35 g, 2.57 mmol, 1.0 equiv) in THF  (20 mL) at −78 °C was added dropwise LiAlH4 (1.0 M in THF, 2.83 mL, 2.83 mmol, 1.1 equiv). The resulting mixture was stirred for 10 min and then carefully quenched by dropwise addition of a mixture of AcOH/H2O (AcOH, 20 mL; H2O, 10 mL), and the resulting mixture was warmed to 50 °C and stirred for 1 h. The resulting mixture was allowed to cool to 23 °C and concentrated under reduced pressure to give crude 42. Flash column chromatography (SiO2, hexanes/ EtOAc 2:1, v/v  →  1:2, v/v) of the residue aﬀorded 42/43 (mixture of tautomers, 948 mg, 1.85 mmol, 72% yield) and desilyl product S4 (148 mg, 0.540 mmol, 21% yield) as colorless oils.",
+    "output": [
+      {
+        "reference_key": "41 5",
+        "substance_name": "ketone 41 5",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "THF",
+        "substance_name": "THF",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "LiAlH4",
+        "substance_name": "LiAlH4",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "AcOH/H2O",
+        "substance_name": "AcOH/H2O",
+        "role": "work-up"
+      }
+    ]
+  },
+  {
+    "input": "In a glove box, to a stirred solution of C16-epi-30  (20 mg, 0.034 mmol, 1.0 equiv), 31 (31 mg, 0.041 mmol, 1.2 equiv), Et3N (29 µL, 0.20 mmol, 6.0 equiv), and CrCl2 (15 mg, 0.12 mmol, 3.6 equiv) in THF (0.2 mL) at 23 °C was added a premixed solution of ligand 49 (31 mg, 0.10 mmol, 3.0 equiv) and NiCl2 (1.1 mg, 0.0082 mmol, 0.2 equiv) in THF (0.5 mL). The resulting mixture was stirred for 6 h before it was quenched by the addition of H2O (10 mL). The layers were separated, and the aqueous layer was extracted with EtOAc (4 × 30 mL). The organic layer was washed with brine (10 mL), dried over Na2SO4, ﬁltered, and concentrated under reduced pressure. Flash column chromatography (SiO2, hexanes/EtOAc 3:1, v/v  →  1:3, v/v) of the residue aﬀorded 51 (27 mg, 0.022 mmol, 65% yield) as a light green oil. 51: Rf = 0.40 (SiO2, 100% EtOAc); [α]D23 = −36.0 (c = 0.10, EtOAc); FT-IR (ﬁlm): νmax 3477, 2926, 2872, 1736, 1555, 1436, 1333, 1264, 1194, 1171, 1076, 1019, 973, 904, 846 cm −1;  1H NMR (151 MHz, C6D6): δ 5.33 (s, 1 H), 5.15 (dd, J = 5.8, 3.7 Hz, 1 H), 4.99–4.93 (m, 1 H), 4.93 (d, J = 2.2 Hz, 1 H), 4.88 (s, 1 H), 4.83 (d, J = 2.2 Hz, 1 H), 4.58–4.45 (m, 1 H), 4.41 (dd, J = 4.0, 1.9 Hz, 1 H), 4.39–4.32 (m, 1 H), 4.19 (t, J = 4.5 Hz, 1 H), 4.14 (t, J = 4.7 Hz, 1 H), 4.06–4.00 (m, 1 H), 4.01–3.95 (m, 1 H), 3.93–3.90 (m, 1 H), 3.90–3.87 (m, 1 H), 3.82 (dd, J = 4.7, 2.2 Hz, 1 H), 3.78–3.72 (m, 4 H), 3.68 (dd, J = 6.6, 3.9 Hz, 1 H), 3.58 (dd, J = 5.5, 2.4 Hz, 1 H), 3.55–3.51 (m, 1 H), 3.35 (s, 3 H), 3.34–3.31 (m, 1 H), 3.20 (s, 3 H), 3.10–3.04 (m, 1 H), 3.02 (dd, J = 6.7, 5.2 Hz, 1 H), 2.69 (d, J = 2.8 Hz, 1 H), 2.63–2.56 (m, 3 H), 2.47–2.43 (m, 2 H), 2.43 (s, 3 H), 2.40–2.33 (m, 1 H), 2.33–2.25 (m, 3 H), 2.20 (dd, J = 15.7, 5.3 Hz, 1 H), 2.18–2.12 (m, 4 H), 2.08–2.02 (m, 4 H), 2.02–1.93 (m, 5 H), 1.82–1.67 (m, 7 H), 1.54–1.48 (m, 2 H), 1.48–1.40 (m, 4 H), 1.35–1.26 (m, 5 H), 1.19 (d, J = 6.9 Hz, 3 H), 1.17 (d, J = 6.8 Hz, 3 H), 1.06 (d, J = 7.1 Hz, 3 H), 1.01 (d, J = 6.9 Hz, 3 H) ppm;  1H NMR (151 MHz, C6D6): δ 171.2, 156.8, 152.3, 114.8, 110. 5, 109.0, 105.0, 104.9, 97.0, 82.6, 82.4, 81.0, 79.5, 79.0, 78.6, 77.6, 77.41, 77.36, 77.33, 77.2, 77.00, 76.9, 76.4, 75.0, 74.8, 74.7, 74.3, 74.0, 73.9, 72.3, 72.01 71.5, 68.5, 66.3, 63.8, 55.3, 51.2, 47.4, 42.1, 41.8, 40.8, 39.6, 39.1, 38.9, 38.7, 37.7, 37.2, 35.8, 32.4, 31.5, 30.9, 30.7, 30.6, 30.5, 30.3, 29.2, 26.1, 22.8, 18.1, 17.5, 16.7, 15.7 ppm; HRMS (ESI-TOF) m/z: [M+Na] + Calcd. for C62H92O22SNa + 1243.5693; Found 1243.5697.",
+    "output": [
+      {
+        "reference_key": "C16-epi-30",
+        "substance_name": "C16-epi-30",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "31",
+        "substance_name": "31",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "Et3N",
+        "substance_name": "Et3N",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "CrCl2",
+        "substance_name": "CrCl2",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "THF",
+        "substance_name": "THF",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "49",
+        "substance_name": "ligand 49",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "NiCl2",
+        "substance_name": "NiCl2",
+        "role": "reactant"
+      }
+    ]
+  },
+  {
+    "input": "To a stirred solution of 2-methyl-6-nitrobenzoic anhydride (8.8 mg,  0.026 mmol, 5.0 equiv.) and N,N-dimethylpyridin-4-amine (6.2 mg, 0.051 mmol, 10.0 equiv) in toluene (1.5 mL) at 70 °C was added a solution of 52 (5.7 mg, 0.0051 mmol, 1.0 equiv) and N-ethyl-N-(propan-2-yl)propan-2-amine (5.0 µL, 0.026 mmol, 5.0 equiv.) in toluene (1 mL) via a syringe pump over 12 h. After completion of the addition, the syringe was rinsed with toluene (0.3 mL). After being stirred for additional 0.5 h, the reaction mixture was allowed to cool to 23 °C and concentrated under reduced pressure. Flash column chromatography (SiO2, hexanes/ EtOAc 2:1, v/v  →  1:2, v/v) of the residue aﬀorded macrolide 53 (3.9 mg, 0.0036 mmol, 70% yield) as a colorless oil. 53: Rf = 0.80 (SiO2, 100% EtOA); [α]D23 = −35.0 (c = 0.10, EtOAc); FTIR (ﬁlm): νmax 2925, 2853, 1735, 1263, 1187, 1076, 1023, 898, 798, 731 cm −1;  1H NMR (600 MHz, C6D6): δ 5.15 (dd, J = 5.8, 3.7 Hz, 1 H), 5.01 (d, J = 2.5 Hz, 1 H), 4.96 (s, 2 H), 4.93 (dd, J = 10.6, 6.4 Hz, 1 H), 4.84 (d, J = 1.8 Hz, 1 H), 4.65–4.56 (m, 2 H), 4.55–4.48 (m, 1 H), 4.30–4.27 (m, 1 H), 4.15 (t, J = 4.6 Hz, 1 H), 4.10–4.03 (m, 2 H), 3.99 (dt, J = 12.1, 6.2 Hz, 1 H), 3.95–3.86 (m, 3 H), 3.84–3.79 (m, 3 H), 3.80–3.72 (m, 2 H), 3.63 (dd, J = 6.6, 4.1 Hz, 1 H), 3.58 (dd, J = 5.5, 2.4 Hz, 1 H), 3.42 (dt, J = 11.7, 6.0 Hz, 1 H), 3.33 (d, J = 4.5 Hz, 1 H), 3.21 (s, 3 H), 2.73–2.67 (m, 3 H), 2.66–2.61 (m, 2 H), 2.58 (dd, J = 12.8, 5.8 Hz, 2 H), 2.46 (dd, J = 14.1, 4.8 Hz, 1 H), 2.39–2.27 (m, 7 H), 2.26–2.21 (m, 3 H), 2.19–2.10 (m, 6 H), 2.05 (ddd, J = 14.1, 5.7, 3.7 Hz, 2 H), 2.01–1.91 (m, 2 H), 1.87 (td, J = 9.0, 4.4 Hz, 1 H), 1.73–1.65 (m, 2 H), 1.63–1.56 (m, 1 H), 1.54–1.48 (m, 2 H), 1.48–1.42 (m, 5 H), 1.32–1.29 (m, 4 H), 1.16 (d, J = 6.6 Hz, 3 H), 1.05 (d, J = 6.4 Hz, 3 H), 1.02 (d, J = 6.9 Hz, 3 H), 0.98 (d, J = 7.0 Hz, 3H). ppm;  13C NMR (151 MHz, C6D6): δ 171.1, 152.9, 152.5, 114.3, 110.2, 104.9, 104.4, 104.0, 97.0, 82.5, 81.0, 79.0, 78.5, 78.4, 78.2, 77.4, 77.33, 77.31, 76.9, 75.4, 75.3, 75.1, 75.0, 74.2, 74.1, 73.9, 73.8, 72.4, 72.3, 71.9, 68.4, 67.3, 63.8, 55.4, 48.7, 45.3, 44.8, 44.0, 42.1, 40.6, 39.2, 37.7, 37.5, 37.2, 36.7, 36.5, 35.1, 32.8, 31.0, 30.9, 30.6, 30.3, 29.6, 29.2, 28.7, 25.9, 18.2, 18.0, 17.6, 15.1 ppm; HRMS (ESI-TOF) m/z: [M+Na] + Calcd. for C60H84O18Na + 1115.5550; Found 1115.5531",
+    "output": [
+      {
+        "reference_key": "2-methyl-6-nitrobenzoic anhydride",
+        "substance_name": "2-methyl-6-nitrobenzoic anhydride",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "N,N-dimethylpyridin-4-amine",
+        "substance_name": "N,N-dimethylpyridin-4-amine",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "toluene",
+        "substance_name": "toluene",
+        "role": "solvent"
+      },
+      {
+        "reference_key": "52",
+        "substance_name": "52",
+        "role": "reactant"
+      },
+      {
+        "reference_key": "N-ethyl-N-(propan-2-yl)propan-2-amine",
+        "substance_name": "N-ethyl-N-(propan-2-yl)propan-2-amine",
+        "role": "reactant"
+      }
+    ]
+  }
+]

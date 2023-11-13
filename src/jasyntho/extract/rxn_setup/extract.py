@@ -11,7 +11,7 @@ from dotenv import load_dotenv
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 
-from .prompts import child_extr_ptpl, prop_extr_ptpl
+from .prompts import childextr_tpl, propextr_tpl
 
 
 class ReactionSetup:
@@ -22,16 +22,15 @@ class ReactionSetup:
         load_dotenv()
         openai_key = api_key or os.environ.get("OPENAI_API_KEY")
 
-        self.props_prod = ["mass", "yield", "moles"]
         self.llm = ChatOpenAI(
-            model_name="gpt-4-1106-preview",
+            model_name="gpt-3.5-turbo",
             openai_api_key=openai_key,
             temperature=0.0,
             max_tokens=512,
             request_timeout=60,  # wait for max 1 min
         )
-        self.prod_prop_chain = LLMChain(prompt=prop_extr_ptpl, llm=self.llm)
-        self.child_prop_chain = LLMChain(prompt=child_extr_ptpl, llm=self.llm)
+        self.prod_prop_chain = LLMChain(prompt=propextr_tpl, llm=self.llm)
+        self.child_prop_chain = LLMChain(prompt=childextr_tpl, llm=self.llm)
 
     def __call__(self, text: str) -> Union[dict, list]:
         """Execute the extraction pipeline for a single paragraph."""
@@ -155,7 +154,7 @@ class ReactionSetup:
     def _prod_data_llm(self, products, segments):
         """Get analytical data for product using LLMs."""
         response = self.prod_prop_chain.run(
-            products=products, properties=self.props_prod, segments=segments
+            products=products, segments=segments
         )
         try:
             prod_props = ast.literal_eval(response)
