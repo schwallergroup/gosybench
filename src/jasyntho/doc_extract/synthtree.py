@@ -7,6 +7,7 @@ import os
 from typing import Optional, Union
 
 import networkx as nx
+import pandas as pd
 from bigtree import (
     Node,
     copy_nodes_from_tree_to_tree,
@@ -14,18 +15,14 @@ from bigtree import (
     nested_dict_to_tree,
     tree_to_dataframe,
 )
-import pandas as pd
+
 from .synthdoc import SynthDocument
 
 
 class SynthTree(SynthDocument):
     """Extend SynthDocument to represent reaction tree."""
 
-    def __init__(
-            self,
-            doc_src: Union[str, list],
-            api_key: Optional[str] = None
-    ) -> None:
+    def __init__(self, doc_src: Union[str, list], api_key: Optional[str] = None) -> None:
         """Initialize a SynthTree object."""
         super(SynthTree, self).__init__(doc_src, api_key)
 
@@ -39,10 +36,7 @@ class SynthTree(SynthDocument):
         # )
 
     def dictionaries2trees(
-            self,
-            dict_list: list,
-            name_key: str = "reference_key",
-            child_key: str = "children"
+        self, dict_list: list, name_key: str = "reference_key", child_key: str = "children"
     ):
         """
         Converts a list of dictionaries representing tree-like structures

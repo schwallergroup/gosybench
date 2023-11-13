@@ -153,9 +153,7 @@ class ReactionSetup:
 
     def _prod_data_llm(self, products, segments):
         """Get analytical data for product using LLMs."""
-        response = self.prod_prop_chain.run(
-            products=products, segments=segments
-        )
+        response = self.prod_prop_chain.run(products=products, segments=segments)
         try:
             prod_props = ast.literal_eval(response)
         except SyntaxError:

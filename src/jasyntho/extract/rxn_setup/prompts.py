@@ -7,8 +7,7 @@ from langchain.prompts import (
 )
 
 sys_msg = SystemMessagePromptTemplate.from_template(
-    "You are a data extractor. Your priority is to produce data in the "
-    "requested format."
+    "You are a data extractor. Your priority is to produce data in the " "requested format."
 )
 
 # Prompts for first step: extract identity of products
@@ -30,9 +29,7 @@ prop_extr_ptpl = ChatPromptTemplate.from_messages(
     ],
 )
 
-propextr_tpl = prop_extr_ptpl.partial(
-    properties=properties
-)
+propextr_tpl = prop_extr_ptpl.partial(properties=properties)
 
 
 # Prompts for second step: extract children of products
@@ -61,14 +58,10 @@ resulting mixture was heated to 90 °C. After 0.5 h, the reaction mixture was
 allowed to cool to 23 °C and the solvent was removed under reduced pressure."""
 
 example_out = [
-    {"reference_key": "14", "substance_name": "bromide 14",
-     "role": "reactant"},
-    {"reference_key": "toluene", "substance_name": "toluene",
-     "role": "solvent"},
-    {"reference_key": "n-Bu3SnH", "substance_name": "n-Bu3SnH",
-     "role": "reactant"},
-    {"reference_key": "AIBN", "substance_name": "AIBN",
-     "role": "reactant"},
+    {"reference_key": "14", "substance_name": "bromide 14", "role": "reactant"},
+    {"reference_key": "toluene", "substance_name": "toluene", "role": "solvent"},
+    {"reference_key": "n-Bu3SnH", "substance_name": "n-Bu3SnH", "role": "reactant"},
+    {"reference_key": "AIBN", "substance_name": "AIBN", "role": "reactant"},
 ]
 
 child_extr_ptpl = ChatPromptTemplate.from_messages(
@@ -78,7 +71,4 @@ child_extr_ptpl = ChatPromptTemplate.from_messages(
     ]
 )
 
-childextr_tpl = child_extr_ptpl.partial(
-    example_in=example_in,
-    example_out=str(example_out)
-)
+childextr_tpl = child_extr_ptpl.partial(example_in=example_in, example_out=str(example_out))

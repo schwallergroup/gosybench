@@ -5,11 +5,11 @@ import os
 import re
 from itertools import chain
 from typing import Dict, List, Optional, Union
-from tqdm import tqdm
 
 import fitz
 from dotenv import load_dotenv
 from fitz.fitz import Document
+from tqdm import tqdm
 
 from jasyntho.extract import Extractor
 
@@ -24,11 +24,7 @@ class SynthDocument:
     Initialize from pdf files.
     """
 
-    def __init__(
-            self,
-            doc_src: Union[str, list],
-            api_key: Optional[str] = None
-    ) -> None:
+    def __init__(self, doc_src: Union[str, list], api_key: Optional[str] = None) -> None:
         """
         Input
         ______
