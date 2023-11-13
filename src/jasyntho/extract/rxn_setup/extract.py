@@ -36,6 +36,7 @@ class ReactionSetup:
         """Execute the extraction pipeline for a single paragraph."""
         header, parag = self._split_paragraph(text)
         prods_md = self._products_metadata(header, parag)
+        # TODO add when tree building is stable
         # if len(prods_md) != 0:
         #     prods_md["procedure"] = text
         # else:
@@ -85,25 +86,36 @@ class ReactionSetup:
         return merged_data
 
     def _reformat_extend(self, prg: str) -> dict:
-        """Expand details of reaction set-up step for each product
+        """Extend details in dict.
+
+        Expand details of reaction set-up step for each product
         obtained in first step.
         For each product, return a dict:
             {'reference_key', 'compound_name', 'reagents'}
         """
-
         # Preprocess paragraph
         # TODO: this is only a proxy to getting reaction setup. find better way
-        prg = prg[:400]  # Simply take 200 first chars: rxn setup
+        prg = prg[:400]  # Simply take 400 first chars: rxn setup
 
         out_llm = self.child_prop_chain.run(prg)
         try:
             dt = ast.literal_eval(out_llm)
+            dt = self.__clean_synth_dict(dt)
             data = {"status": "success", "data": dt}
-            print(dt)
         except SyntaxError:
             data = {"status": "failure", "data": out_llm}
 
         return data
+
+    def __clean_synth_dict(self, dicts: dict):
+        """Clean extracted json of paragraph children.
+
+        For now, simply keeping the first instance of a key.
+        TODO: Add more sophisticated cleaning.
+        """
+        # Reversed so that we get the first instance of a key
+        keys = {d["reference_key"]: d for d in reversed(dicts)}
+        return list(keys.values())
 
     def _merge_prod_data(self, products, prod_props):
         """Merge property and product ID dictionaries."""
@@ -120,9 +132,7 @@ class ReactionSetup:
         return f_data
 
     def _split_paragraph(self, text: str) -> tuple:
-        """
-        Split paragraph into header and content.
-        """
+        """Split paragraph into header and content."""
         try:
             # Find occurence of (ID), where ID is product identifier:
             # any combination of letters and numbers
@@ -137,14 +147,16 @@ class ReactionSetup:
         return header, parag
 
     def _extract_prods_header(self, head):
-        """Extract product name and label from header using CDE"""
+        """Extract product name and label from header using CDE."""
         prg = Document(Heading(head))
         return prg.records.serialize()
 
     def _filter_sgmnt(self, prg):
-        """Get relevant excerpts from paragraph that may contain
-        analytical data from products"""
+        """Get relevant excerpts from paragraph.
 
+        Return concat excerpts that may contain
+        analytical data from products
+        """
         segments = ""
         for i, m in enumerate(re.finditer(r"yield|\%", prg)):
             s = m.span()

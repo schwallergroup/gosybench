@@ -24,7 +24,7 @@ class SynthDocument:
     Initialize from pdf files.
     """
 
-    def __init__(self, doc_src: Union[str, list], api_key: Optional[str] = None) -> None:
+    def __init__(self, doc_src: str, api_key: Optional[str] = None) -> None:
         """
         Input
         ______
@@ -35,12 +35,8 @@ class SynthDocument:
         self.rxn_setup = None
 
         api_key = api_key or os.environ["OPENAI_API_KEY"]
-
-        if isinstance(doc_src, str):
-            self.rs_extractor = Extractor("rxn_setup", api_key)
-            self.paragraphs = self._build_doc(doc_src)
-        elif isinstance(doc_src, list):
-            self.rxn_setup = doc_src
+        self.rs_extractor = Extractor("rxn_setup", api_key)
+        self.paragraphs = self._build_doc(doc_src)
 
     def extract_rss(self) -> None:
         """
