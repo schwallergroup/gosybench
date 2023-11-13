@@ -8,13 +8,11 @@ from .rxn_setup.extract import ReactionSetup
 
 
 class Extractor:
-    """
-    Extract data from snippets of synthesis paragraphs in a standardized format.
-    Initializes extractor depending on the snippet class.
-    """
+    """Extract data from snippets of synthesis paragraphs.
+    Initializes extractor depending on the snippet class."""
 
     def __init__(self, sclass: str, api_key: Optional[str] = None) -> None:
-        """
+        """Initialize class.
         Input
         _____
         sclass : str

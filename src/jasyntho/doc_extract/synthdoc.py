@@ -4,11 +4,12 @@ import json
 import os
 import re
 from itertools import chain
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Union
 
 import fitz
 from dotenv import load_dotenv
 from fitz.fitz import Document
+from tqdm import tqdm
 
 from jasyntho.extract import Extractor
 
@@ -18,7 +19,8 @@ load_dotenv()
 
 
 class SynthDocument:
-    """Synthesis document composed of multiple synthesis paragraph within a given context.
+    """Synthesis document composed of multiple synthesis paragraph
+    within a given context.
     Initialize from pdf files.
     """
 
@@ -26,25 +28,24 @@ class SynthDocument:
         """
         Input
         ______
-        doc_src: str
-            path to the pdf file
+        doc_src: Union[str, list]
+            if str: path to the pdf file
+            if list: list of extracted entities->out of extract.Extractor
         """
-
         self.rxn_setup = None
 
         api_key = api_key or os.environ["OPENAI_API_KEY"]
         self.rs_extractor = Extractor("rxn_setup", api_key)
-
         self.paragraphs = self._build_doc(doc_src)
 
     def extract_rss(self) -> None:
         """
         Extract the reaction setups for each paragraph in the document.
         """
-
         # TODO: parallelize
-        rxn_setups = [p.extract(self.rs_extractor) for p in self.paragraphs]
-        self.rxn_setups = list(chain(*[p for p in rxn_setups if p[0]]))
+        rxn_setups = [p.extract(self.rs_extractor) for p in tqdm(self.paragraphs)]
+        self.rxn_setups = list(chain(*[p for p in rxn_setups]))
+        print(self.rxn_setups)
 
     def _build_doc(
         self, doc_src: str, start: int = 0, end: Optional[int] = None
@@ -128,8 +129,8 @@ class SynthDocument:
                             flags = int(text_boxes[k]["flags"])
 
                             if (
-                                not re.search("S\d+", text)
-                                or (re.search("S\d+", text) and ("Bold" in font or "bold" in font))
+                                not re.search(r"S\d+", text)
+                                or (re.search(r"S\d+", text) and ("Bold" in font or "bold" in font))
                                 or re.search("[T|t]able", text)
                                 or re.search("[F|f]igure", text)
                             ):

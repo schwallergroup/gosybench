@@ -1,80 +1,74 @@
-"""Prompt definition for more flexible data extraction."""
+"""Define prompt templates for LLM extraction chains."""
 
-tree_extract_prompt = """Your goal is to extract structured information from the user's input about how compounds are related in a chemical synthesis. When extracting information, please make sure it matches the type of information exactly. Do not add any attributes that do not appear in the schema shown below.
+from langchain.prompts import (
+    ChatPromptTemplate,
+    HumanMessagePromptTemplate,
+    SystemMessagePromptTemplate,
+)
 
-```
-{ // Information about a compound produced in a chemical reaction, also called product
-  reference_num: string // Number code used to reference the compound
-  compound_name: string // Name of the compound
-  reagents: [ // List of reagents from which the compound was synthesized.
-    {
-          reference_num
-          compound_name
-          reagents
-     },
+sys_msg = SystemMessagePromptTemplate.from_template(
+    "You are a data extractor. Your priority is to produce data in the " "requested format."
+)
+
+# Prompts for first step: extract identity of products
+prop_stpl = (
+    "You get excerpts of a synthesis procedure of products {products}. \n"
+    "Your task is to report the properties {properties} as a dictionary "
+    '{{"product_label":{{"property_name": "property_value"}} }}\n'
+    "Make sure to output something for all products {products}. "
+    'Give data in the format "value units"'
+    "Input: \n{segments}\n\n"
+    "Output:"
+)
+properties = str(["mass", "yield", "moles"])
+
+prop_extr_ptpl = ChatPromptTemplate.from_messages(
+    [
+        sys_msg,
+        HumanMessagePromptTemplate.from_template(prop_stpl),
+    ],
+)
+
+propextr_tpl = prop_extr_ptpl.partial(properties=properties)
+
+
+# Prompts for second step: extract children of products
+synth_stpl = (
+    "Your task is to extract data from a provided paragraph and format it "
+    "into a JSON dictionary. You should identify the reactants used and their "
+    "properties.\n"
+    "Format the output as a list of dictionaries, each with the keys: "
+    "'reference_key', 'substance_name', and 'role'. \n"
+    "The 'role' can be one of ['reactant', 'solvent', 'work-up'], where "
+    "'work-up' is for substances used in steps after the main reaction. The "
+    "'reference_key' is an identifier for another substance described in the "
+    "paragraph, like 22, S1, 14a, etc. If a reference key isn't given, use "
+    "the substance's name as the key. Ensure all values are strings and the "
+    "output is valid JSON. \n"
+    "Example Input: {example_in}\n"
+    "Example Output: {example_out}\n\n"
+    "Input: {paragraph}\n"
+    "Output: "
+)
+
+example_in = """To a stirred solution of bromide 14 (0.10 g, 0.27 mmol, 1.0
+equiv) in toluene (20 mL) was added n-Bu3SnH (0.11 mL, 0.41 mmol, 1.5 equiv)
+followed by AIBN (4.5 mg, 0.027 mmol, 0.1 equiv) in one portion, and the
+resulting mixture was heated to 90 °C. After 0.5 h, the reaction mixture was
+allowed to cool to 23 °C and the solvent was removed under reduced pressure."""
+
+example_out = [
+    {"reference_key": "14", "substance_name": "bromide 14", "role": "reactant"},
+    {"reference_key": "toluene", "substance_name": "toluene", "role": "solvent"},
+    {"reference_key": "n-Bu3SnH", "substance_name": "n-Bu3SnH", "role": "reactant"},
+    {"reference_key": "AIBN", "substance_name": "AIBN", "role": "reactant"},
+]
+
+child_extr_ptpl = ChatPromptTemplate.from_messages(
+    [
+        sys_msg,
+        HumanMessagePromptTemplate.from_template(synth_stpl),
     ]
-}
+)
 
-The reagents list in the schema should contain other compound objects. If the user's input does not specify how a reagent was made from other compounds, the reagents list should remain empty. If the compound has no reference_num, copy the compound's name to this field. If there are multiple products included in the user's input, create a separate schema for each and output them as a list
-[{ first compound }, { second compound },]
-
-Please output the extracted information in JSON format. Do not output anything except for the extracted information. Do not add any clarifying information. Do not add any fields that are not in the schema. If the text contains attributes that do not appear in the schema, please ignore them.
-
-To produce the output, think step-by-step, but do not include any of your reasoning in the output.
-
-{{ examples }}
-
-Input: {{ user_input }}
-Output: """
-
-examples_tree_chain = """
-Input: {'products': [{'name': '(2-{(2R,4R,6S)-6-[3-(Benzyloxy)propyl]-4-methyl-3-methylidenetetrahydro-2H-pyran-2-yl}ethoxy)-(tert-butyl)diphenylsilane',
-   'reference_num': '19a',
-   'mass': '734 mg',
-   'yield': '92%'}],
- 'steps': [{'type': 'set-up',
-   'text': '(2-{(2R,4R,6S)-6-[3-(Benzyloxy)propyl]-4-methyl-3-methylidenetetrahydro-2H-pyran-2-yl}ethoxy)-(tert-butyl)diphenylsilane (19a): To a stirred solution of methyl triphenyl phosphonium bromide (2.62 g, 7.34 mmol, 5.0 equiv) in THF (40 mL) at −78 °C was added dropwise n-butyl lithium (1.6 M in hexanes, 4.13 mL, 6.62 mmol, 4.5 equiv), and the reaction mixture was warmed to 0 °C. After 0.5 h, a solution of ketone 20a (800 mg, 1.47 mmol, 1.0 equiv) in THF (15 mL) was added to the preformed ylide solution and the resulting mixture was allowed to warm to 23 °C. After 1 h, the reaction mixture was carefully quenched by the addition of saturated aqueous NH4Cl solution (80 mL). The aqueous layer was extracted with EtOAc (3 × 30 mL) and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure.'}]}
-
-Output:
-{
-    "reference_num": "19a",
-    "compound_name": "(2-{(2R,4R,6S)-6-[3-(Benzyloxy)propyl]-4-methyl-3-methylidenetetrahydro-2H-pyran-2-yl}ethoxy)-(tert-butyl)diphenylsilane",
-    "reagents": [
-      {
-          "reference_num": "methyl triphenyl phosphonium bromide",
-          "compound_name": "methyl triphenyl phosphonium bromide",
-          "reagents": []
-      },
-      {
-          "reference_num": "n-butyl lithium",
-          "compound_name": "n-butyl lithium",
-          "reagents": []
-      },
-      {
-          "reference_num": "20a",
-          "compound_name": "ketone",
-          "reagents": []
-      }
-    ]
-  }
-
-Input: {'products': [{'name': '2-{(2R,4R,6S)-6-[3-(Benzyloxy)propyl]-4-methyl-3-methylidenetetrahydro-2H-pyran-2-yl}ethanol', 'reference_num': 'S1', 'mass': '264 mg', 'yield': '94%'}], 'steps': [{'type': 'set-up', 'text': '2-{(2R,4R,6S)-6-[3-(Benzyloxy)propyl]-4-methyl-3-methylidenetetrahydro-2H-pyran-2-yl}ethanol (S1): To a stirred solution of oleﬁn derivative 19a (500 mg, 0.921 mmol, 1.0 equiv) in THF (20 mL) at 0 °C was added dropwise tetra-n-butylammonium ﬂuoride (1 M in THF, 0.920 mL, 0.920 mmol, 1.0 equiv), and the reaction mixture was allowed to warm to 23 °C. After 2.5 h, the reaction mixture was quenched by the addition of saturated aqueous NH4Cl solution (15 mL). The aqueous layer was extracted with EtOAc (3 × 15 mL) and the combined organic layers were dried over anhydrous Na2SO4, ﬁltered, and concentrated under reduced pressure.'}]}
-
-Output:
-{
-    "reference_num": "S1",
-    "compound_name": "2-{(2R,4R,6S)-6-[3-(Benzyloxy)propyl]-4-methyl-3-methylidenetetrahydro-2H-pyran-2-yl}ethanol",
-    "children": [
-      {
-          "reference_num": "19a",
-          "compound_name": "oleﬁn derivative",
-          "children": []
-      },
-      {
-          "reference_num": "tetra-n-butylammonium ﬂuoride",
-          "compound_name": "tetra-n-butylammonium ﬂuoride",
-          "children": []
-      }
-    ]
-  }
-"""
+childextr_tpl = child_extr_ptpl.partial(example_in=example_in, example_out=str(example_out))

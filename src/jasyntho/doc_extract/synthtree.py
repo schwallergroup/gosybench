@@ -1,12 +1,13 @@
-"""
-Define class SynthTree,
-which is a tree of SynthNodes that represent the chemical synthesis described in a document.
+"""Define class SynthTree.
+
+tree of SynthNodes that represent the chemical synthesis described in pdf doc.
 """
 
 import os
 from typing import Optional
 
 import networkx as nx
+import pandas as pd
 from bigtree import (
     Node,
     copy_nodes_from_tree_to_tree,
@@ -14,7 +15,6 @@ from bigtree import (
     nested_dict_to_tree,
     tree_to_dataframe,
 )
-from pandas import DataFrame
 
 from .synthdoc import SynthDocument
 
@@ -29,33 +29,26 @@ class SynthTree(SynthDocument):
         self.extract_rss()
 
         self.trees = self.dictionaries2trees(self.rxn_setups)
-        self.merged_trees = self.merge_trees(self.trees)  # Merge trees to create bigger structures
-        self.networks = self.bigtrees_to_networks(
-            self.merged_trees
-        )  # Convert trees to networkx objects
+        self.merged_trees = self.merge_trees(self.trees)
+        self.networks = self.bigtrees_to_networks(self.merged_trees)
 
     def dictionaries2trees(
-        self, dict_list: list, name_key: str = "reference_num", child_key: str = "reagents"
+        self, dict_list: list, name_key: str = "reference_key", child_key: str = "children"
     ):
         """
-        Converts a list of dictionaries representing tree-like structures into a list of bigtree Node objects.
+        Convert list of dicts into list of bigtree Node objects.
 
-        Parameters:
-            dict_list (list): A list of dictionaries representing tree-like structures.
+        Input
+            dict_list (list): JSON representing trees.
 
         Returns:
-            tree_list (list): A list of trees converted from the input dictionaries.
+            tree_list (list): List of trees converted from the input JSON.
         """
 
         tree_list = []
 
         # Convert each dictionary to a tree
         for dictionary in dict_list:
-            if name_key not in dictionary.keys() or child_key not in dictionary.keys():
-                raise KeyError(
-                    f"Expected name_key '{name_key}' or child_key '{child_key}' not in dictionary {dictionary}"
-                )
-
             new_tree = nested_dict_to_tree(
                 node_attrs=dictionary, name_key=name_key, child_key=child_key
             )
@@ -65,15 +58,14 @@ class SynthTree(SynthDocument):
 
     def merge_trees(self, tree_list: list):
         """
-        Merges a list of trees represented as bigtree Node objects.
+        Merge a list of trees represented as bigtree Node objects.
 
         Parameters:
-            tree_list (list): A list of trees represented as bigtree Node objects.
+            tree_list (list): List of trees represented as bigtrees.Nodes.
 
         Returns:
             merged + solo_nodes (list): A list of merged trees and solo nodes.
         """
-
         # If the input tree list is empty, return an empty list
         if not tree_list:
             return []
@@ -95,27 +87,31 @@ class SynthTree(SynthDocument):
     def bigtrees_to_networks(
         self,
         tree_list: list,
-        name_col: str = "reference_num",
+        name_col: str = "reference_key",
         parent_col: str = "parent",
         all_attrs: bool = True,
     ):
         """
-        Converts a list of bigtree Node objects to a list of networkx DiGraph objects.
-        Each tree is first converted to a dataframe and then transformed into a directed graph.
-        Optionally, it can include all attributes for each node as node attributes in the graph.
+        Convert a list of bigtree.Node to a list of networkx.DiGraph.
 
-        Parameters:
-            tree_list (list):
-                A list of trees represented as dictionaries or dataframes.
-            name_col (str):
-                The name to be assigned to the column containing the node name in each tree. Default is 'reference_num'.
-            parent_col (str):
-                The name to be assigned to the column containing the parent node name in each tree. Default is 'parent'.
-            all_attrs (bool):
-                A flag indicating whether to include all attributes for each node. Default is True.
+        Each tree is first converted to a dataframe and then transformed into a
+        directed graph. Optionally, it can include all attributes for each node
+        as node attributes in the graph.
+
+        Input
+        tree_list (list): A list of trees represented as
+            dictionaries or dataframes.
+        name_col (str): The name to be assigned
+            to the column containing the node name in each tree.
+            Default is 'reference_num'.
+        parent_col (str): The name to be assigned to the
+            column containing the parent node name in each tree.
+            Default is 'parent'.
+        all_attrs (bool): A flag indicating whether to include all attributes
+            for each node. Default is True.
 
         Returns:
-            networks (list): A list of networkx DiGraph objects representing the input trees.
+            networks (list): List of networkx.DiGraph repr input trees.
         """
 
         if not tree_list:
@@ -139,17 +135,16 @@ class SynthTree(SynthDocument):
             raise ValueError("Input list is not a list of only bigtree Node objects.")
 
     def __merge_trees_helper(self, tree_list: list, results: list):
-        """
-        Helper function to merge a list of trees represented as bigtree Node objects.
+        """Merge a list of trees represented as bigtree Node objects.
 
-        Parameters:
-            tree_list (list): A list of trees represented as bigtree Node objects to be merged.
+        Input:
+            tree_list (list): A list of trees represented as bigtree
+                                Node objects to be merged.
             results (list): A list to store the resulting merged trees.
-
         Returns:
-            results (list): A list of merged trees accumulated during the tail-recursive process.
+            results (list): A list of merged trees accumulated during
+                            the tail-recursive process.
         """
-
         # Use first tree as a base to see what other trees can merge into it
         final_tree = tree_list.pop(0)
 
@@ -161,7 +156,7 @@ class SynthTree(SynthDocument):
             merge_1 = self.__find_and_copy_to_tree(final_tree, tree)
 
             if merge_1[0] == 0:
-                # If it was, final_tree is now the bigger resulting tree from the merge
+                # If it was, final_tree is the bigger resulting tree from merge
                 final_tree = merge_1[1]
 
             else:
@@ -169,16 +164,18 @@ class SynthTree(SynthDocument):
                 merge_2 = self.__find_and_copy_to_tree(tree, final_tree)
 
                 if merge_2[0] == 0:
-                    # If it was, final_tree is now the bigger resulting tree from the merge
+                    # If it was, final_tree is the bigger result tree from merge
                     final_tree = merge_2[1]
                 else:
-                    # If it wasn't, tree has no common nodes with final_tree so it will go into the retry_list
+                    # If it wasn't, tree has no common nodes
+                    # with final_tree so it will go into the retry_list
                     retry_list.append(tree)
 
         # Add the resulting merged tree to results
         results.append(final_tree)
 
-        # If the retry_list is not empty, rerun the function. The results list will keep growing
+        # If the retry_list is not empty, rerun the function.
+        # The results list will keep growing
         if retry_list:
             self.__merge_trees_helper(tree_list=retry_list, results=results)
 
@@ -189,17 +186,19 @@ class SynthTree(SynthDocument):
         Find nodes with the same name as 'small_tree' in 'big_tree'
         and copy the 'small_tree' into the first node found.
 
-        Parameters:
-            big_tree (Node): The target tree to search for nodes with the same name as small_tree.
-            small_tree (Node): The tree whose nodes are searched and copied into big_tree.
+        Input
+            big_tree (Node): The target tree to search for nodes with the same
+                name as small_tree.
+            small_tree (Node): The tree whose nodes are searched and copied
+                into big_tree.
 
         Returns:
             (int, Node): A tuple containing:
-            - 0: If nodes with the same name were found in big_tree and successfully merged.
+            - 0: If nodes with the same name were found in big_tree and
+                successfully merged.
             - 1: If there were no nodes with the same name found in big_tree.
             - big_tree: The modified 'big_tree' after the merge operation.
         """
-
         # Find all nodes in 'big_tree' that have the same name as 'small_tree'
         search = findall(big_tree, lambda node: node.name == small_tree.name)
 
@@ -227,55 +226,63 @@ class SynthTree(SynthDocument):
 
     def _df_to_graph(
         self,
-        df: DataFrame,
+        df: pd.DataFrame,
         node_name_col: str = "reference_num",
         parent_col: str = "parent",
         cols_to_ignore: list = ["path"],
     ):
         """
-        Converts a dataframe representing a tree to a networkx DiGraph object.
+        Convert a dataframe representing a tree to a networkx DiGraph object.
+
         The dataframe should have columns for node names, parent node names,
         and any additional attributes for each node.
 
-        Parameters:
-            df (pandas.DataFrame):
+        Input
+            df (pd.DataFrame):
                 The input dataframe representing a tree.
             node_name_col (str):
-                The name of the column containing the node names in the dataframe. Default is 'reference_num'.
+                The name of the column containing the node names in the
+                dataframe. Default is 'reference_num'.
             parent_col (str):
-                The name of the column containing the parent node names in the dataframe. Default is 'parent'.
+                The name of the column containing the parent node names in the
+                dataframe. Default is 'parent'.
             cols_to_ignore (list):
-                A list of column names to ignore while adding attributes to the nodes. Default is ['path'].
+                A list of column names to ignore while adding attributes to the
+                nodes. Default is ['path'].
 
         Returns:
-            graph (networkx.DiGraph): A directed graph representing the input dataframe as a tree.
+            graph (networkx.DiGraph): A directed graph representing the input
+            dataframe as a tree.
         """
-
         if df.empty:
             raise ValueError("Database is empty")
 
         # Check cols_to_ignore only has strings
         if not all(isinstance(elem, str) for elem in cols_to_ignore):
             raise ValueError(
-                "The list 'cols_to_ignore' must only contain strings corresponding to columns in the DataFrame df"
+                "The list 'cols_to_ignore' must only contain strings "
+                "corresponding to columns in the pd.DataFrame df"
             )
 
         # Check all elems in cols_to_ignore are valid column names in the dataframe
         for elem in cols_to_ignore:
             if elem not in list(df.columns):
                 raise ValueError(
-                    f"String '{elem}' in 'cols_to_ignore' does not correspond to a valid column in the dataframe"
+                    f"String '{elem}' in 'cols_to_ignore' does not correspond "
+                    "to a valid column in the dataframe"
                 )
 
         # Create DiGraph object
         graph = nx.DiGraph()
 
-        # Iterate over each row in the dataframe to add nodes and edges to the graph
+        # Iterate over each row in the dataframe to add nodes and edges to the
+        # graph
         for _, row in df.iterrows():
             node_name = row[node_name_col]
             parent_node = row[parent_col]
 
-            # Create a unique node identifier by combining reference_num and parent_node
+            # Create a unique node identifier by combining reference_num and
+            # parent_node
             unique_node_name = f"{node_name}_[{parent_node}]"
 
             parent_unique_name = None

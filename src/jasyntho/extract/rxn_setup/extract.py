@@ -1,110 +1,173 @@
 """Data extraction from reaction setup text segments"""
 
-import json
+import ast
 import os
-from typing import List, Optional
+import re
+from typing import Union
 
+from chemdataextractor import Document
+from chemdataextractor.doc import Heading
 from dotenv import load_dotenv
-from kor.extraction import create_extraction_chain
-from langchain import PromptTemplate
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
 
-from .kor_schemas import *
-from .prompts import *
+from .prompts import childextr_tpl, propextr_tpl
 
 
 class ReactionSetup:
     """Extraction of structured data from reaction-setup snippet."""
 
     def __init__(self, api_key=None):
-        """Initialize LLMChain for data extraction with GPT-4"""
-
+        """Initialize LLMChain for data extraction with GPT-4."""
         load_dotenv()
         openai_key = api_key or os.environ.get("OPENAI_API_KEY")
 
         self.llm = ChatOpenAI(
-            model_name="gpt-4",
-            temperature=0.1,
-            max_tokens=2048,
-            request_timeout=3000,
+            model_name="gpt-3.5-turbo",
             openai_api_key=openai_key,
+            temperature=0.0,
+            max_tokens=512,
+            request_timeout=60,  # wait for max 1 min
         )
+        self.prod_prop_chain = LLMChain(prompt=propextr_tpl, llm=self.llm)
+        self.child_prop_chain = LLMChain(prompt=childextr_tpl, llm=self.llm)
 
-    def __call__(self, text: str):
+    def __call__(self, text: str) -> Union[dict, list]:
         """Execute the extraction pipeline for a single paragraph."""
+        header, parag = self._split_paragraph(text)
+        prods_md = self._products_metadata(header, parag)
+        # TODO add when tree building is stable
+        # if len(prods_md) != 0:
+        #     prods_md["procedure"] = text
+        # else:
+        #     return []
 
-        prods_md = self._products_metadata(text)
-        full_out = self._reformat_expand(prods_md)
-        return full_out
+        prods_child = self._reformat_extend(parag)
 
-    def _products_metadata(self, text: str) -> dict:
+        # Finally complete prods_md with prods_child
+        prod_list = []
+        for prod_key, prod_d in prods_md.items():
+            if prods_child["status"] == "success":
+                prod_d["children"] = prods_child["data"]
+            elif len(prods_md.keys()) > 0:
+                prod_d["children"] = []
+            prod_list.append(prod_d)
+
+        return prod_list
+
+    def _products_metadata(self, heading: str, content: str) -> dict:
         """Extract metadata for all products described in paragraph.
 
-        Extracts the product list and the set-up step from a chemical synthesis description paragraph.
-
         Input:
-            text : str
-                synthesis paragraph
+            heading : str
+                heading of paragr, containing the product names and labels
+            content : str
+                content of paragr, containing the reaction set-up and analysis
         Output:
             dict: list of products with metadata + reaction set-up
                 follows schema:
-                    {
-                        'products':[{'name', 'reference_num', 'mass', 'yield'}],
-                        'steps': [{'type': 'set-up', 'text': '...'}]
-                    ]
+                {
+                    'prod_label':
+                        {
+                            'substance_name': '...',
+                            'reference_key': '...',
+                            'mass': '...',
+                            'yield': '...',
+                            'moles': '...',
+                        }
+                }
         """
+        products = self._extract_prods_header(heading)
+        segments = self._filter_sgmnt(content)
 
-        chain_set_up_schema = create_extraction_chain(
-            self.llm, set_up_schema, encoder_or_encoder_class="json"
-        )
-        schem_result = chain_set_up_schema.predict_and_parse(text=text)["data"]
+        prods_inp = str([p["labels"] for p in products])
+        prod_props = self._prod_data_llm(prods_inp, segments)
+        merged_data = self._merge_prod_data(products, prod_props)
+        return merged_data
 
-        if "set_up_schema" not in schem_result.keys():
-            return {}
+    def _reformat_extend(self, prg: str) -> dict:
+        """Extend details in dict.
 
-        for rxn in schem_result["set_up_schema"]:
-            if "products" not in rxn.keys():
-                rxn["products"] = []
-
-            if "steps" not in rxn.keys():
-                rxn["steps"] = []
-
-        return schem_result
-
-    def _reformat_expand(self, prods_md: dict) -> dict:
-        """Expand details of reaction set-up step for each product obtained in first step.
+        Expand details of reaction set-up step for each product
+        obtained in first step.
         For each product, return a dict:
-            {'reference_num', 'compound_name', 'reagents'}
+            {'reference_key', 'compound_name', 'reagents'}
         """
+        # Preprocess paragraph
+        # TODO: this is only a proxy to getting reaction setup. find better way
+        prg = prg[:400]  # Simply take 400 first chars: rxn setup
 
-        tree_extract_template = PromptTemplate.from_template(
-            template=tree_extract_prompt, template_format="jinja2"
-        )
+        out_llm = self.child_prop_chain.run(prg)
+        try:
+            dt = ast.literal_eval(out_llm)
+            dt = self.__clean_synth_dict(dt)
+            data = {"status": "success", "data": dt}
+        except SyntaxError:
+            data = {"status": "failure", "data": out_llm}
 
-        tree_chain = LLMChain(prompt=tree_extract_template, llm=self.llm)
+        return data
 
-        llm_out = tree_chain.predict(examples=examples_tree_chain, user_input=str(prods_md))
+    def __clean_synth_dict(self, dicts: dict):
+        """Clean extracted json of paragraph children.
 
-        return json.loads(llm_out)
+        For now, simply keeping the first instance of a key.
+        TODO: Add more sophisticated cleaning.
+        """
+        # Reversed so that we get the first instance of a key
+        keys = {d["reference_key"]: d for d in reversed(dicts)}
+        return list(keys.values())
 
-    ################## comments
+    def _merge_prod_data(self, products, prod_props):
+        """Merge property and product ID dictionaries."""
+        f_data = {}
+        for p in products:
+            lbl = p["labels"][0]
+            try:
+                names = p["names"]  # assume 'names' exists
+            except KeyError:
+                names = lbl
 
+            f_data[lbl] = {"substance_name": names, "reference_key": lbl}
+            f_data[lbl].update(prod_props[lbl])
+        return f_data
 
-#        # Obtain the schema of the set-up step from the text
-#
-#        # AB: So they first extract a schema from full paragraph, and then process this object again?
-#
-#        # Seems like this step:
-#        # - gets info about product (name, ref num, mass, yield...)
-#        # - extracts the rxn set-up. Is simply a pair "type", "text". "type" is instructed to always be "set-up".
-#        # In the examples there is none where multiple set-ups are shown, so no reason to think this case is handled.
-#        schema = self._get_paragraph_schema(text)
-#        schema_string = str(schema)
-#
-#        # Convert the schema into an appropriate tree-like dictionary using LLM
-#        # AB: Inputs prev object. Outputs recursive sequence of ["ref num", "comp name", "reagents"], where "reagents" is a list of objects of with the same structure.
-#        # Some inconsistencies in the examples.
-#        json_tree = self.tree_chain.predict(examples=examples_tree_chain, user_input=schema_string)
-#        return json.loads(json_tree)
-#
+    def _split_paragraph(self, text: str) -> tuple:
+        """Split paragraph into header and content."""
+        try:
+            # Find occurence of (ID), where ID is product identifier:
+            # any combination of letters and numbers
+            match = re.search(r"\([A-Za-z\d]+\)\:", text)
+            sp = match.span()  # type: ignore
+
+            header = text[: sp[1]]
+            parag = text[sp[1] :]
+        except AttributeError:
+            header = ""
+            parag = text
+        return header, parag
+
+    def _extract_prods_header(self, head):
+        """Extract product name and label from header using CDE."""
+        prg = Document(Heading(head))
+        return prg.records.serialize()
+
+    def _filter_sgmnt(self, prg):
+        """Get relevant excerpts from paragraph.
+
+        Return concat excerpts that may contain
+        analytical data from products
+        """
+        segments = ""
+        for i, m in enumerate(re.finditer(r"yield|\%", prg)):
+            s = m.span()
+            segments += f"{i+1}. {prg[s[0]-60:s[1]+60]}\n"
+        return segments
+
+    def _prod_data_llm(self, products, segments):
+        """Get analytical data for product using LLMs."""
+        response = self.prod_prop_chain.run(products=products, segments=segments)
+        try:
+            prod_props = ast.literal_eval(response)
+        except SyntaxError:
+            prod_props = []
+        return prod_props
