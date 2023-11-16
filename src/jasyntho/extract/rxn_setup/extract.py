@@ -3,15 +3,21 @@
 import ast
 import os
 import re
-from typing import Union
+from typing import List, Tuple, Union
 
-from chemdataextractor import Document
-from chemdataextractor.doc import Heading
+import instructor  # type: ignore
+from chemdataextractor import Document  # type: ignore
+from chemdataextractor.doc import Heading  # type: ignore
 from dotenv import load_dotenv
 from langchain.chains import LLMChain
 from langchain.chat_models import ChatOpenAI
+from openai import OpenAI  # type: ignore
+from pydantic import ValidationError
 
-from .prompts import childextr_tpl, propextr_tpl
+from .prompts import propextr_tpl
+from .typing import SubstanceList
+
+load_dotenv()
 
 
 class ReactionSetup:
@@ -22,47 +28,43 @@ class ReactionSetup:
         load_dotenv()
         openai_key = api_key or os.environ.get("OPENAI_API_KEY")
 
-        self.llm = ChatOpenAI(
+        llm = ChatOpenAI(
             model_name="gpt-3.5-turbo",
             openai_api_key=openai_key,
             temperature=0.0,
             max_tokens=512,
             request_timeout=60,  # wait for max 1 min
         )
-        self.prod_prop_chain = LLMChain(prompt=propextr_tpl, llm=self.llm)
-        self.child_prop_chain = LLMChain(prompt=childextr_tpl, llm=self.llm)
+
+        self.llm = 'gpt-3.5-turbo'
+        self.client = instructor.patch(OpenAI())
+        self.prod_prop_chain = LLMChain(prompt=propextr_tpl, llm=llm)
 
     def __call__(self, text: str) -> Union[dict, list]:
         """Execute the extraction pipeline for a single paragraph."""
-        header, parag = self._split_paragraph(text)
-        prods_md = self._products_metadata(header, parag)
-        # TODO add when tree building is stable
-        # if len(prods_md) != 0:
-        #     prods_md["procedure"] = text
-        # else:
-        #     return []
+        try:
+            parag, prods_md = self._products_metadata(text)
+            prods_child = self._extract_reacts(parag)
 
-        prods_child = self._reformat_extend(parag)
+            # Finally complete prods_md with prods_child
+            prod_list = []
+            for prod_key, prod_d in prods_md.items():
+                if prods_child["status"] == "success":
+                    prod_d["children"] = prods_child["data"]
+                elif len(prods_md.keys()) > 0:
+                    prod_d["children"] = []
+                prod_list.append(prod_d)
 
-        # Finally complete prods_md with prods_child
-        prod_list = []
-        for prod_key, prod_d in prods_md.items():
-            if prods_child["status"] == "success":
-                prod_d["children"] = prods_child["data"]
-            elif len(prods_md.keys()) > 0:
-                prod_d["children"] = []
-            prod_list.append(prod_d)
+            return prod_list
+        except ValidationError:
+            return []
 
-        return prod_list
-
-    def _products_metadata(self, heading: str, content: str) -> dict:
+    def _products_metadata(self, text: str) -> Tuple[str, dict]:
         """Extract metadata for all products described in paragraph.
 
         Input:
-            heading : str
-                heading of paragr, containing the product names and labels
-            content : str
-                content of paragr, containing the reaction set-up and analysis
+            text : str
+                full text of paragr, containing prod name, id, rxn, etc.
         Output:
             dict: list of products with metadata + reaction set-up
                 follows schema:
@@ -77,45 +79,55 @@ class ReactionSetup:
                         }
                 }
         """
-        products = self._extract_prods_header(heading)
+        header, content = self._split_paragraph(text)
+        products = self._extract_prods_header(header)
         segments = self._filter_sgmnt(content)
 
         prods_inp = str([p["labels"] for p in products])
-        prod_props = self._prod_data_llm(prods_inp, segments)
+        prod_props = self._get_prod_data(prods_inp, segments)
         merged_data = self._merge_prod_data(products, prod_props)
-        return merged_data
+        return content, merged_data
 
-    def _reformat_extend(self, prg: str) -> dict:
-        """Extend details in dict.
+    def _extract_reacts(self, prg: str) -> dict:
+        """Extract the substances in a reaction."""
+        # TODO: this is only a proxy to getting reaction setup.
+        prg = prg[:500]
 
-        Expand details of reaction set-up step for each product
-        obtained in first step.
-        For each product, return a dict:
-            {'reference_key', 'compound_name', 'reagents'}
-        """
-        # Preprocess paragraph
-        # TODO: this is only a proxy to getting reaction setup. find better way
-        prg = prg[:400]  # Simply take 400 first chars: rxn setup
+        subs = self.client.chat.completions.create(
+            model=self.llm,
+            response_model=SubstanceList,
+            messages=[
+                {"role": "user", "content": prg},
+            ],
+            temperature=0.2,
+            max_retries=2,
+        )
 
-        out_llm = self.child_prop_chain.run(prg)
+        # Wrap into dict with error status
         try:
-            dt = ast.literal_eval(out_llm)
-            dt = self.__clean_synth_dict(dt)
-            data = {"status": "success", "data": dt}
-        except SyntaxError:
-            data = {"status": "failure", "data": out_llm}
+            subs = self.__clean_synth_dict(subs)
+            return {"status": "success", "data": subs}
+        except ValidationError:
+            return {"status": "failure", "data": None}
+        return subs
 
-        return data
+    def __clean_synth_dict(self, slist: SubstanceList) -> List[dict]:
+        """Clean extracted json of paragraph children."""
+        # Add keys if None
+        for s in slist.substances:
+            if s.reference_key is None:
+                s.reference_key = s.substance_name
 
-    def __clean_synth_dict(self, dicts: dict):
-        """Clean extracted json of paragraph children.
+        # keep only 'reactant' and 'solvent'
+        new_subs = SubstanceList()
+        for h in slist.substances:
+            if h.role in ["reactant", "solvent"]:
+                new_subs.substances.append(h)
 
-        For now, simply keeping the first instance of a key.
-        TODO: Add more sophisticated cleaning.
-        """
-        # Reversed so that we get the first instance of a key
-        keys = {d["reference_key"]: d for d in reversed(dicts)}
-        return list(keys.values())
+        # Keep only unique keys
+        uniq_d = {d.reference_key: d for d in reversed(new_subs.substances)}
+        subs = [s.model_dump() for s in uniq_d.values()]  # type: ignore
+        return subs
 
     def _merge_prod_data(self, products, prod_props):
         """Merge property and product ID dictionaries."""
@@ -163,8 +175,11 @@ class ReactionSetup:
             segments += f"{i+1}. {prg[s[0]-60:s[1]+60]}\n"
         return segments
 
-    def _prod_data_llm(self, products, segments):
-        """Get analytical data for product using LLMs."""
+    def _get_prod_data(self, products, segments):
+        """Get analytical data for product.
+
+        TODO: mod with instructor
+        """
         response = self.prod_prop_chain.run(products=products, segments=segments)
         try:
             prod_props = ast.literal_eval(response)
