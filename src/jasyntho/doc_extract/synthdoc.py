@@ -1,5 +1,6 @@
 """Defines the SynthDocument class, which creates a collection of SynthParagraphs."""
 
+import asyncio
 import json
 import os
 import re
@@ -9,7 +10,6 @@ from typing import Dict, List, Optional, Union
 import fitz
 from dotenv import load_dotenv
 from fitz.fitz import Document
-from tqdm import tqdm
 
 from jasyntho.extract import Extractor
 
@@ -43,7 +43,27 @@ class SynthDocument:
         Extract the reaction setups for each paragraph in the document.
         """
         # TODO: parallelize
-        rxn_setups = [p.extract(self.rs_extractor) for p in tqdm(self.paragraphs)]
+        #rxn_setups = [p.extract(self.rs_extractor) for p in tqdm(self.paragraphs)]
+        # Write a for loop for the above using async
+        rxn_setups = [p.extract(self.rs_extractor) for p in self.paragraphs]
+
+        self.rxn_setups = list(chain(*[p for p in rxn_setups]))
+        print(self.rxn_setups)
+
+    async def async_extract_rss(self) -> None:
+        """
+        Extract the reaction setups for each paragraph in the document.
+        """
+
+        # rxn_setups = []
+        # for p in tqdm(self.paragraphs):
+        #     result = p.extract(self.rs_extractor)
+        #     await asyncio.gather(*result)
+        #     rxn_setups.append(result)
+
+        rxn_setups = await asyncio.gather(*[p.async_extract(self.rs_extractor) for p in self.paragraphs])
+
+
         self.rxn_setups = list(chain(*[p for p in rxn_setups]))
         print(self.rxn_setups)
 

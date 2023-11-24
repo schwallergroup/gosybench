@@ -29,7 +29,7 @@ class ReactionSetup:
             product = Product.from_paragraph(text, self.client, self.llm)
             return product
         except ValidationError:
-            return []
+            return Product.empty()
 
     async def async_call(self, text: str) -> Union[dict, list]:
         """Execute the extraction pipeline for a paragraph asynchronously."""
@@ -39,4 +39,4 @@ class ReactionSetup:
             )
             return await product
         except ValidationError:
-            return []
+            return Product.empty()

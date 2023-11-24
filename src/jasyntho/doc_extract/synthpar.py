@@ -1,5 +1,8 @@
-"""Defines the SynthParagraph class, which extracts
-and contains all data from a synthesis paragraph."""
+"""
+Defines the SynthParagraph class.
+
+Extract and contain all data from a synthesis paragraph.
+"""
 
 from typing import Dict, List
 
@@ -7,6 +10,7 @@ from typing import Dict, List
 class SynthParagraph:
     """
     Synthesis paragraph.
+
     Contains details about preparation of a (set of) substances.
     TODO: Include all extraction capabilities here
           (extend to work-up, purification, analysis).
@@ -14,6 +18,8 @@ class SynthParagraph:
 
     def __init__(self, text: str) -> None:
         """
+        Initialize a synthesis paragraph.
+
         Input
         text: str
             paragraph text describing the synthesis.
@@ -22,7 +28,7 @@ class SynthParagraph:
         self.data: Dict[str, List[dict]] = dict()
 
     def __repr__(self) -> str:
-        """Print the text"""
+        """Print the text."""
 
         if len(self.data) == 0:
             return self.text
@@ -46,6 +52,23 @@ class SynthParagraph:
 
         raw_output = extractor(self.text)
         self.data["rxn_setup"] = self._flatten_list(raw_output)
+
+        return self.data["rxn_setup"]
+
+    async def async_extract(self, extractor) -> List[dict]:
+        """Extract information from this paragraph in a standard format.
+
+        Input
+        extractor: Extractor
+            Initialized data extractor.
+
+        Output:
+        extracted_data: List[dict]
+            Extracted list of products with preparation metadata.
+        """
+
+        raw_output = await extractor.async_call(self.text)
+        self.data["rxn_setup"] = self._flatten_list(raw_output.model_dump())
 
         return self.data["rxn_setup"]
 

@@ -25,12 +25,17 @@ class SynthTree(SynthDocument):
     def __init__(self, doc_src: str, api_key: Optional[str] = None) -> None:
         """Initialize a SynthTree object."""
         super(SynthTree, self).__init__(doc_src, api_key)
+        # await self.build_tree()
 
+
+    def build_tree(self):
         self.extract_rss()
 
         self.trees = self.dictionaries2trees(self.rxn_setups)
         self.merged_trees = self.merge_trees(self.trees)
         self.networks = self.bigtrees_to_networks(self.merged_trees)
+
+
 
     def dictionaries2trees(
         self, dict_list: list, name_key: str = "reference_key", child_key: str = "children"

@@ -27,7 +27,13 @@ class Extractor:
         out = self.extractor(snippet)
         return out
 
-    def _init_extractor(self, sclass: str, api_key: Optional[str] = None) -> LLMChain:
+    async def async_call(self, snippet: str) -> List[dict]:
+        """Execute the extractor."""
+
+        out = await self.extractor.async_call(snippet)
+        return out
+
+    def _init_extractor(self, sclass: str, api_key: Optional[str] = None):
         """
         Initialize a chain for data extraction.
         Input

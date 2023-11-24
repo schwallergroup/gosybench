@@ -1,6 +1,7 @@
 """pydantic models for the substance classes."""
 
 import instructor
+import openai
 from typing import List, Literal, Optional, Dict, Union
 from pydantic import BaseModel, Field
 
@@ -100,9 +101,8 @@ class Product(Substance):
                 timeout=60,
             )
             return cls.from_substancelist(subs_list)
-        except:
-            return cls()
-
+        except openai.APITimeoutError:  # type: ignore
+            return cls.empty()
 
     @classmethod
     async def async_from_paragraph(
@@ -114,17 +114,27 @@ class Product(Substance):
         """Extract the substances in a reaction."""
         prgr = prgr[:700]
 
-        # try:
-        subs_list = await aclient.chat.completions.create(
-            model=llm,
-            response_model=SubstanceList,
-            messages=[
-                {"role": "user", "content": prgr},
-            ],
-            temperature=0.2,
-            max_retries=2,
-            timeout=60,
+        try:
+            subs_list = await aclient.chat.completions.create(
+                model=llm,
+                response_model=SubstanceList,
+                messages=[
+                    {"role": "user", "content": prgr},
+                ],
+                temperature=0.2,
+                max_retries=2,
+                timeout=60,
+            )
+            return cls.from_substancelist(subs_list)
+        except openai.APITimeoutError:  # type: ignore
+            return cls.empty()
+
+    @classmethod
+    def empty(cls):
+        """Return an empty product."""
+        return cls(
+            reference_key='',
+            substance_name='',
+            children=[],
+            props=None
         )
-        return cls.from_substancelist(subs_list)
-        #except:
-        #    return cls()
