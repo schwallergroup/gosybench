@@ -3,6 +3,7 @@
 import instructor
 import openai
 from typing import List, Literal, Optional, Dict, Union
+from pydantic import ValidationError
 from pydantic import BaseModel, Field
 
 
@@ -98,10 +99,10 @@ class Product(Substance):
                 ],
                 temperature=0.2,
                 max_retries=2,
-                timeout=60,
+                timeout=30,
             )
             return cls.from_substancelist(subs_list)
-        except openai.APITimeoutError:  # type: ignore
+        except (openai.APITimeoutError, ValidationError):  # type: ignore
             return cls.empty()
 
     @classmethod
@@ -123,17 +124,17 @@ class Product(Substance):
                 ],
                 temperature=0.2,
                 max_retries=2,
-                timeout=60,
+                timeout=30,
             )
             return cls.from_substancelist(subs_list)
-        except openai.APITimeoutError:  # type: ignore
+        except (openai.APITimeoutError, ValidationError):  # type: ignore
             return cls.empty()
 
     @classmethod
     def empty(cls):
         """Return an empty product."""
         return cls(
-            reference_key='',
+            reference_key=None,
             substance_name='',
             children=[],
             props=None

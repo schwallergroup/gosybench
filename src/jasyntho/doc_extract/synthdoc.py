@@ -63,8 +63,7 @@ class SynthDocument:
 
         rxn_setups = await asyncio.gather(*[p.async_extract(self.rs_extractor) for p in self.paragraphs])
 
-
-        self.rxn_setups = list(chain(*[p for p in rxn_setups]))
+        self.rxn_setups = list(chain(*[p for p in rxn_setups if p is not None]))
         print(self.rxn_setups)
 
     def _build_doc(

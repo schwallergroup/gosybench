@@ -4,7 +4,7 @@ Defines the SynthParagraph class.
 Extract and contain all data from a synthesis paragraph.
 """
 
-from typing import Dict, List
+from typing import Dict, List, Optional
 
 
 class SynthParagraph:
@@ -51,6 +51,8 @@ class SynthParagraph:
         """
 
         raw_output = extractor(self.text)
+        return raw_output
+
         self.data["rxn_setup"] = self._flatten_list(raw_output)
 
         return self.data["rxn_setup"]
@@ -72,7 +74,7 @@ class SynthParagraph:
 
         return self.data["rxn_setup"]
 
-    def _flatten_list(self, in_list: list):
+    def _flatten_list(self, in_list: list) -> Optional[list]:
         """
         Flattens a list that may contain nested lists into a single flat list.
 
@@ -86,6 +88,9 @@ class SynthParagraph:
         AB: This seems to be needed as the output of LLM
         is not always a flat list.
         """
+
+        if in_list['reference_key'] is None:
+            return None
 
         clean_list = []
 
