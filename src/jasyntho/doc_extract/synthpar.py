@@ -5,6 +5,7 @@ Extract and contain all data from a synthesis paragraph.
 """
 
 from typing import Dict, List
+
 from jasyntho.extract.rxn_setup.typing import Product
 
 
@@ -12,9 +13,7 @@ class SynthParagraph:
     """
     Synthesis paragraph.
 
-    Contains details about preparation of a (set of) substances.
-    TODO: Include all extraction capabilities here
-          (extend to work-up, purification, analysis).
+    Contains details about preparation of a substance.
     """
 
     def __init__(self, text: str) -> None:
@@ -39,29 +38,21 @@ class SynthParagraph:
             return s
 
     def extract(self, extractor) -> Product:
-        """Extract information from this paragraph in a standard format.
+        """Extract data from paragraph.
 
         Input
         extractor: Extractor
             Initialized data extractor.
-
-        Output:
-        extracted_data: Product
-            Extracted list of products with preparation metadata.
         """
         raw_output = extractor(self.text)
         return raw_output
 
     async def async_extract(self, extractor) -> Product:
-        """Extract information from this paragraph in a standard format.
+        """Extract data from paragraph. Asynchronous.
 
         Input
         extractor: Extractor
             Initialized data extractor.
-
-        Output:
-        extracted_data: Product
-            Extracted list of products with preparation metadata.
         """
         raw_output = await extractor.async_call(self.text)
         return raw_output

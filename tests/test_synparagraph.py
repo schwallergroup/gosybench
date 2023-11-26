@@ -3,8 +3,10 @@
 import ast
 import json
 import os
+
 import pytest
 from dotenv import load_dotenv
+
 from jasyntho.extract import Extractor
 
 load_dotenv()
@@ -17,7 +19,7 @@ with open("tests/synth_child_io/sample.json") as fh:
 
 def get_children(prg):
     """Execute children extractor chain"""
-    extr = Extractor('rxn_setup')
+    extr = Extractor("rxn_setup")
     out = extr(prg)
     return out
 
@@ -33,7 +35,9 @@ def test_child_extr_chain(inp, expect):
     try:
         assert out[0].reference_key in exp[0]["reference_key"]
     except:
-        assert (out[0].reference_key is None) and (exp[0]["reference_key"] is None)
+        assert (out[0].reference_key is None) and (
+            exp[0]["reference_key"] is None
+        )
 
 
 # from jasyntho.doc_extract.synthpar import SynthParagraph

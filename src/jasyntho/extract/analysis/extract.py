@@ -39,18 +39,33 @@ nmr_data = Object(
                 {"value": "8.462", "multiplicity": "s", "protons": "1H"},
                 {"range": "8.029-7.471", "multiplicity": "m", "protons": "7H"},
                 {"range": "7.394-7.343", "multiplicity": "m", "protons": "5H"},
-                {"value": "5.410", "multiplicity": "d", "protons": "2H", "j_constant": "6.8 Hz"},
+                {
+                    "value": "5.410",
+                    "multiplicity": "d",
+                    "protons": "2H",
+                    "j_constant": "6.8 Hz",
+                },
                 {"value": "5.300", "multiplicity": "m", "protons": "1H"},
                 {"value": "5.233", "multiplicity": "m", "protons": "2H"},
                 {"value": "4.341", "multiplicity": "m", "protons": "1H"},
-                {"value": "4.236", "multiplicity": "d", "protons": "1H", "j_constant": "7.2 Hz"},
+                {
+                    "value": "4.236",
+                    "multiplicity": "d",
+                    "protons": "1H",
+                    "j_constant": "7.2 Hz",
+                },
                 {"value": "3.603", "multiplicity": "s", "protons": "3H"},
                 {"value": "3.551", "multiplicity": "s", "protons": "3H"},
                 {"range": "3.522-3.241", "multiplicity": "m", "protons": "8H"},
                 {"value": "2.650", "multiplicity": "m", "protons": "1H"},
                 {"value": "2.550", "multiplicity": "m", "protons": "2H"},
                 {"range": "1.977-1.926", "multiplicity": "m", "protons": "4H"},
-                {"value": "1.221", "multiplicity": "d", "protons": "3H", "J": "3.2 Hz"},
+                {
+                    "value": "1.221",
+                    "multiplicity": "d",
+                    "protons": "3H",
+                    "J": "3.2 Hz",
+                },
                 {
                     "range": "0.897-0.779",
                     "multiplicity": "dd",
@@ -68,7 +83,10 @@ nmr = Object(
     description="nuclear magnetic resonance method determining the content and purity of a sample ",
     attributes=[
         Text(id="name", description="the name of the method"),
-        Text(id="solvent", description="the solvent in which the NMR is undergone"),
+        Text(
+            id="solvent",
+            description="the solvent in which the NMR is undergone",
+        ),
         nmr_data,
     ],
     examples=[
@@ -83,8 +101,18 @@ nmr = Object(
                     "name": "1H-NMR",
                     "solvent": "DMSO-d6",
                     "nmr_data": [
-                        {"value": "12.6", "multiplicity": "brs", "protons": "1H", "group": "CO2H"},
-                        {"value": "8.04", "multiplicity": "brs", "protons": "3H", "group": "NH3−"},
+                        {
+                            "value": "12.6",
+                            "multiplicity": "brs",
+                            "protons": "1H",
+                            "group": "CO2H",
+                        },
+                        {
+                            "value": "8.04",
+                            "multiplicity": "brs",
+                            "protons": "3H",
+                            "group": "NH3−",
+                        },
                         {
                             "value": "6.10",
                             "multiplicity": "dt",
@@ -117,7 +145,12 @@ nmr = Object(
                             "j_constant": "5.3 Hz (overlapping with DMSO peak)",
                             "group": "½CH2",
                         },
-                        {"value": "2.39", "multiplicity": "s", "protons": "3H", "group": "CH3SO3H"},
+                        {
+                            "value": "2.39",
+                            "multiplicity": "s",
+                            "protons": "3H",
+                            "group": "CH3SO3H",
+                        },
                         {
                             "value": "1.93",
                             "multiplicity": "dt",
@@ -182,8 +215,13 @@ bp_data = Object(
     id="bp_data",
     description="the boiling point of the product",
     attributes=[
-        Text(id="boiling_point", description="the boiling point of the product"),
-        Text(id="pressure", description="the pressure under which the boiling point is measured"),
+        Text(
+            id="boiling_point", description="the boiling point of the product"
+        ),
+        Text(
+            id="pressure",
+            description="the pressure under which the boiling point is measured",
+        ),
     ],
     examples=[
         (
@@ -204,7 +242,9 @@ mp_data = Object(
     id="mp_data",
     description="the melting point of the product",
     attributes=[
-        Text(id="melting_point", description="the melting point of the product"),
+        Text(
+            id="melting_point", description="the melting point of the product"
+        ),
     ],
     examples=[
         (
@@ -225,7 +265,10 @@ nd30 = Object(
     id="nd30",
     description="the refractive index of the compound under analytics",
     attributes=[
-        Text(id="nd30", description="the refractive index of the compound under analytics"),
+        Text(
+            id="nd30",
+            description="the refractive index of the compound under analytics",
+        ),
     ],
     examples=[
         (
@@ -248,4 +291,6 @@ analysis_schema = Object(
     many=True,
 )
 
-chain_analysis = create_extraction_chain(llm_gpt4, analysis_schema, encoder_or_encoder_class="json")
+chain_analysis = create_extraction_chain(
+    llm_gpt4, analysis_schema, encoder_or_encoder_class="json"
+)

@@ -1,11 +1,11 @@
 """pydantic models for the substance classes."""
 
+from typing import List, Literal, Optional
+
 import instructor
 import openai
-from typing import List, Literal, Optional
-from pydantic import ValidationError
-from pydantic import BaseModel, Field
 from colorama import Fore
+from pydantic import BaseModel, Field, ValidationError
 
 
 class Substance(BaseModel):
@@ -56,7 +56,7 @@ class Product(Substance):
         props: Dictionary of properties of this substance.
     """
 
-    role: str = 'product'  # type: ignore
+    role: str = "product"  # type: ignore
     children: List[Substance]
 
     @classmethod
@@ -65,7 +65,7 @@ class Product(Substance):
         s_list = [Substance.from_lm(s) for s in slist.substances]
 
         # 1. Identify the product
-        prods_list = [s for s in s_list if s.role == 'product']
+        prods_list = [s for s in s_list if s.role == "product"]
         nprod = len(prods_list)
         if nprod == 0:
             return cls.empty()
@@ -79,7 +79,7 @@ class Product(Substance):
 
         # 2. Identify the children
         # Identify which reactants have same name as product
-        child_list = [s for s in s_list if s.role != 'product']
+        child_list = [s for s in s_list if s.role != "product"]
         clean_ch = [s for s in child_list if s.reference_key != pkey]
 
         # Identify children that have same reference_key
@@ -95,25 +95,18 @@ class Product(Substance):
                 same_key = [s for s in clean_ch if s.reference_key == k]
 
                 # Remove any that isn't a reactant
-                if any([s.role == 'reactant' for s in same_key]):
+                if any([s.role == "reactant" for s in same_key]):
                     for s in same_key:
-                        if s.role != 'reactant':
+                        if s.role != "reactant":
                             clean_ch.remove(s)
         child_final = [Substance.from_lm(s) for s in clean_ch]
 
         return cls(
-            reference_key=pkey,
-            substance_name=pname,
-            children=child_final
+            reference_key=pkey, substance_name=pname, children=child_final
         )
 
     @classmethod
-    def from_paragraph(
-            cls,
-            prgr: str,
-            client: instructor.patch,
-            llm: str
-    ):
+    def from_paragraph(cls, prgr: str, client: instructor.patch, llm: str):
         """Extract the substances in a reaction."""
         try:
             subs_list = client.chat.completions.create(
@@ -132,10 +125,7 @@ class Product(Substance):
 
     @classmethod
     async def async_from_paragraph(
-            cls,
-            prgr: str,
-            aclient: instructor.apatch,
-            llm: str
+        cls, prgr: str, aclient: instructor.apatch, llm: str
     ):
         """Extract the substances in a reaction."""
         try:
@@ -157,8 +147,11 @@ class Product(Substance):
     def empty(cls):
         """Return an empty product."""
         return cls(
-            reference_key=None,
-            substance_name='',
-            children=[],
-            props=None
+            reference_key=None, substance_name="", children=[], props=None
         )
+
+    def isempty(self):
+        """Tell if object is empty."""
+        if self.reference_key is None:
+            return True
+        return False

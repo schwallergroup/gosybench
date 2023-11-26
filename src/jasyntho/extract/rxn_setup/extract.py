@@ -1,9 +1,10 @@
 """Data extraction from reaction setup text segments."""
 
 from typing import Union
+
 import instructor  # type: ignore
 from dotenv import load_dotenv
-from openai import OpenAI, AsyncOpenAI  # type: ignore
+from openai import AsyncOpenAI, OpenAI  # type: ignore
 
 from .typing import Product
 
@@ -17,9 +18,9 @@ class ReactionSetup:
         """Initialize the extractor."""
         load_dotenv()
 
-        self.llm = 'gpt-3.5-turbo'
-        self.llm = 'gpt-4-1106-preview'
-        self.llm = 'gpt-4'
+        self.llm = "gpt-3.5-turbo"
+        self.llm = "gpt-4-1106-preview"
+        self.llm = "gpt-4"
         self.client = instructor.patch(OpenAI())
         self.aclient = instructor.apatch(AsyncOpenAI())
 
