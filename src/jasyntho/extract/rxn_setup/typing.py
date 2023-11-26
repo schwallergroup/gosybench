@@ -2,9 +2,10 @@
 
 import instructor
 import openai
-from typing import List, Literal, Optional, Dict, Union
+from typing import List, Literal, Optional
 from pydantic import ValidationError
 from pydantic import BaseModel, Field
+from colorama import Fore
 
 
 class Substance(BaseModel):
@@ -57,27 +58,53 @@ class Product(Substance):
 
     role: str = 'product'  # type: ignore
     children: List[Substance]
-    props: Optional[Dict[str, str]] = None
 
     @classmethod
     def from_substancelist(cls, slist: SubstanceList):
         """Convert from SubstanceList."""
-        child = {}
-        pkey = ''
-        pname = ''
-        for s in slist.substances:
-            if s.role == 'product':
-                pname = s.substance_name
-                pkey = s.reference_key
-                if pkey is None:
-                    pkey = pname
-            else:
-                # TODO: handle multiple children
-                child[s.reference_key] = Substance.from_lm(s)
+        s_list = [Substance.from_lm(s) for s in slist.substances]
+
+        # 1. Identify the product
+        prods_list = [s for s in s_list if s.role == 'product']
+        nprod = len(prods_list)
+        if nprod == 0:
+            return cls.empty()
+        elif nprod > 1:
+            print(Fore.RED, "More than one product in reaction. TODO")
+            print("\n", prods_list, "\n", Fore.RESET)
+            return cls.empty()
+        else:
+            pkey = prods_list[0].reference_key
+            pname = prods_list[0].substance_name
+
+        # 2. Identify the children
+        # Identify which reactants have same name as product
+        child_list = [s for s in s_list if s.role != 'product']
+        clean_ch = [s for s in child_list if s.reference_key != pkey]
+
+        # Identify children that have same reference_key
+        keys = [s.reference_key for s in clean_ch]
+        # Count the occurence of each unique value in keys
+        counts = {k: keys.count(k) for k in set(keys)}
+
+        multiple_keys = [k for k, v in counts.items() if v > 1]
+        if len(multiple_keys) > 0:
+            for k in multiple_keys:
+                print(f"Found key '{k}' in multiple children.")
+                # Find the substances with this key
+                same_key = [s for s in clean_ch if s.reference_key == k]
+
+                # Remove any that isn't a reactant
+                if any([s.role == 'reactant' for s in same_key]):
+                    for s in same_key:
+                        if s.role != 'reactant':
+                            clean_ch.remove(s)
+        child_final = [Substance.from_lm(s) for s in clean_ch]
+
         return cls(
             reference_key=pkey,
             substance_name=pname,
-            children=list(child.values())
+            children=child_final
         )
 
     @classmethod
@@ -88,8 +115,6 @@ class Product(Substance):
             llm: str
     ):
         """Extract the substances in a reaction."""
-        prgr = prgr[:700]
-
         try:
             subs_list = client.chat.completions.create(
                 model=llm,
@@ -113,8 +138,6 @@ class Product(Substance):
             llm: str
     ):
         """Extract the substances in a reaction."""
-        prgr = prgr[:700]
-
         try:
             subs_list = await aclient.chat.completions.create(
                 model=llm,

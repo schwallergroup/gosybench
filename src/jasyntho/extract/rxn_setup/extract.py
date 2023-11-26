@@ -17,17 +17,19 @@ class ReactionSetup:
         """Initialize the extractor."""
         load_dotenv()
 
-        # self.llm = 'gpt-3.5-turbo'
+        self.llm = 'gpt-3.5-turbo'
         self.llm = 'gpt-4-1106-preview'
+        self.llm = 'gpt-4'
         self.client = instructor.patch(OpenAI())
         self.aclient = instructor.apatch(AsyncOpenAI())
 
-    def __call__(self, text: str) -> Union[dict, list]:
+    def __call__(self, text: str) -> Product:
         """Execute the extraction pipeline for a single paragraph."""
         product = Product.from_paragraph(text, self.client, self.llm)
         return product
 
-    async def async_call(self, text: str) -> Union[dict, list]:
+    async def async_call(self, text: str) -> Product:
         """Execute the extraction pipeline for a paragraph asynchronously."""
+        print(text)
         product = Product.async_from_paragraph(text, self.aclient, self.llm)
         return await product

@@ -8,6 +8,7 @@ from typing import Optional
 
 import networkx as nx
 import pandas as pd
+import bigtree
 from bigtree import (
     Node,
     copy_nodes_from_tree_to_tree,
@@ -54,10 +55,13 @@ class SynthTree(SynthDocument):
 
         # Convert each dictionary to a tree
         for dictionary in dict_list:
-            new_tree = nested_dict_to_tree(
-                node_attrs=dictionary, name_key=name_key, child_key=child_key
-            )
-            tree_list.append(new_tree)
+            try:
+                new_tree = nested_dict_to_tree(
+                    node_attrs=dictionary, name_key=name_key, child_key=child_key
+                )
+                tree_list.append(new_tree)
+            except bigtree.utils.exceptions.TreeError:
+                pass
 
         return tree_list
 

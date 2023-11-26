@@ -9,7 +9,6 @@ from typing import Dict, List, Optional, Union
 
 import fitz
 from dotenv import load_dotenv
-from fitz.fitz import Document
 
 from jasyntho.extract import Extractor
 
@@ -19,13 +18,15 @@ load_dotenv()
 
 
 class SynthDocument:
-    """Synthesis document composed of multiple synthesis paragraph
-    within a given context.
+    """Synthesis doc composed of multiple synth paragraphs.
+
     Initialize from pdf files.
     """
 
     def __init__(self, doc_src: str, api_key: Optional[str] = None) -> None:
         """
+        Initialize a synthesis document.
+
         Input
         ______
         doc_src: Union[str, list]
@@ -39,32 +40,25 @@ class SynthDocument:
         self.paragraphs = self._build_doc(doc_src)
 
     def extract_rss(self) -> None:
-        """
-        Extract the reaction setups for each paragraph in the document.
-        """
-        # TODO: parallelize
-        #rxn_setups = [p.extract(self.rs_extractor) for p in tqdm(self.paragraphs)]
-        # Write a for loop for the above using async
+        """Extract reaction setups for each paragraph in the doc."""
         rxn_setups = [p.extract(self.rs_extractor) for p in self.paragraphs]
 
-        self.rxn_setups = list(chain(*[p for p in rxn_setups]))
-        print(self.rxn_setups)
+        self.rxn_setups = []
+        for p in rxn_setups:
+            if p.reference_key is not None or p.reference_key != "":
+                self.rxn_setups.append(p.model_dump())
 
     async def async_extract_rss(self) -> None:
-        """
-        Extract the reaction setups for each paragraph in the document.
-        """
+        """Extract reaction setups for each paragraph in the doc."""
+        rxn_setups = await asyncio.gather(
+            *[p.async_extract(self.rs_extractor) for p in self.paragraphs]
+        )
 
-        # rxn_setups = []
-        # for p in tqdm(self.paragraphs):
-        #     result = p.extract(self.rs_extractor)
-        #     await asyncio.gather(*result)
-        #     rxn_setups.append(result)
+        self.rxn_setups = []
+        for p in rxn_setups:
+            if p.reference_key is not None or p.reference_key != "":
+                self.rxn_setups.append(p.model_dump())
 
-        rxn_setups = await asyncio.gather(*[p.async_extract(self.rs_extractor) for p in self.paragraphs])
-
-        self.rxn_setups = list(chain(*[p for p in rxn_setups if p is not None]))
-        print(self.rxn_setups)
 
     def _build_doc(
         self, doc_src: str, start: int = 0, end: Optional[int] = None
