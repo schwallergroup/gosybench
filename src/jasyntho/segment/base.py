@@ -56,7 +56,12 @@ class Segmentor:
         ______
             JSON object with ['segment', 'class', 'order'] properties for each segment.
         """
-        valid_entries = ["text segment", "text class", "explanation", "step order"]
+        valid_entries = [
+            "text segment",
+            "text class",
+            "explanation",
+            "step order",
+        ]
 
         output = []
         segments = re.split(
@@ -72,7 +77,9 @@ class Segmentor:
             for j in range(0, len(sentences)):
                 item = sentences[j].split(": ")  # split label and its content
                 try:
-                    if item[0] in valid_entries:  # continue if the label does not exist
+                    if (
+                        item[0] in valid_entries
+                    ):  # continue if the label does not exist
                         # save index and value in the dictionary
                         dict_temp[item[0]] = item[1]
                     else:
@@ -82,7 +89,9 @@ class Segmentor:
                         continue
 
                     else:
-                        dict_temp[item[0]] = item[1]  # save index and value in the dictionary
+                        dict_temp[item[0]] = item[
+                            1
+                        ]  # save index and value in the dictionary
 
             output.append(dict_temp)  # save the dictionary into the list
 

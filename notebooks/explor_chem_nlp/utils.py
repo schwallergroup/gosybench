@@ -66,7 +66,11 @@ def sequence_calculator(seq1, seq2, list_examples):
         total = total + value
 
     output_string = (
-        "The number of sequence starting with " + seq1 + " and ending with " + seq2 + " is: "
+        "The number of sequence starting with "
+        + seq1
+        + " and ending with "
+        + seq2
+        + " is: "
     )
 
     return total
@@ -78,7 +82,9 @@ def sequence_matrix_creator(list_examples_quar):
 
     for i in range(len(char_list)):
         for j in range(len(char_list)):
-            output = sequence_calculator(char_list[i], char_list[j], list_examples_quar)
+            output = sequence_calculator(
+                char_list[i], char_list[j], list_examples_quar
+            )
             ls.append(output)
 
     arr = np.array(ls)
@@ -196,7 +202,9 @@ def rxn_setup_work_up_text(segm_parags):
         text_segm = segm["text segment"][1:-1]
 
         if cls == "reaction set-up":
-            if flag == 0:  # a work-up is not in the string, rxn set-up can be concat to the string
+            if (
+                flag == 0
+            ):  # a work-up is not in the string, rxn set-up can be concat to the string
                 if rxn_set_up_str == "":
                     rxn_set_up_str += text_segm
                 else:
@@ -266,13 +274,16 @@ def segms_compress(segms):
         for i in range(0, len(segms) - 1):
             if class_check(segms[i]["text class"], segms[i + 1]["text class"]):
                 if str_temp != "":
-                    str_temp = str_combine(str_temp, segms[i + 1]["text segment"][1:-1])
+                    str_temp = str_combine(
+                        str_temp, segms[i + 1]["text segment"][1:-1]
+                    )
                     text_class = text_class
                     step_order = step_order
 
                 else:
                     str_temp = str_combine(
-                        segms[i]["text segment"][1:-1], segms[i + 1]["text segment"][1:-1]
+                        segms[i]["text segment"][1:-1],
+                        segms[i + 1]["text segment"][1:-1],
                     )
                     text_class = segms[i]["text class"]
                     step_order = str(int(segms[i]["step order"]) - i + len(ls))
@@ -292,13 +303,19 @@ def segms_compress(segms):
                     dict_temp = {
                         "text segment": segms[i]["text segment"],
                         "text class": segms[i]["text class"],
-                        "step order": str(int(segms[i]["step order"]) - i + len(ls)),
+                        "step order": str(
+                            int(segms[i]["step order"]) - i + len(ls)
+                        ),
                     }
                     ls.append(dict_temp)
 
         if str_temp != "":
             ls.append(
-                {"text segment": str_temp, "text class": text_class, "step order": step_order}
+                {
+                    "text segment": str_temp,
+                    "text class": text_class,
+                    "step order": step_order,
+                }
             )
 
         else:  # r-w-r-w
@@ -360,7 +377,9 @@ def check_segment_format(string):
 
     # Split a string without removing the delimiter
     substring_list = [
-        substring + add_delimiter for substring in string.split(remove_delimiter) if substring
+        substring + add_delimiter
+        for substring in string.split(remove_delimiter)
+        if substring
     ]
 
     # Removing the trailing delimiter "}" in the last element
@@ -408,7 +427,9 @@ def check_edit_distance(parag, string):
 
     # Split a string without removing the delimiter
     substring_list = [
-        substring + add_delimiter for substring in string.split(remove_delimiter) if substring
+        substring + add_delimiter
+        for substring in string.split(remove_delimiter)
+        if substring
     ]
 
     # Removing the trailing delimiter "}" in the last element

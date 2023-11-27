@@ -1,173 +1,33 @@
-"""Data extraction from reaction setup text segments"""
+"""Data extraction from reaction setup text segments."""
 
-import ast
-import os
-import re
-from typing import Union
-
-from chemdataextractor import Document
-from chemdataextractor.doc import Heading
+import instructor  # type: ignore
 from dotenv import load_dotenv
-from langchain.chains import LLMChain
-from langchain.chat_models import ChatOpenAI
+from openai import AsyncOpenAI, OpenAI  # type: ignore
 
-from .prompts import childextr_tpl, propextr_tpl
+from .typing import Product
 
 
 class ReactionSetup:
     """Extraction of structured data from reaction-setup snippet."""
 
     def __init__(self, api_key=None):
-        """Initialize LLMChain for data extraction with GPT-4."""
+        """Initialize the extractor."""
         load_dotenv()
-        openai_key = api_key or os.environ.get("OPENAI_API_KEY")
 
-        self.llm = ChatOpenAI(
-            model_name="gpt-3.5-turbo",
-            openai_api_key=openai_key,
-            temperature=0.0,
-            max_tokens=512,
-            request_timeout=60,  # wait for max 1 min
-        )
-        self.prod_prop_chain = LLMChain(prompt=propextr_tpl, llm=self.llm)
-        self.child_prop_chain = LLMChain(prompt=childextr_tpl, llm=self.llm)
+        self.llm = "gpt-3.5-turbo"
+        self.llm = "gpt-4-1106-preview"
+        # self.llm = "gpt-4"
+        self.client = instructor.patch(OpenAI())
+        self.aclient = instructor.apatch(AsyncOpenAI())
 
-    def __call__(self, text: str) -> Union[dict, list]:
+    def __call__(self, text: str) -> Product:
         """Execute the extraction pipeline for a single paragraph."""
-        header, parag = self._split_paragraph(text)
-        prods_md = self._products_metadata(header, parag)
-        # TODO add when tree building is stable
-        # if len(prods_md) != 0:
-        #     prods_md["procedure"] = text
-        # else:
-        #     return []
+        product = Product.from_paragraph(text, self.client, self.llm)
+        return product
 
-        prods_child = self._reformat_extend(parag)
-
-        # Finally complete prods_md with prods_child
-        prod_list = []
-        for prod_key, prod_d in prods_md.items():
-            if prods_child["status"] == "success":
-                prod_d["children"] = prods_child["data"]
-            elif len(prods_md.keys()) > 0:
-                prod_d["children"] = []
-            prod_list.append(prod_d)
-
-        return prod_list
-
-    def _products_metadata(self, heading: str, content: str) -> dict:
-        """Extract metadata for all products described in paragraph.
-
-        Input:
-            heading : str
-                heading of paragr, containing the product names and labels
-            content : str
-                content of paragr, containing the reaction set-up and analysis
-        Output:
-            dict: list of products with metadata + reaction set-up
-                follows schema:
-                {
-                    'prod_label':
-                        {
-                            'substance_name': '...',
-                            'reference_key': '...',
-                            'mass': '...',
-                            'yield': '...',
-                            'moles': '...',
-                        }
-                }
-        """
-        products = self._extract_prods_header(heading)
-        segments = self._filter_sgmnt(content)
-
-        prods_inp = str([p["labels"] for p in products])
-        prod_props = self._prod_data_llm(prods_inp, segments)
-        merged_data = self._merge_prod_data(products, prod_props)
-        return merged_data
-
-    def _reformat_extend(self, prg: str) -> dict:
-        """Extend details in dict.
-
-        Expand details of reaction set-up step for each product
-        obtained in first step.
-        For each product, return a dict:
-            {'reference_key', 'compound_name', 'reagents'}
-        """
-        # Preprocess paragraph
-        # TODO: this is only a proxy to getting reaction setup. find better way
-        prg = prg[:400]  # Simply take 400 first chars: rxn setup
-
-        out_llm = self.child_prop_chain.run(prg)
-        try:
-            dt = ast.literal_eval(out_llm)
-            dt = self.__clean_synth_dict(dt)
-            data = {"status": "success", "data": dt}
-        except SyntaxError:
-            data = {"status": "failure", "data": out_llm}
-
-        return data
-
-    def __clean_synth_dict(self, dicts: dict):
-        """Clean extracted json of paragraph children.
-
-        For now, simply keeping the first instance of a key.
-        TODO: Add more sophisticated cleaning.
-        """
-        # Reversed so that we get the first instance of a key
-        keys = {d["reference_key"]: d for d in reversed(dicts)}
-        return list(keys.values())
-
-    def _merge_prod_data(self, products, prod_props):
-        """Merge property and product ID dictionaries."""
-        f_data = {}
-        for p in products:
-            lbl = p["labels"][0]
-            try:
-                names = p["names"]  # assume 'names' exists
-            except KeyError:
-                names = lbl
-
-            f_data[lbl] = {"substance_name": names, "reference_key": lbl}
-            f_data[lbl].update(prod_props[lbl])
-        return f_data
-
-    def _split_paragraph(self, text: str) -> tuple:
-        """Split paragraph into header and content."""
-        try:
-            # Find occurence of (ID), where ID is product identifier:
-            # any combination of letters and numbers
-            match = re.search(r"\([A-Za-z\d]+\)\:", text)
-            sp = match.span()  # type: ignore
-
-            header = text[: sp[1]]
-            parag = text[sp[1] :]
-        except AttributeError:
-            header = ""
-            parag = text
-        return header, parag
-
-    def _extract_prods_header(self, head):
-        """Extract product name and label from header using CDE."""
-        prg = Document(Heading(head))
-        return prg.records.serialize()
-
-    def _filter_sgmnt(self, prg):
-        """Get relevant excerpts from paragraph.
-
-        Return concat excerpts that may contain
-        analytical data from products
-        """
-        segments = ""
-        for i, m in enumerate(re.finditer(r"yield|\%", prg)):
-            s = m.span()
-            segments += f"{i+1}. {prg[s[0]-60:s[1]+60]}\n"
-        return segments
-
-    def _prod_data_llm(self, products, segments):
-        """Get analytical data for product using LLMs."""
-        response = self.prod_prop_chain.run(products=products, segments=segments)
-        try:
-            prod_props = ast.literal_eval(response)
-        except SyntaxError:
-            prod_props = []
-        return prod_props
+    async def async_call(self, text: str) -> Product:
+        """Execute the extraction pipeline for a paragraph asynchronously."""
+        product = await Product.async_from_paragraph(
+            text, self.aclient, self.llm
+        )
+        return product

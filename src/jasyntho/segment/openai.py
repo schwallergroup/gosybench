@@ -14,7 +14,9 @@ from .prompts import gpt_prompt_tmplt, human_example
 class SegGPT(Segmentor):
     """Segmentator with GPT-3/4."""
 
-    def __init__(self, model: Optional[str] = "gpt-4", api_key: Optional[str] = None) -> None:
+    def __init__(
+        self, model: Optional[str] = "gpt-4", api_key: Optional[str] = None
+    ) -> None:
         """Segmentor class with OpenAI GPT models for Chat.
         Input
         _____
@@ -47,6 +49,9 @@ class SegGPT(Segmentor):
         if isinstance(inputs, str):
             inputs = [inputs]
 
-        outputs = [self.llmchain.run({"example": human_example, "paragraph": p}) for p in inputs]
+        outputs = [
+            self.llmchain.run({"example": human_example, "paragraph": p})
+            for p in inputs
+        ]
 
         return outputs

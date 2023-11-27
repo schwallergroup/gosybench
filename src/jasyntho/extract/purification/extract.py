@@ -14,7 +14,10 @@ chromatography = Object(
     description=" chromatography is a laboratory technique for the separation of a mixture into its components.",
     attributes=[
         Text(id="name", description="the name of the method"),
-        Text(id="solvent", description=("the solvent used in this purification step" "")),
+        Text(
+            id="solvent",
+            description=("the solvent used in this purification step" ""),
+        ),
     ],
     examples=[
         (
@@ -41,7 +44,10 @@ crystallization = Object(
     description=" crystallization is a procedure for purifying an impure compound in a solvent.",
     attributes=[
         Text(id="name", description="the name of the method"),
-        Text(id="solvent", description=("the solvent used in this purification step" "")),
+        Text(
+            id="solvent",
+            description=("the solvent used in this purification step" ""),
+        ),
     ],
     examples=[
         (

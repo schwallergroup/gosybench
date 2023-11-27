@@ -34,4 +34,6 @@ with open("data/uspto_segmented.bin", "wb") as f:
 
         if i % backup_freq == 0:
             pickle.dump(segm_map, f)
-            print(f"Last backup: {i}th epoch. Processed {len(segm_map)} samples so far")
+            print(
+                f"Last backup: {i}th epoch. Processed {len(segm_map)} samples so far"
+            )

@@ -20,10 +20,19 @@ work_up = Object(
             id="action",
             description="The action that the experimentalist took. Choose one of the following: [heat, cold, stir, treat, wash, dilute, unknown]",
         ),
-        Text(id="temperature", description="The working temperature of the reaction"),
+        Text(
+            id="temperature",
+            description="The working temperature of the reaction",
+        ),
         Text(id="time", description="The working time of the reaction"),
-        Text(id="pressure", description="The pressure under which the reaction is undergone"),
-        Text(id="equipment", description="The equipment the experimentalist used in the step"),
+        Text(
+            id="pressure",
+            description="The pressure under which the reaction is undergone",
+        ),
+        Text(
+            id="equipment",
+            description="The equipment the experimentalist used in the step",
+        ),
         Text(id="description", description="The text describing the step"),
         solvent,
         catalyst,
@@ -62,7 +71,11 @@ work_up = Object(
                     "description": "The crude residue was treated with (R)-2-(methoxycarbonylamino)-2-phenylacetic acid (44 mg, 0.21 mmol), COMU (100 mg, 0.21 mmol) and DMF (5 mL), then DIPEA (0.18 mL, 1.05 mmol) was added dropwise.",
                     "action": "treated",
                     "solvents": [
-                        {"name": "COMU", "mass": "100 mg", "moles": "0.21 mmol"},
+                        {
+                            "name": "COMU",
+                            "mass": "100 mg",
+                            "moles": "0.21 mmol",
+                        },
                     ],
                 },
                 {
@@ -76,7 +89,11 @@ work_up = Object(
                     "description": "The crude residue was treated with (R)-2-(methoxycarbonylamino)-2-phenylacetic acid (44 mg, 0.21 mmol), COMU (100 mg, 0.21 mmol) and DMF (5 mL), then DIPEA (0.18 mL, 1.05 mmol) was added dropwise.",
                     "action": "added dropwise",
                     "solvents": [
-                        {"name": "DIPEA", "volume": "0.18 mL", "moles": "1.05 mmol"},
+                        {
+                            "name": "DIPEA",
+                            "volume": "0.18 mL",
+                            "moles": "1.05 mmol",
+                        },
                     ],
                 },
                 {
@@ -91,7 +108,10 @@ work_up = Object(
                     "description": "After 1 h, the mixture was diluted with 10% MeOH/EtOAc and washed successively with saturated aqueous NaHCO3 and brine.",
                     "action": "washed successively",
                     "solvents": [
-                        {"name": "aqueous NaHCO3 and brine", "concentration": "saturated"},
+                        {
+                            "name": "aqueous NaHCO3 and brine",
+                            "concentration": "saturated",
+                        },
                     ],
                 },
                 {
@@ -123,4 +143,6 @@ work_up_schema = Object(
     many=True,
 )
 
-chain_work_up = create_extraction_chain(llm_gpt4, work_up_schema, encoder_or_encoder_class="json")
+chain_work_up = create_extraction_chain(
+    llm_gpt4, work_up_schema, encoder_or_encoder_class="json"
+)

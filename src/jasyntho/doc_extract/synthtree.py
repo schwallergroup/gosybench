@@ -1,4 +1,5 @@
-"""Define class SynthTree.
+"""
+Define class SynthTree.
 
 tree of SynthNodes that represent the chemical synthesis described in pdf doc.
 """
@@ -6,8 +7,9 @@ tree of SynthNodes that represent the chemical synthesis described in pdf doc.
 import os
 from typing import Optional
 
-import networkx as nx
-import pandas as pd
+import bigtree
+import networkx as nx  # type: ignore
+import pandas as pd  # type: ignore
 from bigtree import (
     Node,
     copy_nodes_from_tree_to_tree,
@@ -22,37 +24,54 @@ from .synthdoc import SynthDocument
 class SynthTree(SynthDocument):
     """Extend SynthDocument to represent reaction tree."""
 
-    def __init__(self, doc_src: str, api_key: Optional[str] = None) -> None:
+    def __init__(
+        self,
+        doc_src: str,
+        api_key: Optional[str] = None,
+        startp: int = 0,
+        endp: Optional[int] = None,
+    ) -> None:
         """Initialize a SynthTree object."""
-        super(SynthTree, self).__init__(doc_src, api_key)
+        super(SynthTree, self).__init__(
+            doc_src, api_key, startp, endp
+        )  # TODO: select startp and endp automatically from doc_src
 
-        self.extract_rss()
+    def build_tree(self):
+        """Make and merge trees."""
+        rxn_setups = self.extract_rss()
+        self.products = [p.model_dump() for p in rxn_setups]
 
-        self.trees = self.dictionaries2trees(self.rxn_setups)
+        self.trees = self.dictionaries2trees(self.products)
         self.merged_trees = self.merge_trees(self.trees)
         self.networks = self.bigtrees_to_networks(self.merged_trees)
 
     def dictionaries2trees(
-        self, dict_list: list, name_key: str = "reference_key", child_key: str = "children"
-    ):
+        self,
+        dict_list: list,
+        name_key: str = "reference_key",
+        child_key: str = "children",
+    ) -> list:
         """
         Convert list of dicts into list of bigtree Node objects.
 
         Input
-            dict_list (list): JSON representing trees.
-
-        Returns:
-            tree_list (list): List of trees converted from the input JSON.
+            dict_list: JSON representing trees.
         """
 
         tree_list = []
 
         # Convert each dictionary to a tree
         for dictionary in dict_list:
-            new_tree = nested_dict_to_tree(
-                node_attrs=dictionary, name_key=name_key, child_key=child_key
-            )
-            tree_list.append(new_tree)
+            try:
+                new_tree = nested_dict_to_tree(
+                    node_attrs=dictionary,
+                    name_key=name_key,
+                    child_key=child_key,
+                )
+                tree_list.append(new_tree)
+            except bigtree.utils.exceptions.TreeError:
+                print(f"Error converting into tree: {dictionary}")
+                pass
 
         return tree_list
 
@@ -82,7 +101,9 @@ class SynthTree(SynthDocument):
             return merged + solo_nodes
 
         else:
-            raise ValueError("Input list is not a list of only bigtree Node objects.")
+            raise ValueError(
+                "Input list is not a list of only bigtree Node objects."
+            )
 
     def bigtrees_to_networks(
         self,
@@ -123,16 +144,23 @@ class SynthTree(SynthDocument):
             # Convert each tree to a dataframe and then to a directed graph
             for tree in tree_list:
                 df = tree_to_dataframe(
-                    tree, name_col=name_col, parent_col=parent_col, all_attrs=all_attrs
+                    tree,
+                    name_col=name_col,
+                    parent_col=parent_col,
+                    all_attrs=all_attrs,
                 )
-                graph = self._df_to_graph(df, node_name_col=name_col, parent_col=parent_col)
+                graph = self._df_to_graph(
+                    df, node_name_col=name_col, parent_col=parent_col
+                )
 
                 networks.append(graph)
 
             return networks
 
         else:
-            raise ValueError("Input list is not a list of only bigtree Node objects.")
+            raise ValueError(
+                "Input list is not a list of only bigtree Node objects."
+            )
 
     def __merge_trees_helper(self, tree_list: list, results: list):
         """Merge a list of trees represented as bigtree Node objects.
@@ -291,20 +319,23 @@ class SynthTree(SynthDocument):
                 # Get parent node unique name
                 parent_row = df.loc[df[node_name_col] == parent_node]
                 if not parent_row.empty:
-                    parent_unique_name = (
-                        f"{parent_row.iloc[0][node_name_col]}_[{parent_row.iloc[0][parent_col]}]"
-                    )
+                    parent_unique_name = f"{parent_row.iloc[0][node_name_col]}_[{parent_row.iloc[0][parent_col]}]"
 
             # Add node
             graph.add_node(unique_node_name)
 
             # Add attributes to node for each column
             # (excluding the node_name_col, the parent_col, and anything in 'cols_to_ignore')
-            for column, value in row.drop([node_name_col, parent_col] + cols_to_ignore).items():
+            for column, value in row.drop(
+                [node_name_col, parent_col] + cols_to_ignore
+            ).items():
                 graph.nodes[unique_node_name][column] = value
 
             # Add edges except to root node and avoiding edges that point to self
-            if parent_unique_name is not None and parent_unique_name != unique_node_name:
+            if (
+                parent_unique_name is not None
+                and parent_unique_name != unique_node_name
+            ):
                 graph.add_edge(parent_unique_name, unique_node_name)
 
         return graph
@@ -360,4 +391,6 @@ class SynthTree(SynthDocument):
                 py_net.draw(file_path)
 
         else:
-            raise ValueError("Input list must only contain DiGraph networkx objects")
+            raise ValueError(
+                "Input list must only contain DiGraph networkx objects"
+            )

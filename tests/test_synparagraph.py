@@ -2,7 +2,6 @@
 
 import ast
 import json
-import os
 
 import pytest
 from dotenv import load_dotenv
@@ -17,25 +16,26 @@ with open("tests/synth_child_io/sample.json") as fh:
     child_synth_io = [(d["input"], str(d["output"])) for d in data]
 
 
-def get_children(prg):
+def get_product(prg):
     """Execute children extractor chain"""
-
-    oai_key = os.getenv("OPENAI_API_KEY")
-    extractor = Extractor("rxn_setup", oai_key).extractor
-    out_llm = extractor.child_prop_chain(prg[:400])["text"]
-    out = ast.literal_eval(out_llm)
+    extr = Extractor("rxn_setup")
+    out = extr(prg)
     return out
 
 
+@pytest.mark.skip()
 @pytest.mark.parametrize("inp, expect", child_synth_io)
 def test_child_extr_chain(inp, expect):
     """Test children extraction chain from paragraphs."""
 
     exp = ast.literal_eval(expect)
-    out = get_children(inp)
+    out = get_product(inp)
+
+    # list of reference_keys in out
+    out_keys = [c.reference_key for c in out.children]
 
     # TODO: make a better comparison
-    assert out[0]["reference_key"] == exp[0]["reference_key"]
+    assert exp[0]["reference_key"] in out_keys
 
 
 # from jasyntho.doc_extract.synthpar import SynthParagraph

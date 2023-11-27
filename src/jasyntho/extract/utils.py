@@ -15,7 +15,9 @@ solvent = Object(
         Text(id="mass", description="The mass of the solvent"),
         Text(id="moles", description="The moles of the solvent"),
         Text(id="volume", description="The volume of the solvent"),
-        Text(id="concentration", description="The concentration of the solvent"),
+        Text(
+            id="concentration", description="The concentration of the solvent"
+        ),
     ],
     examples=[
         (
@@ -29,7 +31,11 @@ solvent = Object(
             [
                 {"name": "DCM", "volume": "4 mL"},
                 {"name": "MeOH", "volume": "1 mL"},
-                {"name": "HCl (in dioxane)", "volume": "1 mL", "concentration": "4M"},
+                {
+                    "name": "HCl (in dioxane)",
+                    "volume": "1 mL",
+                    "concentration": "4M",
+                },
                 {"name": "DMF", "volume": "5 mL"},
             ],
         )
@@ -48,7 +54,9 @@ catalyst = Object(
         Text(id="mass", description="The mass of the catalyst"),
         Text(id="moles", description="The moles of the catalyst"),
         Text(id="volume", description="The volume of the catalyst"),
-        Text(id="concentration", description="The concentration of the catalyst"),
+        Text(
+            id="concentration", description="The concentration of the catalyst"
+        ),
     ],
     examples=[
         (
@@ -132,11 +140,22 @@ reaction = Object(
     description="the reaction taking place during the reaction setup",
     # Fields to capture fro m a piece of text about the object
     attributes=[
-        Text(id="action", description="The action that the experimentalist took"),
-        Text(id="temperature", description="The working temperature of the reaction"),
+        Text(
+            id="action", description="The action that the experimentalist took"
+        ),
+        Text(
+            id="temperature",
+            description="The working temperature of the reaction",
+        ),
         Text(id="time", description="The working time of the reaction"),
-        Text(id="pressure", description="The pressure under which the reaction is undergone"),
-        Text(id="equipment", description="The equipment the experimentalist used in the step"),
+        Text(
+            id="pressure",
+            description="The pressure under which the reaction is undergone",
+        ),
+        Text(
+            id="equipment",
+            description="The equipment the experimentalist used in the step",
+        ),
         Text(id="description", description="The text describing the step"),
         solvent,
         catalyst,
@@ -171,8 +190,16 @@ reaction = Object(
                     "time": "0.5 hours",
                     "temperature": "ambient temperature",
                     "solvents": [
-                        {"name": "3-aminopyridine", "mass": "2.00 g", "moles": "21.1 mmol"},
-                        {"name": "triethylamine", "volume": "4.4 mL", "moles": "31.6 mmol"},
+                        {
+                            "name": "3-aminopyridine",
+                            "mass": "2.00 g",
+                            "moles": "21.1 mmol",
+                        },
+                        {
+                            "name": "triethylamine",
+                            "volume": "4.4 mL",
+                            "moles": "31.6 mmol",
+                        },
                         {"name": "CH2C12", "volume": "20 mL"},
                     ],
                 },
