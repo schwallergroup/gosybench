@@ -26,7 +26,7 @@ def uspto_example():
         "chromatography, eluting with 0-20% MeOH/dichloromethane to give "
         "2-chloro-5-nitropyrimidin-4-amine as an off-white solid. MS (ES+): "
         "175 (M+H)+; Calc. for C4H3ClN4O2=174.55."
-        )
+    )
     return example
 
 
