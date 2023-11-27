@@ -27,5 +27,7 @@ class ReactionSetup:
 
     async def async_call(self, text: str) -> Product:
         """Execute the extraction pipeline for a paragraph asynchronously."""
-        product = Product.async_from_paragraph(text, self.aclient, self.llm)
-        return await product
+        product = await Product.async_from_paragraph(
+            text, self.aclient, self.llm
+        )
+        return product

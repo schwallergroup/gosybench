@@ -1,6 +1,7 @@
 """Data extractors for segments of chemical synthesis paragraphs."""
 
-from typing import List, Optional, Any
+from typing import Any, List, Optional
+
 from .rxn_setup.extract import ReactionSetup
 
 

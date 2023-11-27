@@ -2,11 +2,20 @@
 
 from typing import List, Literal, Optional
 
-import instructor
+import instructor  # type: ignore
 import openai
-from colorama import Fore
+from colorama import Fore  # type: ignore
 from pydantic import BaseModel, Field, ValidationError
 
+
+class LLMConfig(BaseModel):
+    """Pydantic model configuration."""
+
+    temperature: float = 0.2
+    timeout: int = 60
+    max_retries: int = 2
+
+config = LLMConfig()
 
 class Substance(BaseModel):
     """A substance in a reaction."""
@@ -58,6 +67,7 @@ class Product(Substance):
 
     role: str = "product"  # type: ignore
     children: List[Substance]
+    note: Optional[str] = None
 
     @classmethod
     def from_substancelist(cls, slist: SubstanceList):
@@ -68,11 +78,10 @@ class Product(Substance):
         prods_list = [s for s in s_list if s.role == "product"]
         nprod = len(prods_list)
         if nprod == 0:
-            return cls.empty()
+            return cls.empty(note="No product found.")
         elif nprod > 1:
             print(Fore.RED, "More than one product in reaction. TODO")
-            print("\n", prods_list, "\n", Fore.RESET)
-            return cls.empty()
+            return cls.empty(note="More than one product found.")
         else:
             pkey = prods_list[0].reference_key
             pname = prods_list[0].substance_name
@@ -115,13 +124,13 @@ class Product(Substance):
                 messages=[
                     {"role": "user", "content": prgr},
                 ],
-                temperature=0.2,
-                max_retries=2,
-                timeout=30,
+                temperature=config.temperature,
+                max_retries=config.max_retries,
+                timeout=config.timeout,
             )
             return cls.from_substancelist(subs_list)
-        except (openai.APITimeoutError, ValidationError):  # type: ignore
-            return cls.empty()
+        except (openai.APITimeoutError, ValidationError) as e:  # type: ignore
+            return cls.empty(note=e.message)
 
     @classmethod
     async def async_from_paragraph(
@@ -135,19 +144,19 @@ class Product(Substance):
                 messages=[
                     {"role": "user", "content": prgr},
                 ],
-                temperature=0.2,
-                max_retries=2,
-                timeout=30,
+                temperature=config.temperature,
+                max_retries=config.max_retries,
+                timeout=config.timeout,
             )
             return cls.from_substancelist(subs_list)
-        except (openai.APITimeoutError, ValidationError):  # type: ignore
-            return cls.empty()
+        except (openai.APITimeoutError, ValidationError) as e:  # type: ignore
+            return cls.empty(note=e)
 
     @classmethod
-    def empty(cls):
+    def empty(cls, note):
         """Return an empty product."""
         return cls(
-            reference_key=None, substance_name="", children=[], props=None
+            reference_key=None, substance_name="", children=[], props=None, note=note
         )
 
     def isempty(self):

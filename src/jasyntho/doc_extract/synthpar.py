@@ -5,7 +5,6 @@ Extract and contain all data from a synthesis paragraph.
 """
 
 from typing import Dict, List
-
 from jasyntho.extract.rxn_setup.typing import Product
 
 

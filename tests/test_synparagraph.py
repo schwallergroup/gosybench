@@ -2,7 +2,6 @@
 
 import ast
 import json
-import os
 
 import pytest
 from dotenv import load_dotenv
@@ -35,7 +34,7 @@ def test_child_extr_chain(inp, expect):
     out_keys = [c.reference_key for c in out.children]
 
     # TODO: make a better comparison
-    assert exp[0]['reference_key'] in out_keys
+    assert exp[0]["reference_key"] in out_keys
 
 
 # from jasyntho.doc_extract.synthpar import SynthParagraph

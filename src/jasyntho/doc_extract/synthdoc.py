@@ -9,6 +9,7 @@ import json
 import os
 import re
 from typing import List, Optional
+from colorama import Fore  # type: ignore
 
 import fitz  # type: ignore
 from dotenv import load_dotenv
@@ -27,6 +28,7 @@ class SynthDocument:
         api_key: Optional[str] = None,
         startp: int = 0,
         endp: Optional[int] = None,
+        verbose: bool = True,
     ) -> None:
         """
         Initialize a synthesis document.
@@ -38,28 +40,53 @@ class SynthDocument:
         load_dotenv()
         api_key = api_key or os.environ["OPENAI_API_KEY"]
 
+        self.v = verbose
         self.rxn_extract = Extractor("rxn_setup", api_key)
         self.paragraphs = self._get_paragraphs(doc_src, start=startp, end=endp)
 
     def extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
         ext = [p.extract(self.rxn_extract) for p in self.paragraphs]
-        rxn_setups = [p for p in ext if not p.isempty()]
-        return rxn_setups
+        self._report_process(ext)
+        products = [p for p in ext if not p.isempty()]
+        return products
 
     async def async_extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
         ext = await asyncio.gather(
             *[p.async_extract(self.rxn_extract) for p in self.paragraphs]
         )
-        rxn_setups = [p for p in ext if not p.isempty()]
-        return rxn_setups
+        self._report_process(ext)
+        products = [p for p in ext if not p.isempty()]
+        return products
+
+    def _report_process(self, raw_prods) -> None:
+        """Print a report of results of prgr processing."""
+        if not self.v:
+            return None
+
+        correct = 0
+        empty = 0
+        notes = []
+        for p in raw_prods:
+            if p.isempty():
+                empty += 1
+                notes.append(p.note)
+            else:
+                correct += 1
+
+        # add Fore.RESET at the end of each print
+        print(Fore.LIGHTYELLOW_EX, f"Total paragraphs: {len(self.paragraphs)}", Fore.RESET)
+        print(Fore.LIGHTYELLOW_EX, f"Processed paragraphs: {correct}", Fore.RESET)
+        print(Fore.LIGHTYELLOW_EX, f"Found {empty} empty paragraphs.", Fore.RESET)
+        for n in notes:
+            print(Fore.LIGHTYELLOW_EX, f"\t{notes.count(n)}: {n}", Fore.RESET)
 
     def _get_paragraphs(
         self, doc_src: str, start: int = 0, end: Optional[int] = None
     ) -> List[SynthParagraph]:
         """
-        Creates a list of paragraphs from the document.
+        Create list of paragraphs from document.
 
         Input
             doc_src: address of the pdf document.
