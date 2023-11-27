@@ -69,6 +69,7 @@ class Product(Substance):
 
     role: str = "product"  # type: ignore
     children: List[Substance]
+    text: Optional[str] = None
     note: Optional[str] = None
 
     @classmethod
@@ -130,12 +131,15 @@ class Product(Substance):
                 max_retries=config.max_retries,
                 timeout=config.timeout,
             )
-            return cls.from_substancelist(subs_list)
+            prd = cls.from_substancelist(subs_list)
         except (openai.APITimeoutError, ValidationError) as e:  # type: ignore
             if isinstance(e, openai.APITimeoutError):  # type: ignore
-                return cls.empty(note=e.message)
+                prd = cls.empty(note=e.message)
             else:
-                return cls.empty(note="Validation error.")
+                prd = cls.empty(note="Validation error.")
+
+        prd.text = prgr
+        return prd
 
     @classmethod
     async def async_from_paragraph(
@@ -153,12 +157,15 @@ class Product(Substance):
                 max_retries=config.max_retries,
                 timeout=config.timeout,
             )
-            return cls.from_substancelist(subs_list)
+            prd = cls.from_substancelist(subs_list)
         except (openai.APITimeoutError, ValidationError) as e:  # type: ignore
             if isinstance(e, openai.APITimeoutError):  # type: ignore
-                return cls.empty(note=e.message)
+                prd = cls.empty(note=e.message)
             else:
-                return cls.empty(note="Validation error.")
+                prd = cls.empty(note="Validation error.")
+
+        prd.text = prgr
+        return prd
 
     @classmethod
     def empty(cls, note):
