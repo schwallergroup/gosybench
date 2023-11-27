@@ -16,7 +16,7 @@ class ReactionSetup:
 
         self.llm = "gpt-3.5-turbo"
         self.llm = "gpt-4-1106-preview"
-        self.llm = "gpt-4"
+        # self.llm = "gpt-4"
         self.client = instructor.patch(OpenAI())
         self.aclient = instructor.apatch(AsyncOpenAI())
 

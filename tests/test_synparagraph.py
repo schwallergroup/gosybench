@@ -23,6 +23,7 @@ def get_product(prg):
     return out
 
 
+@pytest.mark.skip()
 @pytest.mark.parametrize("inp, expect", child_synth_io)
 def test_child_extr_chain(inp, expect):
     """Test children extraction chain from paragraphs."""

@@ -9,9 +9,9 @@ import json
 import os
 import re
 from typing import List, Optional
-from colorama import Fore  # type: ignore
 
 import fitz  # type: ignore
+from colorama import Fore  # type: ignore
 from dotenv import load_dotenv
 
 from jasyntho.extract import Extractor
@@ -75,12 +75,14 @@ class SynthDocument:
             else:
                 correct += 1
 
-        # add Fore.RESET at the end of each print
-        print(Fore.LIGHTYELLOW_EX, f"Total paragraphs: {len(self.paragraphs)}", Fore.RESET)
-        print(Fore.LIGHTYELLOW_EX, f"Processed paragraphs: {correct}", Fore.RESET)
-        print(Fore.LIGHTYELLOW_EX, f"Found {empty} empty paragraphs.", Fore.RESET)
-        for n in notes:
-            print(Fore.LIGHTYELLOW_EX, f"\t{notes.count(n)}: {n}", Fore.RESET)
+        def printm(message):
+            print(Fore.LIGHTYELLOW_EX + message + Fore.RESET)
+
+        printm(f"Total paragraphs: {len(self.paragraphs)}")
+        printm(f"Processed paragraphs: {correct}")
+        printm(f"Found {empty} empty paragraphs.")
+        for n in set(notes):
+            printm(f"\t{n}: {notes.count(n)}")
 
     def _get_paragraphs(
         self, doc_src: str, start: int = 0, end: Optional[int] = None
