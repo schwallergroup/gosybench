@@ -1,14 +1,10 @@
 """Data extraction from reaction setup text segments."""
 
-from typing import Union
-
 import instructor  # type: ignore
 from dotenv import load_dotenv
 from openai import AsyncOpenAI, OpenAI  # type: ignore
 
 from .typing import Product
-
-load_dotenv()
 
 
 class ReactionSetup:
@@ -31,6 +27,5 @@ class ReactionSetup:
 
     async def async_call(self, text: str) -> Product:
         """Execute the extraction pipeline for a paragraph asynchronously."""
-        print(text)
         product = Product.async_from_paragraph(text, self.aclient, self.llm)
         return await product

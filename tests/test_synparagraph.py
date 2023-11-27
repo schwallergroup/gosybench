@@ -17,7 +17,7 @@ with open("tests/synth_child_io/sample.json") as fh:
     child_synth_io = [(d["input"], str(d["output"])) for d in data]
 
 
-def get_children(prg):
+def get_product(prg):
     """Execute children extractor chain"""
     extr = Extractor("rxn_setup")
     out = extr(prg)
@@ -29,15 +29,13 @@ def test_child_extr_chain(inp, expect):
     """Test children extraction chain from paragraphs."""
 
     exp = ast.literal_eval(expect)
-    out = get_children(inp)
+    out = get_product(inp)
+
+    # list of reference_keys in out
+    out_keys = [c.reference_key for c in out.children]
 
     # TODO: make a better comparison
-    try:
-        assert out[0].reference_key in exp[0]["reference_key"]
-    except:
-        assert (out[0].reference_key is None) and (
-            exp[0]["reference_key"] is None
-        )
+    assert exp[0]['reference_key'] in out_keys
 
 
 # from jasyntho.doc_extract.synthpar import SynthParagraph

@@ -39,9 +39,9 @@ class SynthTree(SynthDocument):
     def build_tree(self):
         """Make and merge trees."""
         rxn_setups = self.extract_rss()
-        self.rxn_setups = [p.model_dump() for p in rxn_setups]
+        self.products = [p.model_dump() for p in rxn_setups]
 
-        self.trees = self.dictionaries2trees(self.rxn_setups)
+        self.trees = self.dictionaries2trees(self.products)
         self.merged_trees = self.merge_trees(self.trees)
         self.networks = self.bigtrees_to_networks(self.merged_trees)
 

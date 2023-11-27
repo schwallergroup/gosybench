@@ -1,55 +1,47 @@
 """Data extractors for segments of chemical synthesis paragraphs."""
 
-from typing import List, Optional
-
-from langchain.chains import LLMChain
-
+from typing import List, Optional, Any
 from .rxn_setup.extract import ReactionSetup
 
 
 class Extractor:
     """Extract data from snippets of synthesis paragraphs.
-    Initializes extractor depending on the snippet class."""
+
+    Initializes extractor depending on the snippet class.
+    """
 
     def __init__(self, sclass: str, api_key: Optional[str] = None) -> None:
-        """Initialize class.
+        """Initialize extractor.
+
         Input
-        _____
         sclass : str
             Snippet class.
             One of 'rxn_setup', 'rxn_workup', 'purification', 'analysis'
         """
         self.extractor = self._init_extractor(sclass, api_key)
 
-    def __call__(self, snippet: str) -> List[dict]:
+    def __call__(self, text: str) -> Any:
         """Execute the extractor."""
+        return self.extractor(text)
 
-        out = self.extractor(snippet)
-        return out
+    async def async_call(self, text: str) -> Any:
+        """Execute extractor."""
+        return await self.extractor.async_call(text)
 
-    async def async_call(self, snippet: str) -> List[dict]:
-        """Execute the extractor."""
-
-        out = await self.extractor.async_call(snippet)
-        return out
-
-    def _init_extractor(self, sclass: str, api_key: Optional[str] = None):
+    def _init_extractor(self, eclass: str, api_key: Optional[str] = None):
         """
-        Initialize a chain for data extraction.
+        Initialize a data extractor.
+
         Input
-        _____
-        sclass : str
-            Segment type to extract data from.
+        eclass : str
+            Type of extractor to initialize.
         """
-        if api_key is None:
-            pass
-        else:
-            if sclass == "rxn_setup":
-                return ReactionSetup()
-            elif sclass == "rxn_workup":
-                raise NotImplementedError()
-            elif sclass == "purification":
-                raise NotImplementedError()
-            elif sclass == "analysis":
-                raise NotImplementedError()
+        if eclass == "rxn_setup":
+            return ReactionSetup()
+        elif eclass == "rxn_workup":
+            raise NotImplementedError()
+        elif eclass == "purification":
+            raise NotImplementedError()
+        elif eclass == "analysis":
+            raise NotImplementedError()
         return None
