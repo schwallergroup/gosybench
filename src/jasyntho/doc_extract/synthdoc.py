@@ -76,6 +76,7 @@ class SynthDocument:
                 correct += 1
 
         def printm(message):
+            """Print report message."""
             print(Fore.LIGHTYELLOW_EX + message + Fore.RESET)
 
         printm(f"Total paragraphs: {len(self.paragraphs)}")
