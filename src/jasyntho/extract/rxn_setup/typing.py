@@ -31,7 +31,9 @@ class Substance(BaseModel):
     substance_name: str = Field(
         description="Name of the substance.",
     )
-    role: Literal["reactant", "work-up", "solvent", "product", "intermediate"] = Field(
+    role: Literal[
+        "reactant", "work-up", "solvent", "product", "intermediate"
+    ] = Field(
         description=(
             "What is the role of the substance in the reaction. "
             "'work-up' is reserved for substances used in subsequent "
