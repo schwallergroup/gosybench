@@ -28,12 +28,13 @@ class SynthTree(SynthDocument):
         self,
         doc_src: str,
         api_key: Optional[str] = None,
+        model: str = "gpt-4-0314",
         startp: int = 0,
         endp: Optional[int] = None,
     ) -> None:
         """Initialize a SynthTree object."""
         super(SynthTree, self).__init__(
-            doc_src, api_key, startp, endp
+            doc_src, api_key, model, startp, endp
         )  # TODO: select startp and endp automatically from doc_src
 
     def build_tree(self):

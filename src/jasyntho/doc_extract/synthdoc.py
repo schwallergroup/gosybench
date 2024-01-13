@@ -26,6 +26,7 @@ class SynthDocument:
         self,
         doc_src: str,
         api_key: Optional[str] = None,
+        model: str = "gpt-4-0314",
         startp: int = 0,
         endp: Optional[int] = None,
         verbose: bool = True,
@@ -41,23 +42,23 @@ class SynthDocument:
         api_key = api_key or os.environ["OPENAI_API_KEY"]
 
         self.v = verbose
-        self.rxn_extract = Extractor("rxn_setup", api_key)
+        self.rxn_extract = Extractor("rxn_setup", api_key, model=model)
         self.paragraphs = self._get_paragraphs(doc_src, start=startp, end=endp)
 
     def extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
-        ext = [p.extract(self.rxn_extract) for p in self.paragraphs]
-        self._report_process(ext)
-        products = [p for p in ext if not p.isempty()]
+        self.raw_prods = [p.extract(self.rxn_extract) for p in self.paragraphs]
+        self._report_process(self.raw_prods)
+        products = [p for p in self.raw_prods if not p.isempty()]
         return products
 
     async def async_extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
-        ext = await asyncio.gather(
+        self.raw_prods = await asyncio.gather(
             *[p.async_extract(self.rxn_extract) for p in self.paragraphs]
         )
-        self._report_process(ext)
-        products = [p for p in ext if not p.isempty()]
+        self._report_process(self.raw_prods)
+        products = [p for p in self.raw_prods if not p.isempty()]
         return products
 
     def _report_process(self, raw_prods) -> None:

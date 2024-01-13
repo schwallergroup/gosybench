@@ -10,18 +10,19 @@ from .typing import Product
 class ReactionSetup:
     """Extraction of structured data from reaction-setup snippet."""
 
-    def __init__(self, api_key=None):
+    def __init__(self, api_key=None, model="gpt-4-0314"):
         """Initialize the extractor."""
         load_dotenv()
 
-        self.llm = "gpt-3.5-turbo"
-        self.llm = "gpt-4-1106-preview"
-        # self.llm = "gpt-4"
+        self.llm = model
         self.client = instructor.patch(OpenAI())
         self.aclient = instructor.apatch(AsyncOpenAI())
 
     def __call__(self, text: str) -> Product:
         """Execute the extraction pipeline for a single paragraph."""
+        print(text)
+        print(self.client)
+        print(self.llm)
         product = Product.from_paragraph(text, self.client, self.llm)
         return product
 

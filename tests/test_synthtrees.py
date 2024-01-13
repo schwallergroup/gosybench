@@ -15,7 +15,12 @@ load_dotenv()
 def ex_tree():
     """Initialize document."""
     oai_key = os.getenv("OPENAI_API_KEY")
-    doc = SynthTree("tests/examples/synth_SI_sub.pdf", oai_key)
+    print(oai_key)
+    doc = SynthTree(
+        "tests/examples/synth_SI_sub.pdf",
+        oai_key,
+        model="gpt-4-0613",
+    )
     doc.build_tree()
     return doc
 

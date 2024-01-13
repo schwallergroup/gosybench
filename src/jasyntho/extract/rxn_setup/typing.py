@@ -23,12 +23,15 @@ class Substance(BaseModel):
     """A substance in a reaction."""
 
     reference_key: Optional[str] = Field(
-        description=("Identifier for a substance described in text. "),
+        description=(
+            "Identifier for a substance described in text. "
+            "It can be a number or combination of numbers and letters."
+        ),
     )
     substance_name: str = Field(
         description="Name of the substance.",
     )
-    role: Literal["reactant", "work-up", "solvent", "product"] = Field(
+    role: Literal["reactant", "work-up", "solvent", "product", "intermediate"] = Field(
         description=(
             "What is the role of the substance in the reaction. "
             "'work-up' is reserved for substances used in subsequent "
@@ -111,6 +114,10 @@ class Product(Substance):
                     for s in same_key:
                         if s.role != "reactant":
                             clean_ch.remove(s)
+                else:
+                    for s in same_key[1:]:  # remove all but first
+                        clean_ch.remove(s)
+
         child_final = [Substance.from_lm(s) for s in clean_ch]
 
         return cls(
@@ -159,7 +166,7 @@ class Product(Substance):
             )
             prd = cls.from_substancelist(subs_list)
         except (openai.APITimeoutError, ValidationError) as e:  # type: ignore
-            if isinstance(e, openai.APITimeoutError):  # type: ignore
+            if isinstance(e, penai.APITimeoutError):  # type: ignore
                 prd = cls.empty(note=e.message)
             else:
                 prd = cls.empty(note="Validation error.")
