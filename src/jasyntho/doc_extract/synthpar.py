@@ -6,7 +6,7 @@ Extract and contain all data from a synthesis paragraph.
 
 from typing import Dict, List
 
-from ..extract.substance import Product
+from ..extract.substances import Product
 
 
 class SynthParagraph:
