@@ -76,7 +76,8 @@ class SynthTree(SynthDocument):
 
         return tree_list
 
-    def merge_trees(self, tree_list: list):
+    @classmethod
+    def merge_trees(cls, tree_list: list):
         """
         Merge a list of trees represented as bigtree Node objects.
 
@@ -96,7 +97,7 @@ class SynthTree(SynthDocument):
             tree_structs = [t for t in tree_list if t.children]
 
             # Merge trees with children together
-            merged = self.__merge_trees_helper(tree_structs, results=[])
+            merged = cls.__merge_trees_helper(tree_structs, results=[])
 
             # Combine lists of merged trees and solo nodes
             return merged + solo_nodes
@@ -163,7 +164,8 @@ class SynthTree(SynthDocument):
                 "Input list is not a list of only bigtree Node objects."
             )
 
-    def __merge_trees_helper(self, tree_list: list, results: list):
+    @classmethod
+    def __merge_trees_helper(cls, tree_list: list, results: list):
         """Merge a list of trees represented as bigtree Node objects.
 
         Input:
@@ -182,7 +184,7 @@ class SynthTree(SynthDocument):
 
         for tree in tree_list:
             # Check if a merge tree -> final_tree is possible
-            merge_1 = self.__find_and_copy_to_tree(final_tree, tree)
+            merge_1 = cls.__find_and_copy_to_tree(final_tree, tree)
 
             if merge_1[0] == 0:
                 # If it was, final_tree is the bigger resulting tree from merge
@@ -190,7 +192,7 @@ class SynthTree(SynthDocument):
 
             else:
                 # If it wasn't, check if merge final_tree -> tree is possible
-                merge_2 = self.__find_and_copy_to_tree(tree, final_tree)
+                merge_2 = cls.__find_and_copy_to_tree(tree, final_tree)
 
                 if merge_2[0] == 0:
                     # If it was, final_tree is the bigger result tree from merge
@@ -206,11 +208,12 @@ class SynthTree(SynthDocument):
         # If the retry_list is not empty, rerun the function.
         # The results list will keep growing
         if retry_list:
-            self.__merge_trees_helper(tree_list=retry_list, results=results)
+            cls.__merge_trees_helper(tree_list=retry_list, results=results)
 
         return results
 
-    def __find_and_copy_to_tree(self, big_tree: Node, small_tree: Node):
+    @classmethod
+    def __find_and_copy_to_tree(cls, big_tree: Node, small_tree: Node):
         """
         Find nodes with the same name as 'small_tree' in 'big_tree'
         and copy the 'small_tree' into the first node found.

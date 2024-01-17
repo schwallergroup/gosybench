@@ -1,6 +1,6 @@
 """pydantic models for the product class."""
 
-from typing import List, Optional
+from typing import List, Literal, Optional
 
 import instructor  # type: ignore
 import openai
@@ -8,10 +8,10 @@ from colorama import Fore  # type: ignore
 from pydantic import ValidationError
 
 from .llm_config import config
-from .substance import Substance, SubstanceList
+from .substance import SubstanceInReaction, SubstanceInReactionList
 
 
-class Product(Substance):
+class Product(SubstanceInReaction):
     """Substance with children and properites.
 
     Args:
@@ -21,18 +21,25 @@ class Product(Substance):
         props: Dictionary of properties of this substance.
     """
 
-    role: str = "product"  # type: ignore
-    children: List[Substance]
+    role_in_reaction: str = "main product"  # type: ignore
+    children: List[SubstanceInReaction]
+    origin: str = "SI"
+    edge_type: Literal[
+        "lab reaction", "failed reaction", "model system", "other"
+    ] = "lab reaction"
     text: Optional[str] = None
+    chain_of_thought: str
     note: Optional[str] = None
 
     @classmethod
-    def from_substancelist(cls, slist: SubstanceList):
-        """Convert from SubstanceList."""
-        s_list = [Substance.from_lm(s) for s in slist.substances]
+    def from_substancelist(cls, slist: SubstanceInReactionList):
+        """Convert from SubstanceInReactionList."""
+        s_list = [SubstanceInReaction.from_lm(s) for s in slist.substances]
 
         # 1. Identify the product
-        prods_list = [s for s in s_list if s.role == "product"]
+        prods_list = [
+            s for s in s_list if s.role_in_reaction == "main product"
+        ]
         nprod = len(prods_list)
         if nprod == 0:
             return cls.empty(note="No product found")
@@ -45,7 +52,9 @@ class Product(Substance):
 
         # 2. Identify the children
         # Identify which reactants have same name as product
-        child_list = [s for s in s_list if s.role != "product"]
+        child_list = [
+            s for s in s_list if s.role_in_reaction != "main product"
+        ]
         clean_ch = [s for s in child_list if s.reference_key != pkey]
 
         # Identify children that have same reference_key
@@ -61,18 +70,21 @@ class Product(Substance):
                 same_key = [s for s in clean_ch if s.reference_key == k]
 
                 # Remove any that isn't a reactant
-                if any([s.role == "reactant" for s in same_key]):
+                if any([s.role_in_reaction == "reactant" for s in same_key]):
                     for s in same_key:
-                        if s.role != "reactant":
+                        if s.role_in_reaction != "reactant":
                             clean_ch.remove(s)
                 else:
                     for s in same_key[1:]:  # remove all but first
                         clean_ch.remove(s)
 
-        child_final = [Substance.from_lm(s) for s in clean_ch]
+        child_final = [SubstanceInReaction.from_lm(s) for s in clean_ch]
 
         return cls(
-            reference_key=pkey, substance_name=pname, children=child_final
+            reference_key=pkey,
+            substance_name=pname,
+            children=child_final,
+            chain_of_thought=slist.chain_of_thought,
         )
 
     @classmethod
@@ -81,7 +93,7 @@ class Product(Substance):
         try:
             subs_list = client.chat.completions.create(
                 model=llm,
-                response_model=SubstanceList,
+                response_model=SubstanceInReactionList,
                 messages=[
                     {"role": "user", "content": prgr},
                 ],
@@ -107,7 +119,7 @@ class Product(Substance):
         try:
             subs_list = await aclient.chat.completions.create(
                 model=llm,
-                response_model=SubstanceList,
+                response_model=SubstanceInReactionList,
                 messages=[
                     {"role": "user", "content": prgr},
                 ],
@@ -134,6 +146,7 @@ class Product(Substance):
             children=[],
             props=None,
             note=note,
+            chain_of_thought="",
         )
 
     def isempty(self):

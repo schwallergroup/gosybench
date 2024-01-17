@@ -11,19 +11,21 @@ from .prompts import system_rip, user_rip
 from .substance import Substance
 
 
-class RoleInPaperRaw(BaseModel):
+class SubstanceInPaperLLM(BaseModel):
     """Contextualized substance in the paper.
 
     Pydantic class to be filled by an LLM.
     """
 
-    role_in_paper: Literal["main product", "intermediate", "model system"]
-    parent_substance: Optional[Substance] = Field(
+    role_in_paper: Literal[
+        "main product", "intermediate", "model system", "other"
+    ]
+    link_substance: Optional[Substance] = Field(
         description=(
+            "We want to understand what the role of query substance is in this paper. "
             "Cases of role_in_paper: \n"
-            "If model system, what substance or reaction is this system "
-            "supposed to model? \n"
-            "If intermediate, what is the target, or the next reaction? "
+            " - If model system, 'query substance' is supposed to model the behavior of 'link_substance'. "
+            " - If intermediate, 'query substance' is the precursor to 'link_substance'."
         )
     )
     chain_of_thought: str = Field(
@@ -57,7 +59,7 @@ class RoleInPaperRaw(BaseModel):
         return rip
 
 
-class RoleInPaper(RoleInPaperRaw):
+class SubstanceInPaper(SubstanceInPaperLLM):
     """Extended version. Include hardcoded reference_key and context."""
 
     reference_key: str
@@ -72,7 +74,7 @@ class RoleInPaper(RoleInPaperRaw):
         llm: str,
     ):
         """Initialize from LLM using context from paper."""
-        rip = RoleInPaperRaw.from_llm(
+        rip = SubstanceInPaperLLM.from_llm(
             client,
             query_substance,
             context,
@@ -81,12 +83,12 @@ class RoleInPaper(RoleInPaperRaw):
         return cls.from_rip(rip, query_substance, context)
 
     @classmethod
-    def from_rip(cls, rip: RoleInPaperRaw, ref_key: str, context: str):
-        """Extend the RoleInPaper using ref_key and context."""
+    def from_rip(cls, rip: SubstanceInPaperLLM, ref_key: str, context: str):
+        """Extend the SubstanceInPaper using ref_key and context."""
         return cls(
             reference_key=ref_key,
             role_in_paper=rip.role_in_paper,
-            parent_substance=rip.parent_substance,
+            link_substance=rip.link_substance,
             chain_of_thought=rip.chain_of_thought,
             context=context,
         )

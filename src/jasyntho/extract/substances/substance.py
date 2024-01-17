@@ -7,31 +7,23 @@ from pydantic import BaseModel, Field
 
 
 class Substance(BaseModel):
-    """A substance in a reaction."""
+    """Substance base class."""
 
     reference_key: Optional[str] = Field(
         description=(
             "Identifier for a substance described in text. "
-            "It can be a number or combination of numbers and letters."
-        ),
+            "combination of letters and numbers, like "
+            "'S1', '14', '22a', or more complex like 'C8-epi-20' etc."
+        )
     )
     substance_name: str = Field(
         description="Name of the substance.",
-    )
-    role: Literal[
-        "reactant", "work-up", "solvent", "product", "intermediate"
-    ] = Field(
-        description=(
-            "What is the role of the substance in the reaction. "
-            "'work-up' is reserved for substances used in subsequent "
-            "steps of the reaction, such as washing, quenching, etc."
-        )
     )
 
     @classmethod
     def from_lm(cls, s):
         """Reconvert into Substance. Fill reference_key if missing."""
-        if s.reference_key is None:
+        if s.reference_key is None or s.reference_key == "null":
             s.reference_key = s.substance_name
         return cls(**s.model_dump())
 
@@ -40,14 +32,38 @@ class Substance(BaseModel):
     ):
         """Convert object to node."""
         return nested_dict_to_tree(
-            self.model_dump(),  # type: ignore
+            node_attrs=self.model_dump(),  # type: ignore
             name_key=name_key,
             child_key=child_key,
         )
 
 
-class SubstanceList(BaseModel):
-    """List of substances in a reaction.
+class SubstanceInReaction(Substance):
+    """A substance in a reaction."""
+
+    role_in_reaction: Literal[
+        "reactant",
+        "work-up",
+        "solvent",
+        "main product",
+        "by-product",
+        "intermediate",
+        "catalyst",
+        "reagent",
+        "other",
+    ] = Field(
+        description=(
+            "What is the role of the substance in the reaction. "
+            "'main product' is reserved to only the main, or intended product of the reaction. "
+            "Other non-main products are 'by-product'. "
+            "'work-up' is reserved for substances used in subsequent "
+            "steps of the reaction, such as washing, quenching, etc."
+        )
+    )
+
+
+class SubstanceInReactionList(BaseModel):
+    """List of substances in reaction.
 
     Instructions: `reference_key` is the reference number given to the
     substance. `reference_key` is a combination of letters and numbers, like
@@ -56,4 +72,9 @@ class SubstanceList(BaseModel):
     Example: If "alkene 17a" is mentioned, then `reference_key`=="17a".
     """
 
-    substances: List[Substance] = Field(..., default_factory=list)
+    chain_of_thought: str = Field(
+        description=(
+            "Think step by step about what is the role of each substance mentioned. "
+        )
+    )
+    substances: List[SubstanceInReaction] = Field(..., default_factory=list)
