@@ -22,10 +22,12 @@ class SubstanceInPaperLLM(BaseModel):
     ]
     link_substance: Optional[Substance] = Field(
         description=(
-            "We want to understand what the role of query substance is in this paper. "
-            "Cases of role_in_paper: \n"
-            " - If model system, 'query substance' is supposed to model the behavior of 'link_substance'. "
-            " - If intermediate, 'query substance' is the precursor to 'link_substance'."
+            "We want to understand what the role of query substance is in this"
+            " paper. Cases of role_in_paper: \n"
+            " - If model system, 'query substance' is supposed to model the "
+            "behavior of 'link_substance'. "
+            " - If intermediate, 'query substance' is the precursor to "
+            "'link_substance'."
         )
     )
     chain_of_thought: str = Field(
