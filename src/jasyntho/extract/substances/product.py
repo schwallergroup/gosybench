@@ -33,32 +33,60 @@ class Product(SubstanceInReaction):
 
     @classmethod
     def from_substancelist(cls, slist: SubstanceInReactionList):
-        """Convert from SubstanceInReactionList."""
+        """Convert from SubstanceInReactionList into Product object(s)."""
         s_list = [SubstanceInReaction.from_lm(s) for s in slist.substances]
 
         # 1. Identify the product
         prods_list = [
             s for s in s_list if s.role_in_reaction == "main product"
         ]
-        nprod = len(prods_list)
-        if nprod == 0:
-            return cls.empty(note="No product found")
-        elif nprod > 1:
-            print(Fore.RED, "More than one product in reaction. TODO")
-            return cls.empty(note="More than one product found")
-        else:
-            pkey = prods_list[0].reference_key
-            pname = prods_list[0].substance_name
 
         # 2. Identify the children
-        # Identify which reactants have same name as product
         child_list = [
             s for s in s_list if s.role_in_reaction != "main product"
         ]
-        clean_ch = [s for s in child_list if s.reference_key != pkey]
+        cot = slist.chain_of_thought
 
+        nprod = len(prods_list)
+        if nprod == 0:
+            return [cls.empty(note="No product found")]
+
+        if nprod == 1:
+            pkey = prods_list[0].reference_key
+            pname = prods_list[0].substance_name
+            clean_ch = [s for s in child_list if s.reference_key != pkey]
+            return [Product._make_single_product(pkey, pname, clean_ch, cot)]
+
+        elif nprod > 1:
+            prods_names = [p.reference_key for p in prods_list]
+            prods = []
+            for prod in prods_list:
+                pkey = prod.reference_key
+
+                # Identify which reactants have same name as product
+                clean_ch = [s for s in child_list if s.reference_key != pkey]
+                clean_p = Product._make_single_product(
+                    pkey,
+                    prod.substance_name,
+                    children=clean_ch,
+                    cot=cot,
+                    note=f"Reaction with multiple products: {prods_names}",
+                )
+                prods.append(clean_p)
+            return prods
+
+    @classmethod
+    def _make_single_product(
+        cls,
+        pkey: str,
+        pname: str,
+        children: List[SubstanceInReaction],
+        cot: str,
+        note: Optional[str] = None,
+    ):
+        """Make a single Product object."""
         # Identify children that have same reference_key
-        keys = [s.reference_key for s in clean_ch]
+        keys = [s.reference_key for s in children]
         # Count the occurence of each unique value in keys
         counts = {k: keys.count(k) for k in set(keys)}
 
@@ -67,24 +95,25 @@ class Product(SubstanceInReaction):
             for k in multiple_keys:
                 print(f"Found key '{k}' in multiple children.")
                 # Find the substances with this key
-                same_key = [s for s in clean_ch if s.reference_key == k]
+                same_key = [s for s in children if s.reference_key == k]
 
                 # Remove any that isn't a reactant
                 if any([s.role_in_reaction == "reactant" for s in same_key]):
                     for s in same_key:
                         if s.role_in_reaction != "reactant":
-                            clean_ch.remove(s)
+                            children.remove(s)
                 else:
                     for s in same_key[1:]:  # remove all but first
-                        clean_ch.remove(s)
+                        children.remove(s)
 
-        child_final = [SubstanceInReaction.from_lm(s) for s in clean_ch]
+        child_final = [SubstanceInReaction.from_lm(s) for s in children]
 
         return cls(
             reference_key=pkey,
             substance_name=pname,
             children=child_final,
-            chain_of_thought=slist.chain_of_thought,
+            chain_of_thought=cot,
+            note=note,
         )
 
     @classmethod
@@ -104,11 +133,12 @@ class Product(SubstanceInReaction):
             prd = cls.from_substancelist(subs_list)
         except (openai.APITimeoutError, ValidationError) as e:  # type: ignore
             if isinstance(e, openai.APITimeoutError):  # type: ignore
-                prd = cls.empty(note=e.message)
+                prd = [cls.empty(note=e.message)]
             else:
-                prd = cls.empty(note="Validation error.")
+                prd = [cls.empty(note="Validation error.")]
 
-        prd.text = prgr
+        for p in prd:
+            p.text = prgr
         return prd
 
     @classmethod
@@ -130,11 +160,12 @@ class Product(SubstanceInReaction):
             prd = cls.from_substancelist(subs_list)
         except (openai.APITimeoutError, ValidationError) as e:  # type: ignore
             if isinstance(e, openai.APITimeoutError):  # type: ignore
-                prd = cls.empty(note=e.message)
+                prd = [cls.empty(note=e.message)]
             else:
-                prd = cls.empty(note="Validation error.")
+                prd = [cls.empty(note="Validation error.")]
 
-        prd.text = prgr
+        for p in prd:
+            p.text = prgr
         return prd
 
     @classmethod

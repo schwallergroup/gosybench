@@ -54,7 +54,9 @@ class SubstanceInReaction(Substance):
     ] = Field(
         description=(
             "What is the role of the substance in the reaction. "
-            "'main product' is reserved to only the main, or intended product of the reaction. "
+            "'main product' is reserved to only the main, or intended product "
+            "of the reaction. This can be one or multiple, and can be "
+            "mentioned in the header. Beware of potenitial typos in text. \n"
             "Other non-main products are 'by-product'. "
             "'work-up' is reserved for substances used in subsequent "
             "steps of the reaction, such as washing, quenching, etc."

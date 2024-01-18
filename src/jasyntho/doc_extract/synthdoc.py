@@ -8,6 +8,7 @@ import asyncio
 import json
 import os
 import re
+from itertools import chain
 from typing import List, Optional
 
 import fitz  # type: ignore
@@ -47,16 +48,20 @@ class SynthDocument:
 
     def extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
-        self.raw_prods = [p.extract(self.rxn_extract) for p in self.paragraphs]
+        self.raw_prodlist = [
+            p.extract(self.rxn_extract) for p in self.paragraphs
+        ]
+        self.raw_prods = list(chain(*self.raw_prodlist))  # type: ignore
         self._report_process(self.raw_prods)
         products = [p for p in self.raw_prods if not p.isempty()]
         return products
 
     async def async_extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
-        self.raw_prods = await asyncio.gather(
+        self.raw_prodlist = await asyncio.gather(
             *[p.async_extract(self.rxn_extract) for p in self.paragraphs]
         )
+        self.raw_prods = list(chain(*self.raw_prodlist))  # type: ignore
         self._report_process(self.raw_prods)
         products = [p for p in self.raw_prods if not p.isempty()]
         return products

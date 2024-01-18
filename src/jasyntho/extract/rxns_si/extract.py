@@ -1,5 +1,7 @@
 """Extract data from paragraphs in the SI of papers."""
 
+from typing import List
+
 import instructor  # type: ignore
 from dotenv import load_dotenv
 from openai import AsyncOpenAI, OpenAI  # type: ignore
@@ -18,7 +20,7 @@ class ReactionSetup:
         self.client = instructor.patch(OpenAI())
         self.aclient = instructor.apatch(AsyncOpenAI())
 
-    def __call__(self, text: str) -> Product:
+    def __call__(self, text: str) -> List[Product]:
         """Execute the extraction pipeline for a single paragraph."""
         print(text)
         print(self.client)
@@ -26,7 +28,7 @@ class ReactionSetup:
         product = Product.from_paragraph(text, self.client, self.llm)
         return product
 
-    async def async_call(self, text: str) -> Product:
+    async def async_call(self, text: str) -> List[Product]:
         """Execute the extraction pipeline for a paragraph asynchronously."""
         product = await Product.async_from_paragraph(
             text, self.aclient, self.llm

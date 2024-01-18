@@ -58,7 +58,6 @@ class SynthTree(SynthDocument):
         Input
             dict_list: JSON representing trees.
         """
-
         tree_list = []
 
         # Convert each dictionary to a tree

@@ -37,7 +37,7 @@ class SynthParagraph:
                 s += f"{k}: {v}\n"
             return s
 
-    def extract(self, extractor) -> Product:
+    def extract(self, extractor) -> List[Product]:
         """Extract data from paragraph.
 
         Input
@@ -47,7 +47,7 @@ class SynthParagraph:
         raw_output = extractor(self.text)
         return raw_output
 
-    async def async_extract(self, extractor) -> Product:
+    async def async_extract(self, extractor) -> List[Product]:
         """Extract data from paragraph. Asynchronous.
 
         Input
