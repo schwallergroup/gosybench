@@ -2,6 +2,7 @@
 
 from typing import List, Literal, Optional
 
+import bigtree
 from bigtree import nested_dict_to_tree  # type: ignore
 from pydantic import BaseModel, Field
 
@@ -31,11 +32,15 @@ class Substance(BaseModel):
         self, name_key: str = "reference_key", child_key: str = "children"
     ):
         """Convert object to node."""
-        return nested_dict_to_tree(
-            node_attrs=self.model_dump(),  # type: ignore
-            name_key=name_key,
-            child_key=child_key,
-        )
+        try:
+            return nested_dict_to_tree(
+                node_attrs=self.model_dump(),  # type: ignore
+                name_key=name_key,
+                child_key=child_key,
+            )
+        except bigtree.utils.exceptions.TreeError:
+            print(f"Error converting into tree: {self.reference_key}")
+            return None
 
 
 class SubstanceInReaction(Substance):

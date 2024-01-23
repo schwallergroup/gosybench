@@ -135,7 +135,7 @@ class Product(SubstanceInReaction):
             if isinstance(e, openai.APITimeoutError):  # type: ignore
                 prd = [cls.empty(note=e.message)]
             else:
-                prd = [cls.empty(note="Validation error.")]
+                prd = [cls.empty(note="Validation error")]
 
         for p in prd:
             p.text = prgr
