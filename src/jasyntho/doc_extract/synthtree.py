@@ -4,7 +4,6 @@ Define class SynthTree.
 tree of SynthNodes that represent the chemical synthesis described in pdf doc.
 """
 
-import os
 from typing import List, Optional
 
 import networkx as nx  # type: ignore
@@ -32,9 +31,8 @@ class SynthTree(SynthDocument):
 
     def disjoint_trees(self):
         """Merge and find all disjoint trees in paper."""
-        self.extract_rss()  # extract Products from Document
-        self.prods = self.unique_keys(self.products)
-        full_g = self.get_full_graph()
+        prods = self.unique_keys(self.products)
+        full_g = self.get_full_graph(prods)
         list_disj = SynthTree.get_list_disjoint(full_g)
         return list_disj
 
@@ -46,8 +44,8 @@ class SynthTree(SynthDocument):
         """
         ftrees = {}
         for t in trees:
-            if t.name not in ftrees.keys():
-                ftrees[t.name] = t
+            if t.reference_key not in ftrees.keys():
+                ftrees[t.reference_key] = t
         return list(ftrees.values())
 
     def get_full_graph(
