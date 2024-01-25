@@ -20,15 +20,16 @@ def ex_tree():
         oai_key,
         model="gpt-4-0613",
     )
-    doc.build_tree()
+    doc.products = doc.extract_rss()
+    doc.extract_rss()
     return doc
 
 
 # @pytest.mark.skip(reason="Takes for ever")
 def test_trees_extraction(ex_tree):
     """Check that paragraphs could be parsed into trees"""
-    assert "S1" in [t.name for t in ex_tree.trees]
-    assert "21" in [t.name for t in ex_tree.trees]
+    assert "S1" in [t.reference_key for t in ex_tree.products]
+    assert "21" in [t.reference_key for t in ex_tree.products]
 
 
 @pytest.mark.skip(reason="Failing")

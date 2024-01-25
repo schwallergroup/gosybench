@@ -99,9 +99,9 @@ class SynthTree(SynthDocument):
             return graph.subgraph(reachable_nodes).copy()
 
         # Store the subgraphs in a list
-        subgraphs = [
-            extract_subgraph(Gd, node)
+        subgraphs = {
+            node: extract_subgraph(Gd, node)
             for node in Gd
             if Gd.nodes[node]["is_head"]
-        ]
+        }
         return subgraphs
