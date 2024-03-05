@@ -5,29 +5,18 @@ tree of SynthNodes that represent the chemical synthesis described in pdf doc.
 """
 
 from typing import List, Optional
-
 import networkx as nx  # type: ignore
-
 from jasyntho.extract import Product
+from .synthdoc import SISynthesis
+from jasyntho.extract import Extractor
 
-from .synthdoc import SynthDocument
+class SynthTree(SISynthesis):
+    """Extend SISynthesis to represent reaction tree."""
 
+    products: List[Product] = []
+    full_g: nx.DiGraph = nx.DiGraph()
+    list_disj: List[nx.DiGraph] = []
 
-class SynthTree(SynthDocument):
-    """Extend SynthDocument to represent reaction tree."""
-
-    def __init__(
-        self,
-        doc_src: str,
-        api_key: Optional[str] = None,
-        model: str = "gpt-4-0314",
-        startp: int = 0,
-        endp: Optional[int] = None,
-    ) -> None:
-        """Initialize a SynthTree object."""
-        super(SynthTree, self).__init__(
-            doc_src, api_key, model, startp, endp
-        )  # TODO: select startp and endp automatically from doc_src
 
     def disjoint_trees(self):
         """Merge and find all disjoint trees in paper."""

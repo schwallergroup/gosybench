@@ -15,39 +15,83 @@ import fitz  # type: ignore
 from colorama import Fore  # type: ignore
 from dotenv import load_dotenv
 
+from pydantic import BaseModel
 from jasyntho.extract import Extractor
 
 from .synthpar import SynthParagraph
+from .si_select import SISplitter
 
 
-class SynthDocument:
+class ResearchDoc(BaseModel):
+    """A research paper and its SI."""
+
+    doc_src: str
+    fitz_paper: fitz.fitz.Document
+    fitz_si: fitz.fitz.Document
+    paper: str = ""
+    si: str = ""
+    si_dict: dict = {}
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    @classmethod
+    def from_dir(cls, paper_dir: str):
+        """
+        Initialize ResearchDoc object.
+
+        paper_dir: directory containing the paper and SI.
+            SI must be named si_0.pdf,
+            paper must be named paper.pdf.
+        """
+        paper_path = os.path.join(paper_dir, "paper.pdf")
+        si_path = os.path.join(paper_dir, "si_0.pdf")
+        paper_fitz, paper_text = ResearchDoc.load(paper_path)
+        si_fitz, si_text = ResearchDoc.load(si_path)
+        return cls(
+            doc_src=paper_dir,
+            fitz_paper=paper_fitz,
+            fitz_si=si_fitz,
+            paper=paper_text,
+            si=si_text
+        )
+
+    @classmethod
+    def load(cls, path: str) -> str:
+        """Load a PDF as a string."""
+        doc = fitz.open(path)
+        text = ""
+        for p in doc:
+            text += p.get_text()
+        return doc, text
+
+
+class SISynthesis(ResearchDoc):
     """Synthesis document."""
 
-    def __init__(
-        self,
-        doc_src: str,
-        api_key: Optional[str] = None,
-        model: str = "gpt-4-0314",
-        startp: int = 0,
-        endp: Optional[int] = None,
-        verbose: bool = True,
-    ) -> None:
-        """
-        Initialize a synthesis document.
+    rxn_extract: Optional[Extractor] = None
+    paragraphs: List[SynthParagraph] = []
+    v: bool = True
 
-        Input
-        doc_src: Optional[str]
-            path to the pdf file
-        """
-        load_dotenv()
-        api_key = api_key or os.environ["OPENAI_API_KEY"]
+    def select_syntheses(self) -> None:
+        """Select the part of the SI where syntheses are described."""
+        si_split = SISplitter()
 
-        self.v = verbose
-        self.rxn_extract = Extractor("rxn_setup", api_key, model=model)
-        self.paragraphs = self._get_paragraphs(doc_src, start=startp, end=endp)
+        si_split.signal_threshold = 0.35
+        si_split.window_size = 150
+        if verbose:
+            si_split.plot = True
+
+        doc = self.from_dir(self.doc_src)
+        relevant_si = si_split.select_relevant(doc)
+        relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
+        relevant_si.save(relev_si_src)
 
     def extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
+        relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
+        self.paragraphs = self._get_paragraphs(relev_si_src)
+
         self.raw_prodlist = [
             p.extract(self.rxn_extract) for p in self.paragraphs
         ]
@@ -58,6 +102,9 @@ class SynthDocument:
 
     async def async_extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
+        relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
+        self.paragraphs = self._get_paragraphs(relev_si_src)
+
         self.raw_prodlist = await asyncio.gather(
             *[p.async_extract(self.rxn_extract) for p in self.paragraphs]
         )
@@ -92,23 +139,18 @@ class SynthDocument:
             printm(f"\t{n}: {notes.count(n)}")
 
     def _get_paragraphs(
-        self, doc_src: str, start: int = 0, end: Optional[int] = None
+        self,
+        doc_src: str
     ) -> List[SynthParagraph]:
         """
         Create list of paragraphs from document.
 
         Input
             doc_src: address of the pdf document.
-            start: Page to read paragraphs from.
-            end: Last page to read paragraphs from.
         """
-        self.doc = fitz.open(doc_src)
-        end = end or self.doc.page_count
+        end = self.fitz_si.page_count
 
-        if start < 0 or start >= self.doc.page_count:
-            raise ValueError("start must be >= 0 and < the doc page count")
-
-        parags_pages = self._get_pars_per_page(start, end)
+        parags_pages = self._get_pars_per_page(0, end)
         return self._clean_up_pars(parags_pages)
 
     def _clean_up_pars(self, pars):
@@ -135,7 +177,7 @@ class SynthDocument:
         # iterate over pages of document
         for i in range(start, end):
             # make a dictionary
-            json_data = self.doc[i].get_text("json")
+            json_data = self.fitz_si[i].get_text("json")
             json_page = json.loads(json_data)
             page_blocks = json_page["blocks"]
 
