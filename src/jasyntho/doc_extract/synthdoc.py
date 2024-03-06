@@ -9,7 +9,7 @@ import json
 import os
 import re
 from itertools import chain
-from typing import List, Optional
+from typing import List, Optional, Tuple
 
 import fitz  # type: ignore
 from colorama import Fore  # type: ignore
@@ -18,52 +18,10 @@ from pydantic import BaseModel
 
 from jasyntho.extract import Extractor
 
+from .base import ResearchDoc
 from .si_select import SISplitter
 from .synthpar import SynthParagraph
-
-
-class ResearchDoc(BaseModel):
-    """A research paper and its SI."""
-
-    doc_src: str
-    fitz_paper: fitz.fitz.Document
-    fitz_si: fitz.fitz.Document
-    paper: str = ""
-    si: str = ""
-    si_dict: dict = {}
-
-    class Config:
-        arbitrary_types_allowed = True
-
-    @classmethod
-    def from_dir(cls, paper_dir: str):
-        """
-        Initialize ResearchDoc object.
-
-        paper_dir: directory containing the paper and SI.
-            SI must be named si_0.pdf,
-            paper must be named paper.pdf.
-        """
-        paper_path = os.path.join(paper_dir, "paper.pdf")
-        si_path = os.path.join(paper_dir, "si_0.pdf")
-        paper_fitz, paper_text = ResearchDoc.load(paper_path)
-        si_fitz, si_text = ResearchDoc.load(si_path)
-        return cls(
-            doc_src=paper_dir,
-            fitz_paper=paper_fitz,
-            fitz_si=si_fitz,
-            paper=paper_text,
-            si=si_text,
-        )
-
-    @classmethod
-    def load(cls, path: str) -> str:
-        """Load a PDF as a string."""
-        doc = fitz.open(path)
-        text = ""
-        for p in doc:
-            text += p.get_text()
-        return doc, text
+from ..extract.substances import Product
 
 
 class SISynthesis(ResearchDoc):
@@ -71,6 +29,7 @@ class SISynthesis(ResearchDoc):
 
     rxn_extract: Optional[Extractor] = None
     paragraphs: List[SynthParagraph] = []
+    raw_prods: List[Product] = []
     v: bool = True
 
     def select_syntheses(self) -> None:
@@ -79,7 +38,7 @@ class SISynthesis(ResearchDoc):
 
         si_split.signal_threshold = 0.35
         si_split.window_size = 150
-        if verbose:
+        if self.v:
             si_split.plot = True
 
         doc = self.from_dir(self.doc_src)
@@ -92,10 +51,8 @@ class SISynthesis(ResearchDoc):
         relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
         self.paragraphs = self._get_paragraphs(relev_si_src)
 
-        self.raw_prodlist = [
-            p.extract(self.rxn_extract) for p in self.paragraphs
-        ]
-        self.raw_prods = list(chain(*self.raw_prodlist))  # type: ignore
+        raw_prodlist = [p.extract(self.rxn_extract) for p in self.paragraphs]
+        self.raw_prods = list(chain(*raw_prodlist))  # type: ignore
         self._report_process(self.raw_prods)
         products = [p for p in self.raw_prods if not p.isempty()]
         return products
@@ -105,10 +62,10 @@ class SISynthesis(ResearchDoc):
         relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
         self.paragraphs = self._get_paragraphs(relev_si_src)
 
-        self.raw_prodlist = await asyncio.gather(
+        raw_prodlist = await asyncio.gather(
             *[p.async_extract(self.rxn_extract) for p in self.paragraphs]
         )
-        self.raw_prods = list(chain(*self.raw_prodlist))  # type: ignore
+        self.raw_prods = list(chain(*raw_prodlist))  # type: ignore
         self._report_process(self.raw_prods)
         products = [p for p in self.raw_prods if not p.isempty()]
         return products

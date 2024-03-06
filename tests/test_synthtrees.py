@@ -6,6 +6,7 @@ import pytest
 from dotenv import load_dotenv
 
 from jasyntho import SynthTree
+from jasyntho.extract import Extractor
 
 load_dotenv()
 
@@ -15,11 +16,13 @@ load_dotenv()
 def ex_tree():
     """Initialize document."""
     oai_key = os.getenv("OPENAI_API_KEY")
-    doc = SynthTree(
-        "tests/examples/synth_SI_sub.pdf",
-        oai_key,
-        model="gpt-4-0613",
+    rxn_extract = Extractor("rxn_setup", oai_key, model="gpt-4")
+
+    doc = SynthTree.from_dir(
+        "tests/examples",
     )
+    doc.rxn_extract = rxn_extract
+
     doc.products = doc.extract_rss()
     doc.extract_rss()
     return doc

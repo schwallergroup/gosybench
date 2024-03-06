@@ -12,62 +12,7 @@ import numpy as np
 from pydantic import BaseModel
 from scipy.signal import find_peaks
 
-
-class ResearchDoc(BaseModel):
-    """A research paper and its SI."""
-
-    # fitz_paper: fitz.fitz.Document
-    fitz_si: fitz.fitz.Document
-    paper: str = ""
-    si: str = ""
-    si_dict: dict = {}
-
-    class Config:
-        arbitrary_types_allowed = True
-
-    @classmethod
-    def from_dir(cls, paper_dir: str):
-        """
-        Initialize ResearchDoc object.
-
-        paper_dir: directory containing the paper and SI.
-            SI must be named si_0.pdf,
-            paper must be named paper.pdf.
-        """
-        paper_path = os.path.join(paper_dir, "paper.pdf")
-        si_path = os.path.join(paper_dir, "si_0.pdf")
-        # fitz_paper, paper = ResearchDoc.load(paper_path)
-        fitz_si, si = ResearchDoc.load(si_path)
-        return cls(
-            # fitz_paper=fitz_paper,
-            fitz_si=fitz_si,
-            # paper=paper,
-            si=si,
-        )
-
-    @classmethod
-    def load(cls, path: str) -> str:
-        """Load a PDF as a string."""
-        doc = fitz.open(path)
-        text = ""
-        for p in doc:
-            text += p.get_text()
-        return doc, text
-
-    # def acquire_context(
-    #    self, query_substance: str, n: int = 5, max_len: int = 200
-    # ):
-    #    """Find references to query substance in paper."""
-    #    doc = self.paper
-    #    context = ""
-    #    for i, m in enumerate(re.finditer(query_substance, doc)):
-    #        segm = doc[m.start() - max_len : m.start() + max_len].replace(
-    #            "\n", " "
-    #        )
-    #        context += f"Segment {i+1}: '{segm}'\n" "Source: main paper\n\n"
-    #        if i == n:
-    #            break
-    #    return context
+from .base import ResearchDoc
 
 
 class SISplitter(BaseModel):
@@ -75,7 +20,7 @@ class SISplitter(BaseModel):
 
     plot: bool = False
     window_size: int = 20
-    signal_threshold: int = 200
+    signal_threshold: float = 0.5
     text_regex: str = r"[A-Z][a-z]"
     special_regex: str = r"[a-zA-Z!@#$%^&*()\-_=+{}[\];:,.<>?/|~`]"
 
