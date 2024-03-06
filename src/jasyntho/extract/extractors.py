@@ -1,6 +1,8 @@
 """Data extractors for segments of chemical synthesis paragraphs."""
 
+import os
 from typing import Any, Optional
+from dotenv import load_dotenv
 
 from .rxns_si.extract import ReactionSetup
 
@@ -14,7 +16,6 @@ class Extractor:
     def __init__(
         self,
         sclass: str,
-        api_key: Optional[str] = None,
         model: str = "gpt-4-0314",
     ) -> None:
         """Initialize extractor.
@@ -24,6 +25,8 @@ class Extractor:
             Snippet class.
             One of 'rxn_setup', 'rxn_workup', 'purification', 'analysis'
         """
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
         self.extractor = self._init_extractor(sclass, api_key, model)
 
     def __call__(self, text: str) -> Any:
