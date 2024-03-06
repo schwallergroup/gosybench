@@ -6,6 +6,7 @@ Creates a collection of SynthParagraphs from a paper.
 
 import asyncio
 import json
+import logging
 import os
 import re
 from itertools import chain
@@ -22,6 +23,9 @@ from .base import ResearchDoc
 from .si_select import SISplitter
 from .synthpar import SynthParagraph
 from ..extract.substances import Product
+
+# Silence retry validator warnings
+logging.getLogger("instructor").setLevel(logging.CRITICAL)
 
 
 class SISynthesis(ResearchDoc):
@@ -72,8 +76,8 @@ class SISynthesis(ResearchDoc):
 
     def _report_process(self, raw_prods) -> None:
         """Print a report of results of prgr processing."""
-        if not self.v:
-            return None
+        # if not self.v:
+        #    return None
 
         correct = 0
         empty = 0
@@ -102,9 +106,10 @@ class SISynthesis(ResearchDoc):
         Input
             doc_src: address of the pdf document.
         """
-        end = self.fitz_si.page_count
+        fitz_si_syn = fitz.open(doc_src)
+        end = fitz_si_syn.page_count
 
-        parags_pages = self._get_pars_per_page(0, end)
+        parags_pages = self._get_pars_per_page(fitz_si_syn, 0, end)
         return self._clean_up_pars(parags_pages)
 
     def _clean_up_pars(self, pars):
@@ -121,7 +126,7 @@ class SISynthesis(ResearchDoc):
 
         return all_paragraphs
 
-    def _get_pars_per_page(self, start, end):
+    def _get_pars_per_page(self, doc, start, end):
         """Get all paragraphs in this page.
 
         This is one of these functions you simply don't touch.
@@ -131,7 +136,7 @@ class SISynthesis(ResearchDoc):
         # iterate over pages of document
         for i in range(start, end):
             # make a dictionary
-            json_data = self.fitz_si[i].get_text("json")
+            json_data = doc[i].get_text("json")
             json_page = json.loads(json_data)
             page_blocks = json_page["blocks"]
 

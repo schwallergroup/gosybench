@@ -1,8 +1,8 @@
 """Test suite for the SynthParagraph class"""
 
-import os
 import ast
 import json
+import os
 
 import pytest
 from dotenv import load_dotenv

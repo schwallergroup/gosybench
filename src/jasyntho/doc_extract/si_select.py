@@ -37,7 +37,7 @@ class SISplitter(BaseModel):
         """Find page number range, where SI contains procedures."""
         ratios = self.map_ratio(doc)
         ranges = self.find_longest_true(ratios > self.signal_threshold)
-        p0 = self.sdict.get(ranges[0] + self.window_size, False)
+        p0 = self.sdict.get(ranges[0], False)
         p1 = self.sdict.get(ranges[1] + self.window_size, False)
         if not p1:
             p1 = self.sdict.get(ranges[1], False)
@@ -45,7 +45,7 @@ class SISplitter(BaseModel):
         if self.plot:
             self.plot_signal(ratios, ranges)
 
-        if p0 and p1:
+        if isinstance(p0, int) and isinstance(p1, int):
             print(f"Selected: {p0, p1}")
             return p0, p1
         else:
