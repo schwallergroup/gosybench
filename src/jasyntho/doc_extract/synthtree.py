@@ -5,10 +5,13 @@ tree of SynthNodes that represent the chemical synthesis described in pdf doc.
 """
 
 from typing import List, Optional
+
 import networkx as nx  # type: ignore
-from jasyntho.extract import Product
+
+from jasyntho.extract import Extractor, Product
+
 from .synthdoc import SISynthesis
-from jasyntho.extract import Extractor
+
 
 class SynthTree(SISynthesis):
     """Extend SISynthesis to represent reaction tree."""
@@ -16,7 +19,6 @@ class SynthTree(SISynthesis):
     products: List[Product] = []
     full_g: nx.DiGraph = nx.DiGraph()
     list_disj: List[nx.DiGraph] = []
-
 
     def disjoint_trees(self):
         """Merge and find all disjoint trees in paper."""

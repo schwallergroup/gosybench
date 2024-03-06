@@ -14,12 +14,12 @@ from typing import List, Optional
 import fitz  # type: ignore
 from colorama import Fore  # type: ignore
 from dotenv import load_dotenv
-
 from pydantic import BaseModel
+
 from jasyntho.extract import Extractor
 
-from .synthpar import SynthParagraph
 from .si_select import SISplitter
+from .synthpar import SynthParagraph
 
 
 class ResearchDoc(BaseModel):
@@ -53,7 +53,7 @@ class ResearchDoc(BaseModel):
             fitz_paper=paper_fitz,
             fitz_si=si_fitz,
             paper=paper_text,
-            si=si_text
+            si=si_text,
         )
 
     @classmethod
@@ -138,10 +138,7 @@ class SISynthesis(ResearchDoc):
         for n in set(notes):
             printm(f"\t{n}: {notes.count(n)}")
 
-    def _get_paragraphs(
-        self,
-        doc_src: str
-    ) -> List[SynthParagraph]:
+    def _get_paragraphs(self, doc_src: str) -> List[SynthParagraph]:
         """
         Create list of paragraphs from document.
 

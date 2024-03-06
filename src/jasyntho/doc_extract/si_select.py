@@ -4,18 +4,19 @@ Select the relevant part of the SI.
 That is, the part containing the synthesis procedures.
 """
 
-import re
 import os
+import re
+
 import fitz  # type: ignore
-from pydantic import BaseModel
 import numpy as np
+from pydantic import BaseModel
 from scipy.signal import find_peaks
 
 
 class ResearchDoc(BaseModel):
     """A research paper and its SI."""
 
-    #fitz_paper: fitz.fitz.Document
+    # fitz_paper: fitz.fitz.Document
     fitz_si: fitz.fitz.Document
     paper: str = ""
     si: str = ""
@@ -35,14 +36,14 @@ class ResearchDoc(BaseModel):
         """
         paper_path = os.path.join(paper_dir, "paper.pdf")
         si_path = os.path.join(paper_dir, "si_0.pdf")
-        #fitz_paper, paper = ResearchDoc.load(paper_path)
+        # fitz_paper, paper = ResearchDoc.load(paper_path)
         fitz_si, si = ResearchDoc.load(si_path)
         return cls(
-            #fitz_paper=fitz_paper,
+            # fitz_paper=fitz_paper,
             fitz_si=fitz_si,
-            #paper=paper,
-            si=si
-            )
+            # paper=paper,
+            si=si,
+        )
 
     @classmethod
     def load(cls, path: str) -> str:
@@ -53,10 +54,9 @@ class ResearchDoc(BaseModel):
             text += p.get_text()
         return doc, text
 
-        
-    #def acquire_context(
+    # def acquire_context(
     #    self, query_substance: str, n: int = 5, max_len: int = 200
-    #):
+    # ):
     #    """Find references to query substance in paper."""
     #    doc = self.paper
     #    context = ""
@@ -69,14 +69,15 @@ class ResearchDoc(BaseModel):
     #            break
     #    return context
 
+
 class SISplitter(BaseModel):
     """Identify relevant part of the SI."""
 
     plot: bool = False
     window_size: int = 20
     signal_threshold: int = 200
-    text_regex: str = r'[A-Z][a-z]'
-    special_regex: str = r'[a-zA-Z!@#$%^&*()\-_=+{}[\];:,.<>?/|~`]'
+    text_regex: str = r"[A-Z][a-z]"
+    special_regex: str = r"[a-zA-Z!@#$%^&*()\-_=+{}[\];:,.<>?/|~`]"
 
     sdict: dict = {}
     sents: list = []
@@ -91,8 +92,8 @@ class SISplitter(BaseModel):
         """Find page number range, where SI contains procedures."""
         ratios = self.map_ratio(doc)
         ranges = self.find_longest_true(ratios > self.signal_threshold)
-        p0 = self.sdict.get(ranges[0]+self.window_size, False)
-        p1 = self.sdict.get(ranges[1]+self.window_size, False)
+        p0 = self.sdict.get(ranges[0] + self.window_size, False)
+        p1 = self.sdict.get(ranges[1] + self.window_size, False)
         if not p1:
             p1 = self.sdict.get(ranges[1], False)
 
@@ -100,28 +101,33 @@ class SISplitter(BaseModel):
             self.plot_signal(ratios, ranges)
 
         if p0 and p1:
-            print(f'Selected: {p0, p1}')
+            print(f"Selected: {p0, p1}")
             return p0, p1
         else:
-            raise ValueError(f'Could not find relevant part of SI in {self.pages}.')
+            raise ValueError(
+                f"Could not find relevant part of SI in {self.pages}."
+            )
 
     def plot_signal(self, ratios, ranges):
         """Plot the signal and the selected range."""
         import matplotlib.pyplot as plt
+
         plt.plot(ratios)
-        plt.axvline(ranges[0], color='r')
-        plt.axvline(ranges[1], color='k')
+        plt.axvline(ranges[0], color="r")
+        plt.axvline(ranges[1], color="k")
         plt.show()
 
     def cut_si(self, doc: ResearchDoc):
         """Slice the SI to the relevant part."""
         p0, p1 = self.pages
         if p0 > p1:
-            raise ValueError(f'Invalid page range {self.pages}.')
+            raise ValueError(f"Invalid page range {self.pages}.")
         else:
-            doc.fitz_si.delete_pages(from_page=p1+1, to_page=len(doc.fitz_si)-1)
+            doc.fitz_si.delete_pages(
+                from_page=p1 + 1, to_page=len(doc.fitz_si) - 1
+            )
             if p0 != 0:
-                doc.fitz_si.delete_pages(from_page=0, to_page=p0-1)
+                doc.fitz_si.delete_pages(from_page=0, to_page=p0 - 1)
         return doc.fitz_si
 
     def map_ratio(self, doc: ResearchDoc):
@@ -132,14 +138,16 @@ class SISplitter(BaseModel):
         ratios = self._smooth_signal(ratios)
         return ratios
 
-    def sentence_dict(self, doc: ResearchDoc, split_pattern='\n'):
+    def sentence_dict(self, doc: ResearchDoc, split_pattern="\n"):
         """Create list of sentences and a dictionary mapping sentence idx to page."""
         self.sdict = {}
         self.sents = []
         for p in doc:
             p_number = p.number
             sents = p.get_text().split(split_pattern)
-            idict = {i+len(self.sdict): p_number for i, s in enumerate(sents)}
+            idict = {
+                i + len(self.sdict): p_number for i, s in enumerate(sents)
+            }
             self.sdict.update(idict)
             self.sents += sents
         return self.sdict
@@ -148,12 +156,12 @@ class SISplitter(BaseModel):
         """Calculate the ratio of special characters to text."""
         text = len(re.findall(self.text_regex, sentence))
         spec = len(re.findall(self.special_regex, sentence))
-        return spec/(text+1)
+        return spec / (text + 1)
 
     def _smooth_signal(self, ratios):
         """Smooth the signal using a moving average."""
-        conv = np.convolve(ratios, np.ones(self.window_size), 'valid')    
-        conv = conv/np.mean(np.sort(conv)[-30:])  # normalize
+        conv = np.convolve(ratios, np.ones(self.window_size), "valid")
+        conv = conv / np.mean(np.sort(conv)[-30:])  # normalize
         return conv
 
     def find_longest_true(self, bools):
@@ -174,4 +182,3 @@ class SISplitter(BaseModel):
                         max_end = i
                     start = 0
         return max_start, max_end
-
