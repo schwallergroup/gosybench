@@ -35,7 +35,7 @@ def test_trees_extraction(ex_tree):
     assert "21" in [t.reference_key for t in ex_tree.products]
 
 
-@pytest.mark.skip(reason="Failing")
+# @pytest.mark.skip(reason="Failing")
 def test_merged_trees(ex_tree):
     """Check that trees can be merged as expected"""
     mts = ex_tree.merged_trees

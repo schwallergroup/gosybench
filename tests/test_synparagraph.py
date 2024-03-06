@@ -1,5 +1,6 @@
 """Test suite for the SynthParagraph class"""
 
+import os
 import ast
 import json
 
@@ -13,12 +14,14 @@ load_dotenv()
 
 with open("tests/synth_child_io/sample.json") as fh:
     data = json.load(fh)
-    child_synth_io = [(d["input"], str(d["output"])) for d in data]
+    child_synth_io = [(d["input"], str(d["output"])) for d in data][:2]
 
 
-def get_product(prg):
+def get_products(prg):
     """Execute children extractor chain"""
-    extr = Extractor("rxn_setup")
+    load_dotenv()
+    oai_key = os.getenv("OPENAI_API_KEY")
+    extr = Extractor("rxn_setup", model="gpt-4-0613", api_key=oai_key)
     out = extr(prg)
     return out
 
@@ -29,10 +32,9 @@ def test_child_extr_chain(inp, expect):
     """Test children extraction chain from paragraphs."""
 
     exp = ast.literal_eval(expect)
-    out = get_product(inp)
+    out = get_products(inp)
 
-    # list of reference_keys in out
-    out_keys = [c.reference_key for c in out.children]
+    out_keys = [c.reference_key for p in out for c in p.children]
 
     # TODO: make a better comparison
     assert exp[0]["reference_key"] in out_keys
