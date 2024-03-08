@@ -3,7 +3,7 @@
 import json
 import os
 import re
-from typing import Tuple
+from typing import Tuple, Optional, List
 
 import fitz
 from pydantic import BaseModel
@@ -53,3 +53,42 @@ class ResearchDoc(BaseModel):
         for p in doc:
             text += p.get_text()
         return doc, text
+
+    def acquire_context(
+        self,
+        query: str,
+        doc: Optional[str] = None,
+        n: int = 5,
+        max_len: int = 200
+    ) -> List[str]:
+        """Find any references to some query in the document."""
+        if doc is None:
+            doc = self.paper
+
+        lbreak = self._find_most_frequent_linebreaker(doc)
+        chunks = re.split(lbreak, doc)
+        clist = [c for c in chunks if query in c]
+        return clist
+        
+    def _find_most_frequent_linebreaker(self, text):
+        """Find the most frequent line breaker pattern in the text."""
+        patterns = [
+            r'\.\s?\n',
+            r'\n\s?\.',
+            r'\n\n+',
+            r'\n\s+\n',
+        ]
+        
+        # Initialize a dictionary to store the counts of each line breaker
+        linebreaker_counts = {pattern: 0 for pattern in patterns}
+        
+        # Count the occurrences of each line breaker pattern in the text
+        for pattern in patterns:
+            linebreaker_counts[pattern] = len(re.findall(pattern, text))
+
+        
+        print(linebreaker_counts)
+        
+        # Return the most frequent line breaker pattern
+        most_frequent_linebreaker = max(linebreaker_counts, key=linebreaker_counts.get)
+        return most_frequent_linebreaker

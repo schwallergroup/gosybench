@@ -12,7 +12,7 @@ from .substance import SubstanceInReaction, SubstanceInReactionList
 
 
 class Product(SubstanceInReaction):
-    """Substance with children and properites.
+    """Substance with children and properties.
 
     Args:
         reference_key: Identifier for a substance described in text.
