@@ -6,6 +6,18 @@ import os
 import dspy
 import requests
 from dsp.modules.databricks import custom_client_chat_request, custom_client_completions_request
+from pydantic import BaseModel
+
+
+class Something(BaseModel):
+    """A Pydantic model."""
+
+    name: str
+    age: int
+
+    def from_lm(cls, s):
+        """Reconvert into Something."""
+        return cls(name=s.name, age=s.age)
 
 
 class Mistral(dspy.Databricks):
