@@ -10,7 +10,6 @@ from .rxns_si.extract import ReactionSetup
 
 class Extractor:
     """Extract data from snippets of synthesis paragraphs.
-
     Initializes extractor depending on the snippet class.
     """
 
@@ -23,8 +22,8 @@ class Extractor:
 
         Input
         sclass : str
-            Snippet class.
-            One of 'rxn_setup', 'rxn_workup', 'purification', 'analysis'
+        Snippet class.
+        One of 'rxn_setup', 'rxn_workup', 'purification', 'analysis'
         """
         load_dotenv()
         api_key = os.getenv("OPENAI_API_KEY")
@@ -49,7 +48,7 @@ class Extractor:
 
         Input
         eclass : str
-            Type of extractor to initialize.
+        Type of extractor to initialize.
         """
         if eclass == "rxn_setup":
             return ReactionSetup(api_key=api_key, model=model)

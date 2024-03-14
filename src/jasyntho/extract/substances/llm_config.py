@@ -1,5 +1,7 @@
 """Pydantic model configuration for the LLM API."""
 
+from __future__ import annotations
+
 from pydantic import BaseModel
 
 

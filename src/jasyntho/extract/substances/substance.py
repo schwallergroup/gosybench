@@ -2,8 +2,6 @@
 
 from typing import List, Literal, Optional
 
-import bigtree
-from bigtree import nested_dict_to_tree  # type: ignore
 from pydantic import BaseModel, Field
 
 
@@ -27,20 +25,6 @@ class Substance(BaseModel):
         if s.reference_key is None or s.reference_key == "null":
             s.reference_key = s.substance_name
         return cls(**s.model_dump())
-
-    def to_node(
-        self, name_key: str = "reference_key", child_key: str = "children"
-    ):
-        """Convert object to node."""
-        try:
-            return nested_dict_to_tree(
-                node_attrs=self.model_dump(),  # type: ignore
-                name_key=name_key,
-                child_key=child_key,
-            )
-        except bigtree.utils.exceptions.TreeError:
-            print(f"Error converting into tree: {self.reference_key}")
-            return None
 
 
 class SubstanceInReaction(Substance):
@@ -71,13 +55,11 @@ class SubstanceInReaction(Substance):
 
 class SubstanceInReactionList(BaseModel):
     """List of substances in reaction.
-
-    Instructions: `reference_key` is the reference number given to the
-    substance. `reference_key` is a combination of letters and numbers, like
+    Instructions: reference_key is the reference number given to the
+    substance. reference_key is a combination of letters and numbers, like
     'S1', '14', '22a', or more complex like 'C8-epi-20' etc.
     Some might have longer specifiers, like C8-epi-20.
-    Example: If "alkene 17a" is mentioned, then `reference_key`=="17a".
-    """
+    Example: If "alkene 17a" is mentioned, then reference_key=="17a"."""
 
     chain_of_thought: str = Field(
         description=(
