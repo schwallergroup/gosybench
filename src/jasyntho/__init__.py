@@ -4,3 +4,4 @@
 
 from .api import *  # noqa
 from .doc_extract import *  # noqa
+from .utils import *  # noqa

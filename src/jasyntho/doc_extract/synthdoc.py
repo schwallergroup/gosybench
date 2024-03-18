@@ -6,64 +6,78 @@ Creates a collection of SynthParagraphs from a paper.
 
 import asyncio
 import json
+import logging
 import os
 import re
-from typing import List, Optional
+from itertools import chain
+from typing import List, Optional, Tuple
 
 import fitz  # type: ignore
 from colorama import Fore  # type: ignore
 from dotenv import load_dotenv
+from pydantic import BaseModel
 
 from jasyntho.extract import Extractor
 
+from .base import ResearchDoc
+from .si_select import SISplitter
 from .synthpar import SynthParagraph
+from ..extract.substances import Product
+
+# Silence retry validator warnings
+logging.getLogger("instructor").setLevel(logging.CRITICAL)
 
 
-class SynthDocument:
+class SISynthesis(ResearchDoc):
     """Synthesis document."""
 
-    def __init__(
-        self,
-        doc_src: str,
-        api_key: Optional[str] = None,
-        startp: int = 0,
-        endp: Optional[int] = None,
-        verbose: bool = True,
-    ) -> None:
-        """
-        Initialize a synthesis document.
+    rxn_extract: Optional[Extractor] = None
+    paragraphs: List[SynthParagraph] = []
+    raw_prods: List[Product] = []
+    v: bool = True
 
-        Input
-        doc_src: Optional[str]
-            path to the pdf file
-        """
-        load_dotenv()
-        api_key = api_key or os.environ["OPENAI_API_KEY"]
+    def select_syntheses(self) -> None:
+        """Select the part of the SI where syntheses are described."""
+        si_split = SISplitter()
 
-        self.v = verbose
-        self.rxn_extract = Extractor("rxn_setup", api_key)
-        self.paragraphs = self._get_paragraphs(doc_src, start=startp, end=endp)
+        si_split.signal_threshold = 0.35
+        si_split.window_size = 150
+        if self.v:
+            si_split.plot = True
+
+        doc = self.from_dir(self.doc_src)
+        relevant_si = si_split.select_relevant(doc)
+        relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
+        relevant_si.save(relev_si_src)
 
     def extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
-        ext = [p.extract(self.rxn_extract) for p in self.paragraphs]
-        self._report_process(ext)
-        products = [p for p in ext if not p.isempty()]
+        relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
+        self.paragraphs = self._get_paragraphs(relev_si_src)
+
+        raw_prodlist = [p.extract(self.rxn_extract) for p in self.paragraphs]
+        self.raw_prods = list(chain(*raw_prodlist))  # type: ignore
+        self._report_process(self.raw_prods)
+        products = [p for p in self.raw_prods if not p.isempty()]
         return products
 
     async def async_extract_rss(self) -> list:
         """Extract reaction setups for each paragraph in the doc."""
-        ext = await asyncio.gather(
+        relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
+        self.paragraphs = self._get_paragraphs(relev_si_src)
+
+        raw_prodlist = await asyncio.gather(
             *[p.async_extract(self.rxn_extract) for p in self.paragraphs]
         )
-        self._report_process(ext)
-        products = [p for p in ext if not p.isempty()]
+        self.raw_prods = list(chain(*raw_prodlist))  # type: ignore
+        self._report_process(self.raw_prods)
+        products = [p for p in self.raw_prods if not p.isempty()]
         return products
 
     def _report_process(self, raw_prods) -> None:
         """Print a report of results of prgr processing."""
-        if not self.v:
-            return None
+        # if not self.v:
+        #    return None
 
         correct = 0
         empty = 0
@@ -85,24 +99,17 @@ class SynthDocument:
         for n in set(notes):
             printm(f"\t{n}: {notes.count(n)}")
 
-    def _get_paragraphs(
-        self, doc_src: str, start: int = 0, end: Optional[int] = None
-    ) -> List[SynthParagraph]:
+    def _get_paragraphs(self, doc_src: str) -> List[SynthParagraph]:
         """
         Create list of paragraphs from document.
 
         Input
             doc_src: address of the pdf document.
-            start: Page to read paragraphs from.
-            end: Last page to read paragraphs from.
         """
-        self.doc = fitz.open(doc_src)
-        end = end or self.doc.page_count
+        fitz_si_syn = fitz.open(doc_src)
+        end = fitz_si_syn.page_count
 
-        if start < 0 or start >= self.doc.page_count:
-            raise ValueError("start must be >= 0 and < the doc page count")
-
-        parags_pages = self._get_pars_per_page(start, end)
+        parags_pages = self._get_pars_per_page(fitz_si_syn, 0, end)
         return self._clean_up_pars(parags_pages)
 
     def _clean_up_pars(self, pars):
@@ -119,7 +126,7 @@ class SynthDocument:
 
         return all_paragraphs
 
-    def _get_pars_per_page(self, start, end):
+    def _get_pars_per_page(self, doc, start, end):
         """Get all paragraphs in this page.
 
         This is one of these functions you simply don't touch.
@@ -129,7 +136,7 @@ class SynthDocument:
         # iterate over pages of document
         for i in range(start, end):
             # make a dictionary
-            json_data = self.doc[i].get_text("json")
+            json_data = doc[i].get_text("json")
             json_page = json.loads(json_data)
             page_blocks = json_page["blocks"]
 

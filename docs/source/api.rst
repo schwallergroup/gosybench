@@ -1,14 +1,10 @@
 API Documentation
 ==================
 
-Segmentor
+Products
 -------------------
 
-.. automodule:: jasyntho.segment.base
+.. automodule:: jasyntho.extract.substances.product
    :members:
-
-.. automodule:: jasyntho.segment.flan_t5
-   :members:
-
-.. automodule:: jasyntho.segment.openai
-   :members:
+   :undoc-members:
+   :show-inheritance:

@@ -72,6 +72,13 @@ extensions = [
 
 extensions.append("sphinx_click.ext")
 
+# autodoc_mock_imports = ["pydantic._internal._utils"]
+
+# autodoc_default_options = {
+#    "exclude-members": "__weakref__",
+#    "no-inherited-members": True,
+# }
+
 
 # generate autosummary pages
 autosummary_generate = True
