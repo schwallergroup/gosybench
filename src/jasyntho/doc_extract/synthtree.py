@@ -4,7 +4,7 @@ Define class SynthTree.
 tree of SynthNodes that represent the chemical synthesis described in pdf doc.
 """
 
-from typing import List, Optional
+from typing import Dict, List, Optional
 
 import networkx as nx  # type: ignore
 
@@ -19,24 +19,24 @@ class SynthTree(SISynthesis):
 
     products: List[Product] = []
     full_g: nx.DiGraph = nx.DiGraph()
-    list_disjoint: List[nx.DiGraph] = []
+    reach_subgraphs: Dict[str, nx.DiGraph] = {}
 
     def extended_connections(self):
         """Return the extended connections for a given query."""
-        dts = self.disjoint_trees()
+        dts = self.get_reachable_subgraphs()
         lab_connect = LabConnection(self)
 
         new_connects = {}
         for k, g in dts.items():
             if len(g) > 1:
-                print(f"Processing disjoint tree {k}")
+                print(f"Processing reachable subgraph from source node {k}")
                 new_connects[k] = lab_connect(k)
 
-        self.list_disjoint = self.disjoint_trees(new_connects)
+        self.reach_subgraphs = self.get_reachable_subgraphs(new_connects)
         return new_connects  # in case we want to use it later
 
-    def disjoint_trees(self, new_connects: Optional[dict] = None):
-        """Merge and find all disjoint trees in paper.
+    def get_reachable_subgraphs(self, new_connects: Optional[dict] = None):
+        """Merge and find all reachable subgraphs in paper.
         If dict of new connects is given, rewire the graph with new connections.
         """
         prods = self.unique_keys(self.products)
@@ -45,8 +45,8 @@ class SynthTree(SISynthesis):
         if new_connects is not None:
             full_g = self._rewire(full_g, new_connects)
 
-        list_disjoint = SynthTree.get_list_disjoint(full_g)
-        return list_disjoint
+        reach_subgraph = SynthTree.get_reach_subgraph(full_g)
+        return reach_subgraph
 
     def _rewire(self, full_graph, new_connects):
         """Rewire the graph with new connections."""
@@ -101,9 +101,9 @@ class SynthTree(SISynthesis):
         return Gd
 
     @classmethod
-    def get_list_disjoint(cls, Gd: nx.DiGraph):
+    def get_reach_subgraph(cls, Gd: nx.DiGraph) -> Dict[str, nx.DiGraph]:
         """
-        Get a list of disjoint trees.
+        Get a list of reachable subgraph from source nodes.
 
         Find all nodes with indegree==0 (heads) and find subgraph of reachable
         nodes.
@@ -130,3 +130,56 @@ class SynthTree(SISynthesis):
             if Gd.nodes[node]["is_head"]
         }
         return subgraphs
+
+    # Exporting
+    def export(self):
+        """Export the SynthTree's reachable subgraph from source nodes into JSON."""
+
+        json = {}
+        # For each reachable subgraph from source node, serialize it into JSON
+        for k, g in self.reach_subgraph.items():
+            json[k] = {
+                "smiles": k,
+                "type": "mol",
+                "in_stock": False,
+                "children": self.json_serialize(g, key=k),
+            }
+        return json
+
+    def json_serialize(self, G, key="10"):
+        """Serialize a single reachable subgraph from source node into JSON."""
+        # TODO finish this -> convert_to_smiles, etc. Add this somewhere else so that this function is simply format translation
+
+        json = {}
+        successors = G.successors(key)
+        slist = []
+        for s in successors:
+            props = G.nodes[s]
+            if len(list(G.successors(s))) > 0:
+                # Get properties of the node
+                name = props["attr"]["substance_name"]
+                smiles = name  # convert_to_smiles(name, s)
+
+                # Format json
+                slist.append(
+                    {
+                        "smiles": smiles,
+                        "name": name,
+                        "type": "mol",
+                        "in_stock": False,
+                        "children": self.json_serialize(G, key=s),
+                    }
+                )
+            else:
+                smiles = s  # convert_to_smiles(s, s)
+                slist.append(
+                    {
+                        "smiles": s,
+                        "name": s,
+                        "type": "mol",
+                        "in_stock": False,
+                    }
+                )
+
+        final_json = [{"smiles": "", "type": "reaction", "children": slist}]
+        return final_json
