@@ -9,6 +9,7 @@ from typing import List, Optional
 import networkx as nx  # type: ignore
 
 from jasyntho.extract import Extractor, Product
+from jasyntho.extract.extended import LabConnection
 
 from .synthdoc import SISynthesis
 
@@ -18,14 +19,47 @@ class SynthTree(SISynthesis):
 
     products: List[Product] = []
     full_g: nx.DiGraph = nx.DiGraph()
-    list_disj: List[nx.DiGraph] = []
+    list_disjoint: List[nx.DiGraph] = []
 
-    def disjoint_trees(self):
-        """Merge and find all disjoint trees in paper."""
+    def extended_connections(self):
+        """Return the extended connections for a given query."""
+        dts = self.disjoint_trees()
+        lab_connect = LabConnection(self)
+
+        new_connects = {}
+        for k, g in dts.items():
+            if len(g) > 1:
+                print(f"Processing disjoint tree {k}")
+                new_connects[k] = lab_connect(k)
+
+        self.list_disjoint = self.disjoint_trees(new_connects)
+        return new_connects  # in case we want to use it later
+
+    def disjoint_trees(self, new_connects: Optional[dict] = None):
+        """Merge and find all disjoint trees in paper.
+        If dict of new connects is given, rewire the graph with new connections.
+        """
         prods = self.unique_keys(self.products)
         full_g = self.get_full_graph(prods)
-        list_disj = SynthTree.get_list_disjoint(full_g)
-        return list_disj
+
+        if new_connects is not None:
+            full_g = self._rewire(full_g, new_connects)
+
+        list_disjoint = SynthTree.get_list_disjoint(full_g)
+        return list_disjoint
+
+    def _rewire(self, full_graph, new_connects):
+        """Rewire the graph with new connections."""
+        # add new edges
+        for k, res in new_connects.items():
+            if res is not None:
+                prod_step = res["step 2"]
+                if prod_step is not None:
+                    prod = prod_step.product.reference_key
+                    if prod in full_graph.nodes:
+                        if k != prod:
+                            full_graph.add_edge(prod, k)
+        return full_graph
 
     @classmethod
     def unique_keys(cls, trees):

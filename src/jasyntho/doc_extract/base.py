@@ -86,8 +86,6 @@ class ResearchDoc(BaseModel):
         for pattern in patterns:
             linebreaker_counts[pattern] = len(re.findall(pattern, text))
 
-        print(linebreaker_counts)
-
         # Return the most frequent line breaker pattern
         most_frequent_linebreaker = max(
             linebreaker_counts, key=linebreaker_counts.get

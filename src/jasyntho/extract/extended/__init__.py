@@ -1,3 +1,3 @@
 """Gather knowledge about substances from the extended document (paper+SI)"""
 
-from .gather import SubstanceContext
+from .lab_connect import *  # noqa
