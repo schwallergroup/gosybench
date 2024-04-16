@@ -1,18 +1,11 @@
 """Translation utils between molecular representations."""
 
 import re
-
-# silence py2opsin
 import warnings
-from json import JSONDecodeError
 from typing import List, Optional
-
-import networkx as nx
-import requests
 from py2opsin import py2opsin
 
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="py2opsin")
-
 
 def name_to_smiles(name: str, subs_label: str) -> Optional[str]:
     """Convert IUPAC name into SMILES."""

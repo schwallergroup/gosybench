@@ -35,5 +35,9 @@ class RetrieveName(dspy.Module):
     def forward(self, substance: str, context: str):
         """Get the name of the substance."""
 
-        name = self.name(context=context, substance=substance)
-        return name.name
+        try:
+            name = self.name(context=context, substance=substance)
+            return name.name
+        except ValueError:
+            return []
+

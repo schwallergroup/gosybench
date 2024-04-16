@@ -35,6 +35,9 @@ class SynthTree(SISynthesis):
         for k, g in G.nodes.items():
             l = _size_reach_sg(G, k)
             if l > 1:
+                if 'attr' not in g.keys():
+                    return None
+
                 name = g["attr"]["substance_name"]
                 labl = g["attr"]["reference_key"]
                 smi = name_to_smiles(name, labl)
