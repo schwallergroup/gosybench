@@ -10,13 +10,13 @@ from jasyntho import SynthTree
 
 class TreeMetrics(BaseModel):
 
-    def __call__(self, tree):
+    def __call__(self, tree, label=""):
         """Run all metrics."""
         gd = self.graph_describe(tree)
         rxns = self.total_reactions(tree)
         max_source = self.max_seq_smiles(tree)
 
-        self.draw_tree(tree, max_source["source_max_len"], "max")
+        self.draw_tree(tree, max_source["source_max_len"], label)
         return dict(**gd, **rxns, **max_source)
 
     def graph_describe(self, tree: SynthTree):
@@ -69,7 +69,7 @@ class TreeMetrics(BaseModel):
         )
         return dict(total_reactions=count)
 
-    def max_seq_smiles(tree: SynthTree):
+    def max_seq_smiles(self, tree: SynthTree):
         """Find the longest path in the tree such that all nodes have smiles."""
         ml = 0
         ml_path = []
@@ -78,7 +78,7 @@ class TreeMetrics(BaseModel):
         for k, g in tree.reach_subgraphs.items():
             if len(g) > 1:
                 for n in g.nodes:
-                    ml_path_tmp = _max_length_smiles_one_path(g, n)
+                    ml_path_tmp = self._max_length_smiles_one_path(g, n)
                     if len(ml_path_tmp) > ml:
                         ml_path = ml_path_tmp
                         ml = len(ml_path_tmp)
@@ -89,7 +89,7 @@ class TreeMetrics(BaseModel):
         )
         return dict(max_len_path=ml_path, max_len=ml, source_max_len=source)
 
-    def _max_length_smiles_one_path(G, source):
+    def _max_length_smiles_one_path(self, G, source):
         """Find the longest path in a RSG such that all nodes have smiles."""
 
         max_length = 0
@@ -97,8 +97,6 @@ class TreeMetrics(BaseModel):
         for end_node in G.nodes:
             for path in nx.all_simple_paths(G, source=source, target=end_node):
                 if all(["attr" in G.nodes[n].keys() for n in path]):
-                    print(path)
-                    print([G.nodes[n]["attr"].get("smiles") for n in path])
                     if all(
                         [
                             G.nodes[n]["attr"].get("smiles") is not None
@@ -110,7 +108,7 @@ class TreeMetrics(BaseModel):
                             max_path = path
         return max_path
 
-    def draw_tree(self, tree: SynthTree, max_source, model=""):
+    def draw_tree(self, tree: SynthTree, max_source, label=""):
         """Draw a tree (RSG)."""
 
         # Make image of the longest path
@@ -119,7 +117,7 @@ class TreeMetrics(BaseModel):
 
             t = ReactionTree.from_dict(json[max_source])
             im = t.to_image()
-            im.save(f"img_max_{model}.png")
+            im.save(f"img_max_{label}.png")
             print(
-                f"RSG with max SMILES sequence stored at img_max_{model}.png"
+                f"RSG with max SMILES sequence stored at img_max_{label}.png"
             )
