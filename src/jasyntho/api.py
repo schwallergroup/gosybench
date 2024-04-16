@@ -21,7 +21,8 @@ from jasyntho.utils import set_llm
 class SynthesisExtract(BaseModel):
     """Synthesis of a substance."""
 
-    model: str = "gpt-4-0613"
+    inst_model: str = "gpt-4-0613"
+    dspy_model: str = "gpt-4-0613"
     llm: Optional[dsp.LM] = None
     synthex: Optional[BaseModel] = None
 
@@ -32,7 +33,7 @@ class SynthesisExtract(BaseModel):
 
     def __call__(self, file_path: str):
         """Call the appropriate method."""
-        if self.model.startswith("gpt"):
+        if self.inst_model.startswith("gpt"):
             print("Using async version")
             return asyncio.run(self.__async_call__(file_path))
         else:
@@ -82,7 +83,7 @@ class SynthesisExtract(BaseModel):
 
         load_dotenv()
         if self.llm is None:
-            self.llm = set_llm(llm_dspy=self.model)
+            self.llm = set_llm(llm_dspy=self.dspy_model)
         if self.synthex is None:
-            self.synthex = Extractor("rxn_setup", model=self.model)
+            self.synthex = Extractor("rxn_setup", model=self.inst_model)
         return self

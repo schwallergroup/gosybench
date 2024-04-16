@@ -16,18 +16,32 @@ __all__ = [
 
 logger = logging.getLogger(__name__)
 
+llm_list = [
+    "gpt-3.5-turbo",
+    "gpt-4-turbo",
+    "gpt-4-0613",
+    "claude-opus-20240229",
+    "mistral-small-latest",
+    "mistral-large-latest",
+]
 
 @click.command()
 @click.option(
-    "--model",
+    "--inst_model",
     default="gpt-3.5-turbo",
-    type=click.Choice(["gpt-3.5-turbo", "gpt-4-turbo", "gpt-4-0613", "claude-opus-20240229", "mistral-small-latest", "mistral-large-latest"]),
-    help="LLM to use for synthesis extraction.",
+    type=click.Choice(llm_list),
+    help="LLM to use for paragraph processing (can be async).",
 )
-def main(model):
+@click.option(
+    "--dspy_model",
+    default="gpt-3.5-turbo",
+    type=click.Choice(llm_list),
+    help="LLM to use for elaborate graph building.",
+)
+def main(inst_model, dspy_model):
     """main"""
 
-    synthex = SynthesisExtract(model=model)
+    synthex = SynthesisExtract(inst_model=inst_model, dspy_model=dspy_model)
     metrics = TreeMetrics()
 
     tree = synthex("notebooks/data/1c10539")
