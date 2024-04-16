@@ -26,7 +26,6 @@ llm_list = [
     "mistral-large-latest",
 ]
 
-
 @click.command()
 @click.option(
     "--inst_model",

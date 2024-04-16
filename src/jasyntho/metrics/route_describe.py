@@ -61,7 +61,7 @@ class TreeMetrics(BaseModel):
                 if G.nodes[u]["attr"].get("smiles") and G.nodes[v]["attr"].get(
                     "smiles"
                 ):
-                    print(Fore.LIGHTWHITE_EX, f"\tReaction: {u} -> {v}")
+                    print(Fore.LIGHTWHITE_EX, f"\tReaction: {v} -> {u}")
                     count += 1
         print(
             Fore.LIGHTWHITE_EX,
@@ -69,7 +69,7 @@ class TreeMetrics(BaseModel):
         )
         return dict(total_reactions=count)
 
-    def max_seq_smiles(self, tree: SynthTree):
+    def max_seq_smiles(tree: SynthTree):
         """Find the longest path in the tree such that all nodes have smiles."""
         ml = 0
         ml_path = []
@@ -77,18 +77,19 @@ class TreeMetrics(BaseModel):
 
         for k, g in tree.reach_subgraphs.items():
             if len(g) > 1:
-                ml_path_tmp = self._max_length_smiles_one_path(g, k)
-                if len(ml_path_tmp) > ml:
-                    ml_path = ml_path_tmp
-                    ml = len(ml_path_tmp)
-                    source = k
+                for n in g.nodes:
+                    ml_path_tmp = _max_length_smiles_one_path(g, n)
+                    if len(ml_path_tmp) > ml:
+                        ml_path = ml_path_tmp
+                        ml = len(ml_path_tmp)
+                        source = k
         print(
             Fore.LIGHTYELLOW_EX,
             f"Maximum path length with smiles: {ml_path}, length: {ml}. Source: {source}\n\n",
         )
         return dict(max_len_path=ml_path, max_len=ml, source_max_len=source)
 
-    def _max_length_smiles_one_path(self, G, source):
+    def _max_length_smiles_one_path(G, source):
         """Find the longest path in a RSG such that all nodes have smiles."""
 
         max_length = 0
@@ -96,6 +97,8 @@ class TreeMetrics(BaseModel):
         for end_node in G.nodes:
             for path in nx.all_simple_paths(G, source=source, target=end_node):
                 if all(["attr" in G.nodes[n].keys() for n in path]):
+                    print(path)
+                    print([G.nodes[n]["attr"].get("smiles") for n in path])
                     if all(
                         [
                             G.nodes[n]["attr"].get("smiles") is not None

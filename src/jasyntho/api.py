@@ -67,8 +67,8 @@ class SynthesisExtract(BaseModel):
 
         print("Extending full graph...")
         new_connects = tree.extended_connections()
-        reach_sgs = tree.partition(new_connects)
-        print(f"New Number of RSGs: {len(reach_sgs)}")
+        tree.reach_subgraphs = tree.partition(new_connects)
+        print(f"New Number of RSGs: {len(tree.reach_subgraphs)}")
 
         print("Gathering smiles...")
         tree.gather_smiles()
