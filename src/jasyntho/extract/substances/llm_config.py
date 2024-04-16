@@ -8,10 +8,10 @@ from pydantic import BaseModel
 class LLMConfig(BaseModel):
     """Pydantic model configuration."""
 
-    temperature: float = 0.2
+    temperature: float = 0.05
     timeout: int = 120
     max_retries: int = 2
-    max_tokens: int = 1000
+    max_tokens: int = 2000
 
 
 config = LLMConfig()

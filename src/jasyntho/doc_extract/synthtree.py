@@ -61,7 +61,7 @@ class SynthTree(SISynthesis):
 
     def extended_connections(self):
         """Return the extended connections for a given query."""
-        dts = self.get_reachable_subgraphs()
+        dts = self.partition()
         lab_connect = LabConnection(self)
 
         new_connects = {}
@@ -70,10 +70,10 @@ class SynthTree(SISynthesis):
                 print(f"Processing reachable subgraph from source node {k}")
                 new_connects[k] = lab_connect(k)
 
-        self.reach_subgraphs = self.get_reachable_subgraphs(new_connects)
+        self.reach_subgraphs = self.partition(new_connects)
         return new_connects  # in case we want to use it later
 
-    def get_reachable_subgraphs(self, new_connects: Optional[dict] = None):
+    def partition(self, new_connects: Optional[dict] = None):
         """Merge and find all reachable subgraphs in paper.
         If dict of new connects is given, rewire the graph with new connections.
         """
@@ -83,7 +83,7 @@ class SynthTree(SISynthesis):
         if new_connects is not None:
             self.full_g = self._rewire(self.full_g, new_connects)
 
-        reach_subgraph = SynthTree.get_reach_subgraph(self.full_g)
+        reach_subgraph = SynthTree.get_reach_subgraphs(self.full_g)
         return reach_subgraph
 
     def _rewire(self, full_graph, new_connects):
@@ -139,7 +139,7 @@ class SynthTree(SISynthesis):
         return Gd
 
     @classmethod
-    def get_reach_subgraph(cls, Gd: nx.DiGraph) -> Dict[str, nx.DiGraph]:
+    def get_reach_subgraphs(cls, Gd: nx.DiGraph) -> Dict[str, nx.DiGraph]:
         """
         Get a list of reachable subgraph from source nodes.
 
@@ -196,6 +196,8 @@ class SynthTree(SISynthesis):
             props = G.nodes[s]
             if len(list(G.successors(s))) > 0:
                 # Get properties of the node
+                if "attr" not in props.keys():
+                    continue
                 name = props["attr"]["substance_name"]
                 if "smiles" in props["attr"].keys():
                     smiles = props["attr"]["smiles"]
