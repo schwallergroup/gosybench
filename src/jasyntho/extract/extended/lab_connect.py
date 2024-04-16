@@ -45,7 +45,7 @@ class LabConnection(dspy.Module):
 
         token_limit = 16000
         token_ratio = 0.7
-        cc = int(token_limit/token_ratio)
+        cc = int(token_limit / token_ratio)
         ctxt_str = "\n\n".join(context)[:cc]
 
         exp_connect = self.connect(

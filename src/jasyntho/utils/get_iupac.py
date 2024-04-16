@@ -40,4 +40,3 @@ class RetrieveName(dspy.Module):
             return name.name
         except ValueError:
             return []
-

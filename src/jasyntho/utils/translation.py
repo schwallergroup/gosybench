@@ -3,9 +3,11 @@
 import re
 import warnings
 from typing import List, Optional
+
 from py2opsin import py2opsin
 
 warnings.filterwarnings("ignore", category=RuntimeWarning, module="py2opsin")
+
 
 def name_to_smiles(name: str, subs_label: str) -> Optional[str]:
     """Convert IUPAC name into SMILES."""

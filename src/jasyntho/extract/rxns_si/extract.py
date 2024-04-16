@@ -1,12 +1,12 @@
 """Extract data from paragraphs in the SI of papers."""
 
+import os
 from typing import List
 
-import os
 import instructor  # type: ignore
+from anthropic import Anthropic, AsyncAnthropic  # type: ignore
 from dotenv import load_dotenv
 from openai import AsyncOpenAI, OpenAI  # type: ignore
-from anthropic import AsyncAnthropic, Anthropic # type: ignore
 
 from ..substances import Product
 
@@ -46,11 +46,11 @@ class ReactionSetup:
 
             self.client = instructor.from_openai(
                 OpenAI(base_url=url, api_key=api_key),
-                mode=instructor.Mode.JSON
+                mode=instructor.Mode.JSON,
             )
             self.aclient = instructor.from_openai(
                 AsyncOpenAI(base_url=url, api_key=api_key),
-                mode=instructor.Mode.JSON
+                mode=instructor.Mode.JSON,
             )
 
         elif model.startswith("claude"):
@@ -67,5 +67,3 @@ class ReactionSetup:
             )
         else:
             raise ValueError(f"Model {model} not recognized.")
-
-
