@@ -7,9 +7,8 @@ from pydantic import BaseModel, Field
 
 from .signatures import ExperimentalConnection, SynthConnection
 
+
 # TODO it will probs be necessary to find synonyms, find the uses of the byproducts
-
-
 class LabConnection(dspy.Module):
     """Find experimental connections between substances."""
 

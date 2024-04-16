@@ -8,6 +8,8 @@ from typing import Dict, List, Optional
 
 import networkx as nx  # type: ignore
 
+from jasyntho.utils import name_to_smiles
+from jasyntho.utils import RetrieveName
 from jasyntho.extract import Extractor, Product
 from jasyntho.extract.extended import LabConnection
 
@@ -20,6 +22,40 @@ class SynthTree(SISynthesis):
     products: List[Product] = []
     full_g: nx.DiGraph = nx.DiGraph()
     reach_subgraphs: Dict[str, nx.DiGraph] = {}
+
+    def gather_smiles(self):
+        """Gather all smiles from the products."""
+
+        G = self.full_g
+        iupac = RetrieveName(self)
+
+        def _size_reach_sg(G, node):
+            """Calc size of each reachable subgraph."""
+            rn = set(nx.bfs_tree(G, node))
+            return len(rn)
+
+        for k, g in G.nodes.items():
+            l = _size_reach_sg(G, k)
+            if l > 1:
+                name = g['attr']['substance_name']
+                labl = g['attr']['reference_key']
+                smi = name_to_smiles(name, labl)
+                if smi is None:
+                    # Try to get iupac name
+                    retrieved_names = iupac(k, context=g['attr']['text'])
+                    print(f"key {k}. Got iupac name: {retrieved_names}")
+                    for n in retrieved_names:
+                        smi = name_to_smiles(n, labl)
+                        if smi:
+                            # Assign iupac and smiles attributes to node
+                            g['attr']['iupac'] = n
+                            g['attr']['smiles'] = smi
+                            break
+                if smi is not None:
+                    g['attr']['smiles'] = smi
+
+        self.full_g = G
+        # TODO try this
 
     def extended_connections(self):
         """Return the extended connections for a given query."""
@@ -40,12 +76,12 @@ class SynthTree(SISynthesis):
         If dict of new connects is given, rewire the graph with new connections.
         """
         prods = self.unique_keys(self.products)
-        full_g = self.get_full_graph(prods)
+        self.full_g = self.get_full_graph(prods)
 
         if new_connects is not None:
-            full_g = self._rewire(full_g, new_connects)
+            self.full_g = self._rewire(self.full_g, new_connects)
 
-        reach_subgraph = SynthTree.get_reach_subgraph(full_g)
+        reach_subgraph = SynthTree.get_reach_subgraph(self.full_g)
         return reach_subgraph
 
     def _rewire(self, full_graph, new_connects):
@@ -137,9 +173,10 @@ class SynthTree(SISynthesis):
 
         json = {}
         # For each reachable subgraph from source node, serialize it into JSON
-        for k, g in self.reach_subgraph.items():
+        for k, g in self.reach_subgraphs.items():
+            smiles = g.nodes[k]["attr"].get('smiles') or k
             json[k] = {
-                "smiles": k,
+                "smiles": smiles,
                 "type": "mol",
                 "in_stock": False,
                 "children": self.json_serialize(g, key=k),
@@ -158,7 +195,10 @@ class SynthTree(SISynthesis):
             if len(list(G.successors(s))) > 0:
                 # Get properties of the node
                 name = props["attr"]["substance_name"]
-                smiles = name  # convert_to_smiles(name, s)
+                if 'smiles' in props["attr"].keys():
+                    smiles = props['attr']['smiles']
+                else:
+                    smiles = name
 
                 # Format json
                 slist.append(
@@ -171,7 +211,7 @@ class SynthTree(SISynthesis):
                     }
                 )
             else:
-                smiles = s  # convert_to_smiles(s, s)
+                smiles = s
                 slist.append(
                     {
                         "smiles": s,
