@@ -126,6 +126,7 @@ class Product(SubstanceInReaction):
                 messages=[
                     {"role": "user", "content": prgr},
                 ],
+                max_tokens=config.max_tokens,
                 temperature=config.temperature,
                 max_retries=config.max_retries,
                 timeout=config.timeout,
@@ -153,6 +154,7 @@ class Product(SubstanceInReaction):
                 messages=[
                     {"role": "user", "content": prgr},
                 ],
+                max_tokens=config.max_tokens,
                 temperature=config.temperature,
                 max_retries=config.max_retries,
                 timeout=config.timeout,

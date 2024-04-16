@@ -6,6 +6,7 @@ import os
 import instructor  # type: ignore
 from dotenv import load_dotenv
 from openai import AsyncOpenAI, OpenAI  # type: ignore
+from anthropic import AsyncAnthropic, Anthropic # type: ignore
 
 from ..substances import Product
 
@@ -43,19 +44,27 @@ class ReactionSetup:
             url = "https://api.mistral.ai/v1/"
             api_key = os.getenv("MISTRAL_API_KEY")
 
-            self.client = instructor.patch(
+            self.client = instructor.from_openai(
                 OpenAI(base_url=url, api_key=api_key),
                 mode=instructor.Mode.JSON
             )
-            self.aclient = instructor.apatch(
+            self.aclient = instructor.from_openai(
                 AsyncOpenAI(base_url=url, api_key=api_key),
                 mode=instructor.Mode.JSON
             )
 
         elif model.startswith("claude"):
-            self.client = instructor.patch(OpenAI(base_url="https://api.anthropic.com/v1/messages", api_key=os.getenv("ANTHROPIC_API_KEY")))
-            self.aclient = instructor.apatch(AsyncOpenAI(base_url="https://api.anthropic.com/v1/messages", api_key=os.getenv("ANTHROPIC_API_KEY")))
 
+            self.client = instructor.from_anthropic(
+                Anthropic(
+                    api_key=os.getenv("ANTHROPIC_API_KEY"),
+                ),
+            )
+            self.aclient = instructor.from_anthropic(
+                AsyncAnthropic(
+                    api_key=os.getenv("ANTHROPIC_API_KEY"),
+                ),
+            )
         else:
             raise ValueError(f"Model {model} not recognized.")
 
