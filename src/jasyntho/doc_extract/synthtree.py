@@ -8,10 +8,9 @@ from typing import Dict, List, Optional
 
 import networkx as nx  # type: ignore
 
-from jasyntho.utils import name_to_smiles
-from jasyntho.utils import RetrieveName
 from jasyntho.extract import Extractor, Product
 from jasyntho.extract.extended import LabConnection
+from jasyntho.utils import RetrieveName, name_to_smiles
 
 from .synthdoc import SISynthesis
 
@@ -37,22 +36,22 @@ class SynthTree(SISynthesis):
         for k, g in G.nodes.items():
             l = _size_reach_sg(G, k)
             if l > 1:
-                name = g['attr']['substance_name']
-                labl = g['attr']['reference_key']
+                name = g["attr"]["substance_name"]
+                labl = g["attr"]["reference_key"]
                 smi = name_to_smiles(name, labl)
                 if smi is None:
                     # Try to get iupac name
-                    retrieved_names = iupac(k, context=g['attr']['text'])
+                    retrieved_names = iupac(k, context=g["attr"]["text"])
                     print(f"key {k}. Got iupac name: {retrieved_names}")
                     for n in retrieved_names:
                         smi = name_to_smiles(n, labl)
                         if smi:
                             # Assign iupac and smiles attributes to node
-                            g['attr']['iupac'] = n
-                            g['attr']['smiles'] = smi
+                            g["attr"]["iupac"] = n
+                            g["attr"]["smiles"] = smi
                             break
                 if smi is not None:
-                    g['attr']['smiles'] = smi
+                    g["attr"]["smiles"] = smi
 
         self.full_g = G
         # TODO try this
@@ -174,7 +173,7 @@ class SynthTree(SISynthesis):
         json = {}
         # For each reachable subgraph from source node, serialize it into JSON
         for k, g in self.reach_subgraphs.items():
-            smiles = g.nodes[k]["attr"].get('smiles') or k
+            smiles = g.nodes[k]["attr"].get("smiles") or k
             json[k] = {
                 "smiles": smiles,
                 "type": "mol",
@@ -195,8 +194,8 @@ class SynthTree(SISynthesis):
             if len(list(G.successors(s))) > 0:
                 # Get properties of the node
                 name = props["attr"]["substance_name"]
-                if 'smiles' in props["attr"].keys():
-                    smiles = props['attr']['smiles']
+                if "smiles" in props["attr"].keys():
+                    smiles = props["attr"]["smiles"]
                 else:
                     smiles = name
 

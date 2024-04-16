@@ -1,22 +1,26 @@
 """Retrieve IUPAC names for substances."""
 
 import re
-import requests
+from typing import List, Optional
+
 import dspy
-from typing import Optional, List
 import networkx as nx
+import requests
 from pydantic import BaseModel
 
 
 class SubsIUPAC(dspy.Signature):
     """Retrieve name of a substance."""
 
-    context: str = dspy.InputField(desc="Description of the synthesis of substance.")
+    context: str = dspy.InputField(
+        desc="Description of the synthesis of substance."
+    )
     substance: str = dspy.InputField(desc="The substance to ask about.")
 
     name: List[str] = dspy.OutputField(
         desc="The context describes the synthesis of substance. What are the names used to refer to substance?"
     )
+
 
 class RetrieveName(dspy.Module):
     """Retrieve systematic name of a substance."""
@@ -33,4 +37,3 @@ class RetrieveName(dspy.Module):
 
         name = self.name(context=context, substance=substance)
         return name.name
-
