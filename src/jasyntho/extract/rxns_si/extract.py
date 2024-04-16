@@ -12,7 +12,7 @@ from ..substances import Product
 class ReactionSetup:
     """Extraction of structured data from reaction-setup snippet."""
 
-    def __init__(self, api_key=None, model="gpt-4-0314"):
+    def __init__(self, api_key=None, model="gpt-4-0613"):
         """Initialize the extractor."""
         load_dotenv()
 
@@ -22,9 +22,6 @@ class ReactionSetup:
 
     def __call__(self, text: str) -> List[Product]:
         """Execute the extraction pipeline for a single paragraph."""
-        print(text)
-        print(self.client)
-        print(self.llm)
         product = Product.from_paragraph(text, self.client, self.llm)
         return product
 
