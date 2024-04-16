@@ -33,6 +33,7 @@ class SynthesisExtract(BaseModel):
 
     def __call__(self, file_path: str):
         """Call the appropriate method."""
+
         if self.inst_model.startswith("gpt"):
             print("Using async version")
             return asyncio.run(self.__async_call__(file_path))

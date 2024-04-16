@@ -8,6 +8,7 @@ import logging
 import click
 
 from jasyntho.metrics import TreeMetrics
+
 from .api import SynthesisExtract
 
 __all__ = [
@@ -20,10 +21,11 @@ llm_list = [
     "gpt-3.5-turbo",
     "gpt-4-turbo",
     "gpt-4-0613",
-    "claude-opus-20240229",
+    "claude-3-opus-20240229",
     "mistral-small-latest",
     "mistral-large-latest",
 ]
+
 
 @click.command()
 @click.option(
