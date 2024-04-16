@@ -21,9 +21,13 @@ llm_list = [
     "gpt-3.5-turbo",
     "gpt-4-turbo",
     "gpt-4-0613",
+    "claude-3-haiku-20240307",
+    "claude-3-sonnet-20240229",
     "claude-3-opus-20240229",
     "mistral-small-latest",
     "mistral-large-latest",
+    "mistral-medium-latest",
+    "open-mixtral-8x7b",
 ]
 
 @click.command()
