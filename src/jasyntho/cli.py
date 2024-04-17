@@ -30,7 +30,14 @@ llm_list = [
     "open-mixtral-8x7b",
 ]
 
+
 @click.command()
+@click.option(
+    "--paper",
+    default=None,
+    type=click.Path(exists=True),
+    help="Source of the paper to process.",
+)
 @click.option(
     "--inst_model",
     default="gpt-3.5-turbo",
@@ -43,15 +50,24 @@ llm_list = [
     type=click.Choice(llm_list),
     help="LLM to use for elaborate graph building.",
 )
-def main(inst_model, dspy_model):
-    """main"""
+def main(paper, inst_model, dspy_model):
 
+    # Initialize stuff
     synthex = SynthesisExtract(inst_model=inst_model, dspy_model=dspy_model)
     metrics = TreeMetrics()
 
-    tree = synthex("notebooks/data/1c10539")
+    # Try with paper_src = "notebooks/data/angewandte_01"
+    # "notebooks/data/1c10539"
+
+    # Run
+    tree = synthex(paper)
     m = metrics(tree)
     print(m)
+
+    # Save json
+    tjson = tree.export()
+    with open(os.path.join(paper, "tree.json"), "w") as f:
+        json.dump(tjson, f, indent=4)
 
 
 if __name__ == "__main__":

@@ -10,13 +10,13 @@ from jasyntho import SynthTree
 
 class TreeMetrics(BaseModel):
 
-    def __call__(self, tree, label=""):
+    def __call__(self, tree, directory="."):
         """Run all metrics."""
         gd = self.graph_describe(tree)
         rxns = self.total_reactions(tree)
         max_source = self.max_seq_smiles(tree)
 
-        self.draw_tree(tree, max_source["source_max_len"], label)
+        self.draw_tree(tree, max_source["source_max_len"], directory)
         return dict(**gd, **rxns, **max_source)
 
     def graph_describe(self, tree: SynthTree):
@@ -108,7 +108,7 @@ class TreeMetrics(BaseModel):
                             max_path = path
         return max_path
 
-    def draw_tree(self, tree: SynthTree, max_source, label=""):
+    def draw_tree(self, tree: SynthTree, max_source, directory):
         """Draw a tree (RSG)."""
 
         # Make image of the longest path
@@ -117,7 +117,7 @@ class TreeMetrics(BaseModel):
 
             t = ReactionTree.from_dict(json[max_source])
             im = t.to_image()
-            im.save(f"img_max_{label}.png")
+            im.save(os.path.join(directory, f"img_max.png"))
             print(
                 f"RSG with max SMILES sequence stored at img_max_{label}.png"
             )
