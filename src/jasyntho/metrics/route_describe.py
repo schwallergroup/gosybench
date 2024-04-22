@@ -5,7 +5,6 @@ import json
 import networkx as nx
 from colorama import Fore
 from pydantic import BaseModel
-from rxn_tree_vis.reaction.reactiontree import ReactionTree
 from PIL.Image import DecompressionBombError
 
 from jasyntho import SynthTree
