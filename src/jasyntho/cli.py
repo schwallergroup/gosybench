@@ -7,6 +7,8 @@ import logging
 
 import click
 
+import os
+import json
 from jasyntho.metrics import TreeMetrics
 
 from .api import SynthesisExtract
@@ -56,18 +58,33 @@ def main(paper, inst_model, dspy_model):
     synthex = SynthesisExtract(inst_model=inst_model, dspy_model=dspy_model)
     metrics = TreeMetrics()
 
-    # Try with paper_src = "notebooks/data/angewandte_01"
-    # "notebooks/data/1c10539"
+    # notebooks/data/angewandte_01
+    # notebooks/data/1c10539
+    # notebooks/data/jacs.0c11025
+    # notebooks/data/jacs.0c07433
+    # notebooks/data/jacs.0c09520
+    # notebooks/data/jacs.1c00457
+    # notebooks/data/jacs.1c01135
+
+    import wandb
+    # Init before to keep track of time
+    wandb.init(
+        project="jasyntho-routes", 
+        config=dict(
+            paper=paper.strip('/').split('/')[-1],
+            start_model=inst_model,
+            dspy_model=dspy_model,
+        )
+    )
 
     # Run
     tree = synthex(paper)
     m = metrics(tree)
-    print(m)
+    wandb.summary.update(m)
 
-    # Save json
-    tjson = tree.export()
-    with open(os.path.join(paper, "tree.json"), "w") as f:
-        json.dump(tjson, f, indent=4)
+    # Upload plot of SI split
+    wandb.log({"si_split": wandb.Image(os.path.join(paper, "SIsignal.png"))})
+
 
 
 if __name__ == "__main__":

@@ -1,9 +1,12 @@
 """Calculate metrics for an extracted tree."""
 
+import os
+import json
 import networkx as nx
 from colorama import Fore
 from pydantic import BaseModel
 from rxn_tree_vis.reaction.reactiontree import ReactionTree
+from PIL.Image import DecompressionBombError
 
 from jasyntho import SynthTree
 
@@ -16,7 +19,12 @@ class TreeMetrics(BaseModel):
         rxns = self.total_reactions(tree)
         max_source = self.max_seq_smiles(tree)
 
-        self.draw_tree(tree, max_source["source_max_len"], directory)
+        # Save json
+        tjson = tree.export()
+        with open(os.path.join(directory, "tree.json"), "w") as f:
+            json.dump(tjson, f, indent=4)
+
+        # self.draw_tree(tree, max_source["source_max_len"], directory)
         return dict(**gd, **rxns, **max_source)
 
     def graph_describe(self, tree: SynthTree):
@@ -28,8 +36,8 @@ class TreeMetrics(BaseModel):
         print(Fore.LIGHTRED_EX, f"Number of edges: {len(G.edges)}")
         print(Fore.LIGHTRED_EX, f"Number of products: {len(tree.products)}")
 
-        rgs_init = len(tree.reach_subgraphs)
-        print(Fore.LIGHTRED_EX, f"Number of RSGs: {rgs_init}\n")
+        nrgs = len([r for r in tree.reach_subgraphs if len(r) > 1])
+        print(Fore.LIGHTRED_EX, f"Number of RSGs: {nrgs}\n")
 
         # Number of nodes with smiles
         nodes_w_attr = [
@@ -39,6 +47,10 @@ class TreeMetrics(BaseModel):
             Fore.LIGHTCYAN_EX,
             f"Number of nodes with smiles: {len([n for n in nodes_w_attr if 'smiles' in n['attr']])}",
         )
+
+        # Count max node in-degree
+        max_in_degree = max([G.in_degree(n) for n in G.nodes])
+
         # Longest sequence of nodes
         max_node_seq = max(
             [
@@ -50,7 +62,21 @@ class TreeMetrics(BaseModel):
             Fore.LIGHTCYAN_EX, f"Longest sequence of nodes: {max_node_seq}\n"
         )
 
-        return dict(rgs_init=rgs_init, max_node_seq=max_node_seq)
+        # Count how many sequences are longer than 5
+        count_5 = 0
+        for k, v in tree.reach_subgraphs.items():
+            if nx.dag_longest_path_length(v) > 5:
+                count_5 += 1
+
+        return dict(
+            nnodes=len(G.nodes),
+            nedges=len(G.edges),
+            nproducts=len(tree.products),
+            nrgs_initial=nrgs,
+            max_node_seq=max_node_seq,
+            paths_longer_than_5=count_5,
+            max_in_degree=max_in_degree,
+        )
 
     def total_reactions(self, tree: SynthTree):
         """Calculate the total number of reactions in the tree."""
@@ -67,27 +93,30 @@ class TreeMetrics(BaseModel):
             Fore.LIGHTWHITE_EX,
             f"Number of reactions recovered (smiles): {count}",
         )
-        return dict(total_reactions=count)
+        return dict(total_single_reactions=count)
 
     def max_seq_smiles(self, tree: SynthTree):
-        """Find the longest path in the tree such that all nodes have smiles."""
-        ml = 0
-        ml_path = []
-        source = ""
-
+        """Find the top-3 longest paths in the tree such that all nodes have smiles."""
+        len_paths = {}
+        src_paths = {}
         for k, g in tree.reach_subgraphs.items():
             if len(g) > 1:
                 for n in g.nodes:
                     ml_path_tmp = self._max_length_smiles_one_path(g, n)
-                    if len(ml_path_tmp) > ml:
-                        ml_path = ml_path_tmp
-                        ml = len(ml_path_tmp)
-                        source = k
-        print(
-            Fore.LIGHTYELLOW_EX,
-            f"Maximum path length with smiles: {ml_path}, length: {ml}. Source: {source}\n\n",
-        )
-        return dict(max_len_path=ml_path, max_len=ml, source_max_len=source)
+                    len_paths[str(ml_path_tmp)] = len(ml_path_tmp)
+                    src_paths[str(ml_path_tmp)] = k
+
+        # Sort len_paths by value
+        len_paths = sorted(len_paths.items(), key=lambda item: item[1], reverse=True)[:3]
+
+        results = {}
+        print(Fore.LIGHTYELLOW_EX, f"Maximum path length with smiles.\n")
+        for i, (p, l) in enumerate(len_paths):
+            print(Fore.LIGHTYELLOW_EX, f"\tPath: {p}, length: {l}. Source: {src_paths[p]}")
+            results[f"long_path_{i}_src"] = src_paths[p]
+            results[f"long_path_{i}_len"] = l
+        
+        return results
 
     def _max_length_smiles_one_path(self, G, source):
         """Find the longest path in a RSG such that all nodes have smiles."""
@@ -114,10 +143,12 @@ class TreeMetrics(BaseModel):
         # Make image of the longest path
         if max_source != "":
             json = tree.export()
-
             t = ReactionTree.from_dict(json[max_source])
-            im = t.to_image()
-            im.save(os.path.join(directory, f"img_max.png"))
-            print(
-                f"RSG with max SMILES sequence stored at img_max_{label}.png"
-            )
+            try:
+                im = t.to_image()
+                im.save(os.path.join(directory, f"img_max.png"))
+                print(
+                    f"RSG with max SMILES sequence stored at {directory}/img_max.png"
+                )
+            except DecompressionBombError:
+                print("Image too large to save.")

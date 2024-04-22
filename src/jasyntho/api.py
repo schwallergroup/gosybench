@@ -44,6 +44,7 @@ class SynthesisExtract(BaseModel):
     def __sync_call__(self, paper_src: str):
         """Return the synthesis (sync version)."""
         tree = SynthTree.from_dir(paper_src)
+        tree.select_syntheses()
         tree.rxn_extract = self.synthex
         tree.raw_prods = tree.extract_rss()
         tree = self.after_prod_pipeline(tree)
@@ -52,6 +53,7 @@ class SynthesisExtract(BaseModel):
     async def __async_call__(self, paper_src: str):
         """Return the synthesis (sync version)."""
         tree = SynthTree.from_dir(paper_src)
+        tree.select_syntheses()
         tree.rxn_extract = self.synthex
         tree.raw_prods = await tree.async_extract_rss()
         tree = self.after_prod_pipeline(tree)
@@ -63,7 +65,7 @@ class SynthesisExtract(BaseModel):
         tree.products = [p for p in tree.raw_prods if not p.isempty()]
 
         reach_sgs = tree.partition()
-        print(f"Number of RSGs: {len(reach_sgs)}")
+        print(f"Number of RSGs: {len([r for r in reach_sgs if len(r) > 1])}")
 
         print("Extending full graph...")
         new_connects = tree.extended_connections()

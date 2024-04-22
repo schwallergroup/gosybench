@@ -43,7 +43,7 @@ class SISplitter(BaseModel):
             p1 = self.sdict.get(ranges[1], False)
 
         if self.plot:
-            self.plot_signal(ratios, ranges)
+            self.plot_signal(ratios, ranges, src=doc.doc_src)
 
         if isinstance(p0, int) and isinstance(p1, int):
             print(f"Selected: {p0, p1}")
@@ -53,14 +53,14 @@ class SISplitter(BaseModel):
                 f"Could not find relevant part of SI in {self.pages}."
             )
 
-    def plot_signal(self, ratios, ranges):
+    def plot_signal(self, ratios, ranges, src=''):
         """Plot the signal and the selected range."""
         import matplotlib.pyplot as plt
 
         plt.plot(ratios)
         plt.axvline(ranges[0], color="r")
         plt.axvline(ranges[1], color="k")
-        plt.show()
+        plt.savefig(os.path.join(src, "SIsignal.png"))
 
     def cut_si(self, doc: ResearchDoc):
         """Slice the SI to the relevant part."""
