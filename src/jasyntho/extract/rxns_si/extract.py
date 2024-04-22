@@ -40,7 +40,7 @@ class ReactionSetup:
             self.client = instructor.patch(OpenAI())
             self.aclient = instructor.apatch(AsyncOpenAI())
 
-        elif model.startswith("mistral"):
+        elif model.startswith("mistral") or ("mixtral" in model):
             url = "https://api.mistral.ai/v1/"
             api_key = os.getenv("MISTRAL_API_KEY")
 

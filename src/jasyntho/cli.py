@@ -30,6 +30,7 @@ llm_list = [
     "mistral-large-latest",
     "mistral-medium-latest",
     "open-mixtral-8x7b",
+    "open-mixtral-8x22b",
 ]
 
 
