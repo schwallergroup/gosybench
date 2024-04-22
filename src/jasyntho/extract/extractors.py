@@ -1,51 +1,61 @@
 """Data extractors for segments of chemical synthesis paragraphs."""
 
-from typing import List, Optional
+import os
+from typing import Any, Optional
 
-from langchain.chains import LLMChain
+from dotenv import load_dotenv
 
-from .rxn_setup.extract import ReactionSetup
+from .rxns_si.extract import ReactionSetup
 
 
 class Extractor:
-    """
-    Extract data from snippets of synthesis paragraphs in a standardized format.
+    """Extract data from snippets of synthesis paragraphs.
     Initializes extractor depending on the snippet class.
     """
 
-    def __init__(self, sclass: str, api_key: Optional[str] = None) -> None:
-        """
-        Input
-        _____
-        sclass : str
-            Snippet class.
-            One of 'rxn_setup', 'rxn_workup', 'purification', 'analysis'
-        """
-        self.extractor = self._init_extractor(sclass, api_key)
+    def __init__(
+        self,
+        sclass: str,
+        model: str = "gpt-4-0314",
+    ) -> None:
+        """Initialize extractor.
 
-    def __call__(self, snippet: str) -> List[dict]:
+        Input
+        sclass : str
+        Snippet class.
+        One of 'rxn_setup', 'rxn_workup', 'purification', 'analysis'
+        """
+        load_dotenv()
+        api_key = os.getenv("OPENAI_API_KEY")
+        self.extractor = self._init_extractor(sclass, api_key, model)
+
+    def __call__(self, text: str) -> Any:
         """Execute the extractor."""
+        return self.extractor(text)
 
-        out = self.extractor(snippet)
-        return out
+    async def async_call(self, text: str) -> Any:
+        """Execute extractor."""
+        return await self.extractor.async_call(text)
 
-    def _init_extractor(self, sclass: str, api_key: Optional[str] = None) -> LLMChain:
+    def _init_extractor(
+        self,
+        eclass: str,
+        api_key: Optional[str] = None,
+        model: str = "gpt-4-0314",
+    ):
         """
-        Initialize a chain for data extraction.
+        Initialize a data extractor.
+
         Input
-        _____
-        sclass : str
-            Segment type to extract data from.
+        eclass : str
+        Type of extractor to initialize.
         """
-        if api_key is None:
-            pass
-        else:
-            if sclass == "rxn_setup":
-                return ReactionSetup()
-            elif sclass == "rxn_workup":
-                raise NotImplementedError()
-            elif sclass == "purification":
-                raise NotImplementedError()
-            elif sclass == "analysis":
-                raise NotImplementedError()
+        if eclass == "rxn_setup":
+            return ReactionSetup(api_key=api_key, model=model)
+        elif eclass == "rxn_workup":
+            raise NotImplementedError()
+        elif eclass == "purification":
+            raise NotImplementedError()
+        elif eclass == "analysis":
+            raise NotImplementedError()
         return None
