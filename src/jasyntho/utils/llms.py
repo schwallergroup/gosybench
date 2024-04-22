@@ -59,11 +59,14 @@ class Mistral(dspy.Databricks):
     def __call__(
         self, prompt, only_completed=True, return_sorted=False, **kwargs
     ):
-        response = self.request(prompt, **kwargs)
-        completions = [
-            result["message"]["content"] for result in response["choices"]
-        ]
-        return completions
+        try:
+            response = self.request(prompt, **kwargs)
+            completions = [
+                result["message"]["content"] for result in response["choices"]
+            ]
+            return completions
+        except:
+            return [""]
 
 
 class Claude(dspy.Databricks):
@@ -116,9 +119,12 @@ class Claude(dspy.Databricks):
     def __call__(
         self, prompt, only_completed=True, return_sorted=False, **kwargs
     ):
-        response = self.request(prompt, **kwargs)
-        completions = [result["text"] for result in response["content"]]
-        return completions
+        try:
+            response = self.request(prompt, **kwargs)
+            completions = [result["text"] for result in response["content"]]
+            return completions
+        except:
+            return [""]
 
 
 # Make something like this for instructor. Can we set a global LLM?
