@@ -143,7 +143,7 @@ def set_llm(llm_nodes: str = "gpt-4-0613", llm_dspy: str = "gpt-4-0613"):
             temperature=T,
             max_tokens=max_len,
         )
-    elif llm_dspy.startswith("mistral") or "mixtral" in llm_dspy:
+    elif llm_dspy.startswith("mistral") or ("mixtral" in llm_dspy):
 
         mistral_key = os.getenv("MISTRAL_API_KEY")
         language_model = Mistral(
