@@ -26,7 +26,13 @@ class SynthTree(SISynthesis):
         """Gather all smiles from the products."""
 
         G = self.full_g
-        iupac = RetrieveName(self)
+
+        iupac = RetrieveName()
+        def get_iupac(subs, context):
+            try:
+                return iupac(subs, context).name
+            except Exception as e:
+                return []
 
         def _size_reach_sg(G, node):
             """Calc size of each reachable subgraph."""
