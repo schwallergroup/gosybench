@@ -48,15 +48,21 @@ llm_list = [
     help="LLM to use for paragraph processing (can be async).",
 )
 @click.option(
-    "--dspy_model",
+    "--dspy_model_1",
     default="gpt-3.5-turbo",
     type=click.Choice(llm_list),
     help="LLM to use for elaborate graph building.",
 )
-def main(paper, inst_model, dspy_model):
+@click.option(
+    "--dspy_model_2",
+    default="gpt-3.5-turbo",
+    type=click.Choice(llm_list),
+    help="LLM to use for elaborate graph building.",
+)
+def main(paper, inst_model, dspy_model_1, dspy_model_2):
 
     # Initialize stuff
-    synthex = SynthesisExtract(inst_model=inst_model, dspy_model=dspy_model)
+    synthex = SynthesisExtract(inst_model=inst_model, dspy_model_1=dspy_model_1, dspy_model_2=dspy_model_2)
     metrics = TreeMetrics()
 
     # notebooks/data/angewandte_01
@@ -74,17 +80,21 @@ def main(paper, inst_model, dspy_model):
         config=dict(
             paper=paper.strip('/').split('/')[-1],
             start_model=inst_model,
-            dspy_model=dspy_model,
+            dspy_model_1=dspy_model_1,
+            dspy_model_2=dspy_model_2,
         )
     )
 
     # Run
-    tree = synthex(paper)
+    tree = synthex(paper, logger=wandb.run)
     m = metrics(tree)
     wandb.summary.update(m)
 
     # Upload plot of SI split
-    wandb.log({"si_split": wandb.Image(os.path.join(paper, "SIsignal.png"))})
+    wandb.log({
+        "si_split": wandb.Image(os.path.join(paper, "SIsignal.png")),
+        "si_text": tree.si
+    })
 
 
 
