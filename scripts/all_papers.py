@@ -77,7 +77,7 @@ def run(inst_model, dspy_model, paper):
 )
 def main(llm):
     for p in papers:
-        plink = os.path.join('../../data/', p)
+        plink = os.path.join("../../data/", p)
         try:
             run(inst_model=llm, dspy_model=llm, paper=plink)
         except:

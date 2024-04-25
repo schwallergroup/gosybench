@@ -263,5 +263,5 @@ if __name__ == "__main__":
             print(f"Running {llm}")
             run_eval(inst_model=llm)
         except Exception as e:
-            print(f"Run failedi", e)
+            print(f"Run failed", e)
             wandb.finish()

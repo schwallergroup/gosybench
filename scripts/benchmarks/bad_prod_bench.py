@@ -36,7 +36,7 @@ def run_eval(inst_model):
     # Basically we want to check that extracted products are empty
 
     def empty_prod(p):
-        return {'empty': p.isempty()}
+        return {"empty": p.isempty()}
 
     wandb.init(
         project="jasyntho-badprod-benchmark-llms",
@@ -72,6 +72,7 @@ def run_eval(inst_model):
     wandb.summary.update(df.mean(axis=0).to_dict())
 
     wandb.finish()
+
 
 @click.command()
 @click.option(

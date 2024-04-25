@@ -706,7 +706,7 @@
     "origin": "SI",
     "edge_type": "lab reaction",
     "text": "HRMS (ESI +): calculated for C14H20ONa (M + Na +): 227.1406 Found: 227.1398    To an oven-dried reaction vial equipped with a stirrer bar was added ketone 3ar’ (50 mg, 0.14 mmol) and the vial flushed with N2 for 10 min. The vial was cooled to -17 ºC and CH2Cl2 (1 mL) was added. Subsequently, Br2 (2.0 eq.) was added dropwise and the resulting solution was stirred at -17 ºC for 15 min. After completion, the reaction mixture was warmed to room temperature and the volatiles were removed in vacuo. To a stirred solution of solid residue in THF (1 mL), aqueous NaHCO3 (1 mL) was added dropwise. Following this, the resulting mixture was stirred at room temperature for 1 h and subsequently diluted with 1 M aqueous HCl and CH2Cl2 (2 mL). The aqueous layer was extracted with CH2Cl2 (3 × 4 mL). The organic layers were collected, dried over MgSO4 and concentrated in vacuo. The desired compound was isolated by column chromatography (silica gel 100-200 mesh size; hexane/ethyl acetate) to afford 8 (24 mg, 0.11 mmol, 79% yield) as a white solid and as a >20:1 mixture of diastereomers. ",
-    "chain_of_thought": "",
+    "chain_of_thought": "none",
     "note": null
-  },
+  }
 ]
