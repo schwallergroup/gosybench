@@ -5,13 +5,15 @@ Creates a collection of SynthParagraphs from a paper.
 """
 
 import asyncio
+import wandb
 import json
 import logging
 import os
 import re
 from itertools import chain
-from typing import List, Optional, Tuple
+from typing import List, Optional
 
+import json
 import fitz  # type: ignore
 from colorama import Fore  # type: ignore
 from dotenv import load_dotenv
@@ -57,6 +59,8 @@ class SISynthesis(ResearchDoc):
 
         raw_prodlist = [p.extract(self.rxn_extract) for p in self.paragraphs]
         self.raw_prods = list(chain(*raw_prodlist))  # type: ignore
+
+        self._log_products()
         self._report_process(self.raw_prods)
         products = [p for p in self.raw_prods if not p.isempty()]
         return products
@@ -70,9 +74,30 @@ class SISynthesis(ResearchDoc):
             *[p.async_extract(self.rxn_extract) for p in self.paragraphs]
         )
         self.raw_prods = list(chain(*raw_prodlist))  # type: ignore
+
+        self._log_products()
         self._report_process(self.raw_prods)
         products = [p for p in self.raw_prods if not p.isempty()]
         return products
+
+    def _log_products(self) -> None:
+        """Log the products extracted from the paragraphs."""
+
+        if self.logger:
+
+            def jdump(p):
+                return str(json.dumps(
+                    [c.model_dump() for c in p.children],
+                    indent=2
+                ))
+
+            table = [
+                [p.text, jdump(p), f"{p.reference_key} -- {p.substance_name}"]
+                for i, p in enumerate(self.raw_prods)
+            ]
+
+            table_wnb = wandb.Table(data=table, columns=["text", "children", "ref_key -- name"])
+            self.logger.log({"products": table_wnb})
 
     def _report_process(self, raw_prods) -> None:
         """Print a report of results of prgr processing."""

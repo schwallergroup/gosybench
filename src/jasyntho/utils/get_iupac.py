@@ -25,18 +25,13 @@ class SubsIUPAC(dspy.Signature):
 class RetrieveName(dspy.Module):
     """Retrieve systematic name of a substance."""
 
-    def __init__(self, doc: BaseModel):
+    def __init__(self):
         super().__init__()
 
-        self.doc = doc
         self.name = dspy.TypedChainOfThought(SubsIUPAC)
-        self.retrieve = doc.acquire_context
 
     def forward(self, substance: str, context: str):
         """Get the name of the substance."""
 
-        try:
-            name = self.name(context=context, substance=substance)
-            return name.name
-        except ValueError:
-            return []
+        name = self.name(context=context, substance=substance)
+        return name

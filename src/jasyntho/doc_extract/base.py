@@ -3,7 +3,7 @@
 import json
 import os
 import re
-from typing import List, Optional, Tuple
+from typing import List, Optional, Tuple, Any
 
 import fitz
 from pydantic import BaseModel
@@ -18,6 +18,7 @@ class ResearchDoc(BaseModel):
     paper: str = ""
     si: str = ""
     si_dict: dict = {}
+    logger: Any = None
 
     class Config:
         """Pydantic config."""
@@ -25,7 +26,7 @@ class ResearchDoc(BaseModel):
         arbitrary_types_allowed = True
 
     @classmethod
-    def from_dir(cls, paper_dir: str):
+    def from_dir(cls, paper_dir: str, logger: Any = None):
         """
         Initialize ResearchDoc object.
 
@@ -34,15 +35,15 @@ class ResearchDoc(BaseModel):
             paper must be named paper.pdf.
         """
         paper_path = os.path.join(paper_dir, "paper.pdf")
-        si_path = os.path.join(paper_dir, "si_0.pdf")
         paper_fitz, paper_text = ResearchDoc.load(paper_path)
-        si_fitz, si_text = ResearchDoc.load(si_path)
+        si_fitz, si_text = ResearchDoc.load_si(paper_dir)
         return cls(
             doc_src=paper_dir,
             fitz_paper=paper_fitz,
             fitz_si=si_fitz,
             paper=paper_text,
             si=si_text,
+            logger=logger,
         )
 
     @classmethod
@@ -52,6 +53,22 @@ class ResearchDoc(BaseModel):
         text = ""
         for p in doc:
             text += p.get_text()
+        return doc, text
+
+    @classmethod
+    def load_si(cls, path: str) -> Tuple[fitz.fitz.Document, str]:
+        """Load an SI from a directory, potentially multiple files."""
+        doc = fitz.open()
+        text = ""
+
+        si_paths = [os.path.join(path, f) for f in os.listdir(path)]
+        for si in si_paths:
+            if re.match(r".*si_\d+\.pdf", si):
+                doc.insert_file(si)
+
+        for p in doc:
+            text += p.get_text()
+
         return doc, text
 
     def acquire_context(

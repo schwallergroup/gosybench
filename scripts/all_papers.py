@@ -51,7 +51,7 @@ def run(inst_model, dspy_model, paper):
     )
 
     # Run
-    tree = synthex(paper)
+    tree = synthex(paper, logger=wandb.run)
     m = metrics(tree)
     wandb.summary.update(m)
 

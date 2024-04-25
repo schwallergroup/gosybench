@@ -26,7 +26,14 @@ class SynthTree(SISynthesis):
         """Gather all smiles from the products."""
 
         G = self.full_g
-        iupac = RetrieveName(self)
+
+        iupac = RetrieveName()
+        iupac.load('retrieve_name_compiled.json')
+        def get_iupac(subs, context):
+            try:
+                return iupac(subs, context).name
+            except Exception as e:
+                return []
 
         def _size_reach_sg(G, node):
             """Calc size of each reachable subgraph."""
@@ -44,7 +51,7 @@ class SynthTree(SISynthesis):
                 smi = name_to_smiles(name, labl)
                 if smi is None:
                     # Try to get iupac name
-                    retrieved_names = iupac(k, context=g["attr"]["text"])
+                    retrieved_names = get_iupac(k, context=g["attr"]["text"])
                     print(f"key {k}. Got iupac name: {retrieved_names}")
                     for n in retrieved_names:
                         smi = name_to_smiles(n, labl)

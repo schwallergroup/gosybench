@@ -57,10 +57,11 @@ class SISplitter(BaseModel):
         """Plot the signal and the selected range."""
         import matplotlib.pyplot as plt
 
-        plt.plot(ratios)
+        plt.plot(ratios, 'k--')
         plt.axvline(ranges[0], color="r")
-        plt.axvline(ranges[1], color="k")
+        plt.axvline(ranges[1], color="b")
         plt.savefig(os.path.join(src, "SIsignal.png"))
+        plt.close('all')
 
     def cut_si(self, doc: ResearchDoc):
         """Slice the SI to the relevant part."""
