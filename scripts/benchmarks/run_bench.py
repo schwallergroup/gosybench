@@ -250,7 +250,7 @@ def main(llm):
     wandb.init(
         project="jasyntho-benchmark-llms",
         config=dict(
-            llm=inst_model,
+            llm=llm,
         ),
     )
     try:
