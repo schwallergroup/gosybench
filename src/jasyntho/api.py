@@ -80,6 +80,7 @@ class SynthesisExtract(BaseModel):
 
         # Store json_format
         import json
+
         with open(os.path.join(tree.doc_src, "synth.json"), "w") as f:
             json.dump(json_format, f)
 

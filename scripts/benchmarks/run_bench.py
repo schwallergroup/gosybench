@@ -2,14 +2,14 @@
 
 import json
 import os
-
 import re
-import click
 
+import click
 import wandb
+
 from jasyntho.api import SynthesisExtract
-from jasyntho.metrics import TreeMetrics
 from jasyntho.extract import Extractor
+from jasyntho.metrics import TreeMetrics
 from jasyntho.utils import RetrieveName, set_llm
 
 llm_list = [
@@ -25,6 +25,7 @@ llm_list = [
     "open-mixtral-8x7b",
     "open-mixtral-8x22b",
 ]
+
 
 def run_products(inst_model):
     pdata = json.load(open("data/benchmarks/products.json", "r"))
@@ -126,6 +127,7 @@ def run_products(inst_model):
 
     wandb.summary.update(df.mean(axis=0).to_dict())
 
+
 def run_badprods(inst_model):
     pdata = list(open("data/benchmarks/bad_products.json", "r").readlines())
     synthex = Extractor("rxn_setup", model=inst_model)
@@ -161,6 +163,7 @@ def run_badprods(inst_model):
 
     wandb.summary.update(df.mean(axis=0).to_dict())
 
+
 def run_nameretrieve(inst_model):
 
     set_llm(llm_dspy=inst_model)
@@ -172,7 +175,9 @@ def run_nameretrieve(inst_model):
         return gold["content"]["name"] == pred.name[0]
 
     def loose_match(gold, pred):
-        return gold["content"]["name"].lower() in [c.lower() for c in pred.name]
+        return gold["content"]["name"].lower() in [
+            c.lower() for c in pred.name
+        ]
 
     def loose_match_rm_key(gold, pred):
         subs_label = gold["content"]["ref_key"]
@@ -204,16 +209,22 @@ def run_nameretrieve(inst_model):
             }
 
     gname = RetrieveName()
+
     def cname(p):
         try:
-            return gname(context=p["content"]["text"], substance=p["content"]["ref_key"])
+            return gname(
+                context=p["content"]["text"], substance=p["content"]["ref_key"]
+            )
         except:
             return None
-        
+
     lp = [cname(p) for p in pdata]
 
     t = [
-        [json.dumps(dict(name=p.name if p is not None else ""), indent=2), json.dumps(g, indent=2)]
+        [
+            json.dumps(dict(name=p.name if p is not None else ""), indent=2),
+            json.dumps(g, indent=2),
+        ]
         for i, (p, g) in enumerate(zip(lp, pdata))
     ]
 
@@ -265,6 +276,7 @@ def main(llm):
         print(f"Run failed", e)
 
     wandb.finish()
+
 
 if __name__ == "__main__":
     for llm in llm_list:
