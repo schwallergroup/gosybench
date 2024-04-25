@@ -7,15 +7,15 @@ from jasyntho.api import SynthesisExtract
 
 
 llm_list = [
-    "gpt-3.5-turbo",
-    "gpt-4-turbo",
-    "gpt-4-0613",
-    "claude-3-haiku-20240307",
-    "claude-3-sonnet-20240229",
-    "claude-3-opus-20240229",
-    "mistral-small-latest",
-    "mistral-large-latest",
-    "mistral-medium-latest",
+#    "gpt-3.5-turbo",
+#    "gpt-4-turbo",
+#    "gpt-4-0613",
+#    "claude-3-haiku-20240307",
+#    "claude-3-sonnet-20240229",
+#    "claude-3-opus-20240229",
+#    "mistral-small-latest",
+#    "mistral-large-latest",
+#    "mistral-medium-latest",
     "open-mixtral-8x7b",
     "open-mixtral-8x22b",
 ]
@@ -233,6 +233,7 @@ if __name__ == "__main__":
         try:
             print(f"Running {llm}")
             run_eval(inst_model=llm)
-        except:
-            pass
+        except Exception as e:
+            print(f'Run failedi', e)
+            wandb.finish()
 
