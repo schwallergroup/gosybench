@@ -639,5 +639,74 @@
     "text": "2.17. Synthesis of (\u2013)-casuarinine H (2)  Methoxy olefin 27 (10 mg, 0.028 mmol, 1.0 equiv) was concentrated in a 1 dram vial and introduced to a glovebox. In the glovebox, 27 was dissolved in anhydrous CHCl3 (0.5 mL) and trimethylsilyl iodide (TMSI) (40 \u00b5L, 0.28 mmol, 10 equiv) was then added dropwise. The vial was sealed, removed from the glovebox, and heated at 65 \u00b0C for 5 hours, resulting in a dark yellow solution. After cooling to room temperature, the reaction was transferred to a 2 dram vial with CH2Cl2 (2 \u00d7 1.0 mL). The solution was cooled to 0 \u00b0C and H2O, sat. aq. K2CO3, and sat. aq. Na2S2O3 (0.5 mL of each) were added while stirring. The pH of the resulting solution was confirmed to be >10 and the aqueous phase was extracted with CH2Cl2 (3 \u00d7 1 mL). The combined organic extracts were dried over MgSO4 and filtered. Concentration under reduced pressure afforded (\u2012)-casuarinine H (2) as an off-white solid/foam (6.1 mg, 89%). ",
     "chain_of_thought": "The synthesis of (\u2013)-casuarinine H (2) from methoxy olefin 27",
     "note": null
-  }
+  },
+  {
+    "reference_key": "SI5",
+    "substance_name": "Compound SI5",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "SI4",
+        "substance_name": "Compound SI4",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "MTBE",
+        "substance_name": "MTBE",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "Vinyl magnesium bromide",
+        "substance_name": "Vinyl magnesium bromide",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "NH4Cl",
+        "substance_name": "NH4Cl",
+        "role_in_reaction": "reagent"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "1H NMR (400 MHz, CDCl3) \u03b4 1.25 (s, 12 H).  Compound SI3  SI-53 Compound SI5   To a flame-dried 4-neck 5 L round-bottom flask equipped with a mechanical stirrer and an addition funnel was added a mixture of SI4 (100 g, 71 mmol, 1.00 eq) and MTBE (800 mL) at 0 \u00b0C under continuous stream of nitrogen. Vinyl magnesium bromide (1070 mL, 106.9 mmol, 1.0 M in THF, 1.5 eq) was transferred via cannula into the addition funnel and added over 1 h at 0 \u00b0C. The reaction mixture was warmed to rt and stirred for 1 h. After completion of the reaction, the mixture was cooled to 15 \u00b0C, and NH4Cl (saturated aq., 1000 mL) was added. The aqueous layer was separated and extracted with MTBE (300 mL).  The combined organics were concentrated under reduced pressure, and passed through a silica plug (100-200 mesh, 2% EtOAc in hexane). The fractions containing product were concentrated under reduced pressure to obtain SI5 (70 g, 80%) as a pale yellow liquid. The spectroscopic data for this compound were identical to those previously reported. 1 ",
+    "chain_of_thought": "Identify the substances involved in the reaction described",
+    "note": null
+  },
+  {
+    "reference_key": "8",
+    "substance_name": "mixture of diastereomers 8",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "3ar'",
+        "substance_name": "ketone 3ar'",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "Br2",
+        "substance_name": "Br2",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "THF",
+        "substance_name": "THF",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "HCl",
+        "substance_name": "1 M aqueous HCl",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role_in_reaction": "solvent"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "HRMS (ESI +): calculated for C14H20ONa (M + Na +): 227.1406 Found: 227.1398    To an oven-dried reaction vial equipped with a stirrer bar was added ketone 3ar’ (50 mg, 0.14 mmol) and the vial flushed with N2 for 10 min. The vial was cooled to -17 ºC and CH2Cl2 (1 mL) was added. Subsequently, Br2 (2.0 eq.) was added dropwise and the resulting solution was stirred at -17 ºC for 15 min. After completion, the reaction mixture was warmed to room temperature and the volatiles were removed in vacuo. To a stirred solution of solid residue in THF (1 mL), aqueous NaHCO3 (1 mL) was added dropwise. Following this, the resulting mixture was stirred at room temperature for 1 h and subsequently diluted with 1 M aqueous HCl and CH2Cl2 (2 mL). The aqueous layer was extracted with CH2Cl2 (3 × 4 mL). The organic layers were collected, dried over MgSO4 and concentrated in vacuo. The desired compound was isolated by column chromatography (silica gel 100-200 mesh size; hexane/ethyl acetate) to afford 8 (24 mg, 0.11 mmol, 79% yield) as a white solid and as a >20:1 mixture of diastereomers. ",
+    "chain_of_thought": "",
+    "note": null
+  },
 ]
