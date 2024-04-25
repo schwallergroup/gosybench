@@ -1,0 +1,194 @@
+[
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "64",
+            "name": ")-2-((S)-2'-((S)-2-(tert-Butoxy)-2-oxo-1-(2,2,2-trifluoroacetamido)ethyl)-4',6,6'-trimethoxy-[1,1'-biphenyl]-3-yl)-2-((tert-butoxycarbonyl)amino)acetamido)-3-(4-fluoro-3-nitrophenyl)-3-((triisopropylsilyl)oxy)propanoate",
+            "text": ")-2-((S)-2'-((S)-2-(tert-Butoxy)-2-oxo-1-(2,2,2-trifluoroacetamido)ethyl)-4',6,6'-trimethoxy-[1,1'-biphenyl]-3-yl)-2-((tert-butoxycarbonyl)amino)acetamido)-3-(4-fluoro-3-nitrophenyl)-3-((triisopropylsilyl)oxy)propanoate (64). A stirred solution of 63 from the previous step (25 g, ca. 26 mmol) in CH2Cl2 (25 mL, 1 vol) was diluted with cyclohexane (CyH, 50 mL, 2 vol) and tert-butyl trichloroacetimidate (1.1 mL, 6.1 mmol, 1.5 equiv) was added. The reaction mixture was stirred for 5 h at room temperature, then a second portion of tert-butyl trichloroacetimidate (20.0 mL, 112 mmol, 4 equiv) was added. After 24 h, the ratio of 64:63 was 93:7 (93% conv) by LC/MS at 254 nm. A second portion of tert-butyl trichloroacetimidate (10 mL, 52 mmol, 2 equiv) was added, and the reaction mixture was stirred for an additional 24 h (95% conv), diluted with hexanes (25 mL), and filtered, rinsing the precipitated trichloroacetamide with minimal 30% CH2Cl2\u2013hexanes. The filtrate was concentrated at 45 \u02daC under reduced pressure and and the residue was purified by column chromatography [500 g SiO2, wet-load CH2Cl2, flushed with 10 L CH2Cl2 (until trichloroacetamide fully eluted), then 5% acetone\u2013CH2Cl2 (5 L)] to provide 64 (23.0 g, 82%) as a yellow foam: mp 91\u201394 \u02daC; Rf 0.39 (30% EtOAc\u2013hexanes); [\u03b1]D19 +39 (c 0.61, CHCl3); 1H NMR (600 MHz, CDCl3) \u03b4 7.94 (dd, J = 7.0, 2.3 Hz, 1H), 7.29\u20137.26 (m, 2H), 7.21\u20137.14 (m, 2H), 6.99 (dd, J = 10.5, 8.6 Hz, 1H), 6.90 (d, J = 8.8 Hz, 1H), 6.85 (d, J = 8.2 Hz, 1H), 6.49 (d, J = 2.4 Hz, 1H), 6.44 (d, J = 2.3 Hz, 1H), 6.09 (d, J = 6.4 Hz, 1H), 5.41 (br s, 1H), 5.27 (d, J = 8.3 Hz, 1H), 5.03 (d, J = 6.5 Hz, 1H), 4.82 (d, J = 8.7 Hz, 1H), 3.83 (s, 3H), 3.74 (s, 3H), 3.67 (s, 3H), 3.59 (s, 3H), 1.41 (s, 9H), 1.34 (s, 9H), 1.01\u20130.93 (m, 21H);  13C NMR (151 MHz, CDCl3) \u03b4 170.7, 169.7, 169.0, 160.6, 159.0, 158.1, 155.8, 155.7, 155.6, 155.5, 154.0, 137.8, 136.8, 136.7, 136.0, 133.97, 133.92, 131.5, 129.3, 129.0, 124.8, 124.0, 120.4, 118.1, 117.9, 116.6, 114.7, 110.7, 102.5, 99.0, 83.6, 79.7,  73.0, 58.6, 58.5, 55.7, 55.6, 55.5, 54.3, 52.4, 29.7, 28.3, 27.7, 17.8, 12.2; IR (film) \u03bdmax 3356, 2924, 2866, 1731, 1711, 1679, 1608, 1539, 1489, 1463, 1367, 1347, 1261, 1203, 1156, 1101, 1067, 882, 835 cm -1; HRMS (ESI-TOF) m/z [M+H] + calculated for C49H67F4N4O14Si, 1039.4359; found, 1039.4379.   "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "S7",
+            "name": "N-Boc lycodine boronic ester",
+            "text": "2.22. Synthesis of N-Boc lycodine boronic ester (S7)  The title compound was prepared from 30 according to a literature procedure 1 and was used without purification in the next step. "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "27",
+            "name": "(2S,3aR,4aS,7R,8aS,9aR)-7-({(2R,4R,6S)-6-[3-(Benzyloxy)propyl]-4-methyl-3-methylidenetetra-hydro-2H-pyran-2-yl}methyl)-2-methoxy-6-methylidenedecahydrofuro[3,2-b]pyrano[2,3-e]pyran",
+            "text": "(2S,3aR,4aS,7R,8aS,9aR)-7-({(2R,4R,6S)-6-[3-(Benzyloxy)propyl]-4-methyl-3-methylidenetetra-hydro-2H-pyran-2-yl}methyl)-2-methoxy-6-methylidenedecahydrofuro[3,2-b]pyrano[2,3-e]pyran (27): To a stirred solution of 25 (108 mg, 0.173 mmol, 1.0 equiv) in THF (5 mL) at 0 \u00b0C was added KOt-Bu (38.8 mg, 0.346 mmol, 2.0 equiv). The resulting mixture was allowed to warm to 23 \u00b0C and stirred for 10 min before it was diluted with hexanes (30 mL) and EtOAc (15 mL) and \ufb01ltered through a pad of SiO2. The \ufb01ltrate was concentrated under reduced pressure to give crude exocyclic ole\ufb01n 26 (90.2 mg, 0.173 mmol, quantitative yield), which was used in the next step without further puri\ufb01cation. To a stirred solution of the obtained exocyclic ole\ufb01n 26 (90.2 mg, 0.173 mmol, 1.0 equiv) in toluene (10 mL) at 23 \u00b0C were added n-Bu3SnH (100 \u00b5L, 0.346 mmol, 2.0 equiv) and AIBN (14.2 mg, 0.0865 mmol, 0.5 equiv). The resulting mixture was transferred and submerged into a preheated oil bath (90 \u00b0C) and stirred for 2 h before it was allowed to cool to 23 \u00b0C. The resulting mixture was concentrated under reduced pressure. Flash column chromatography (SiO2, hexanes/EtOAc 20:1, v/v  \u2192  2:1, v/v) of the residue a\ufb00orded the corresponding organotin intermediate (80.1 mg, 0.102 mmol, 58% yield) as a colorless oil.  To a stirred solution of the residue obtained above (mixture of isomers, 80.1 mg, 0.102 mmol, 1.0 equiv) in MeOH (4 mL) at 23 \u00b0C was added p-TsOH\u2219H2O (17.5 mg, 0.102 mmol, 1.0 equiv). The resulting mixture was stirred for 45 min and then diluted with saturated aqueous NaHCO3 solution (10 mL). The aqueous layer was extracted with EtOAc (3 \u00d7 10 mL). The combined organic layers were washed with brine (10 mL), dried over Na2SO4, \ufb01ltered, and concentrated under reduced pressure. Flash column chromatography (SiO2, 5 \u2192 20% EtOAc in hexanes) of the residue a\ufb00orded 27 (40.7 mg, 0.0816 mmol, 80% yield) as a colorless oil. NOE studies indicate the cis-relation between H6 and H10. 27: Rf = 0.20 (SiO2, hexanes/EtOAc 5:1, v/v); [\u03b1]D23 = +67.8 (c = 2.0, CH2Cl2); FT-IR (\ufb01lm) \u03bdmax = 2953, 2850, 1651, 1454, 1364, 1194, 1094, 1028, 897, 697 cm \u22121;  1H NMR (600 MHz, C6D6) \u03b4 = 7.33 (dd, J = 7.4, 1.5 Hz, 2 H), 7.19 (td, J = 7.6, 1.8 Hz, 2 H), 7.11 (td, J = 7.2, 1.4 Hz, 1 H), 5.02 (dd, J = 5.7, 2.8 Hz, 1 H), 4.87 (brs, 1 H), 4.84 (brs, 1 H), 4.82 (brs, 1 H), 4.73 (d, J = 1.9 Hz, 1 H), 4.37 (s, 2 H), 4.34 (d, J = 10.5 Hz, 1 H), 4.28\u20134.23 (m, 1 H), 3.73 (dt, J = 5.4, 3.3 Hz, 1 H), 3.66 (ddd, J = 5.7, 3.2, 1.8 Hz, 1 H), 3.40 (dddd, J = 15.4, 9.0, 6.4, 2.8 Hz, 3 H), 3.31 (ddd, J = 5.5, 3.6, 2.1 Hz, 1 H), 3.15 (s, 3 H), 2.95 (td, J = 4.4, 2.0 Hz, 1 H), 2.54 (dd, J = 14.0, 4.1 Hz, 1 H), 2.36 (dt, J = 15.0, 3.6 Hz, 1 H), 2.31\u20132.23 (m, 3 H), 2.13 (ddd, J = 13.5, 10.7, 2.4 Hz, 1 H), 2.06 (ddd, J = 14.1, 6.1, 2.8 Hz, 1 H), 1.99 (ddt, J = 12.6, 6.3, 3.3 Hz, 1 H), 1.90 (dddd, J = 15.9, 8.5, 4.6, 1.7 Hz, 1 H), 1.77 (dtd, J = 13.3, 6.6, 3.0 Hz, 1 H), 1.69 (dt, J = 14.9, 5.4 Hz, 1 H), 1.61 (dtt, J = 13.9, 9.2, 4.0 Hz, 1 H), 1.49 (dddd, J = 13.7, 10.1, 6.3, 4.2 Hz, 1 H), 1.40 (ddd, J = 12.5, 4.6, 2.1 Hz, 1 H), 1.05\u20130.99 (m, 1 H), 0.96 (d, J = 6.5 Hz, 3 H) ppm;  13C NMR (151 MHz, C6D6) \u03b4 = 152.6, 144.8, 139.5, 128.6, 128.4, 127.7, 108.9, 104.7, 104.0, 77.1, 77.0, 74.9, 74.4, 73.4, 73.0, 72.3, 70.8, 70.6, 55.1, 43.4, 41.4, 38.3, 36.0, 35.2, 33.0, 30.6, 26.7, 18.2 ppm; HRMS (ESI-TOF) calcd for C30H42O6Na + [M+Na] + 521.2874; Found 521.2874.  "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "2t",
+            "name": "2-Azido-3-(p-tolyl)propan-1-amine",
+            "text": "2-Azido-3-(p-tolyl)propan-1-amine (2t)  Following the general procedure for amino azidation using commercially available 4-(allyl)toluene (67.2 mg, 0.508 mmol) and purified by silica gel column chromatography (DCM:MeOH 100:0 to 98:2, NEt3-deactivated SiO2) provided the title compound as a yellow oil (49.3 mg, 0.259 mmol, 51%). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "70",
+            "name": "Compound 70",
+            "text": "Compound 70. Compound 69 (20 mg, 0.018 mmol) was suspended in CH2Cl2 (0.4 mL) and treated with trifluoroacetic acid (20 \u03bcL, 5% v/v). The resulting homogeneous solution was stirred at room temperature for 4 h, at which point the ratio of "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "2q-5",
+            "name": "2-Azidocyclopentan-1-amine",
+            "text": "2-Azidocyclopentan-1-amine (2q-5)  Title compound was obtained from cyclopentene (32.3 mg, 0.474 mmol) after purification via column chromatography (DCM:MeOH 100:0 to 99:1, NEt3-deactivated SiO2) as a yellow oil (26.0 mg, 20.6 mmol, 43%). Analysis of the crude product revealed a dr of 19:1 favoring the cis-isomer. Only the cis-isomer could be isolated.  "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "38b",
+            "name": "Methyl (8E)-13-O-acetyl-3,7-anhydro-14-O-benzyl-2,5,8,9,11,12-hexadeoxy-12-methyl-6-O-(triethyl-silyl)-D-threo-\u03b2-L-galacto-tetradec-8-enofuranosid-10-ulose",
+            "text": " Methyl (8E)-13-O-acetyl-3,7-anhydro-14-O-benzyl-2,5,8,9,11,12-hexadeoxy-12-methyl-6-O-(triethyl-silyl)-D-threo-\u03b2-L-galacto-tetradec-8-enofuranosid-10-ulose (38b): To a stirred solution of the aldehyde 36 (3.10 g, 9.80 mmol, 1.0 equiv) and phosphonate 37b (4.92 g, 12.7 mmol, 1.3 equiv) in MeCN (50 mL) at 0 \u00b0C were added LiCl (1.25 g, 29.4 mmol, 3.0 equiv) and Et3N (6.83 mL, 49.0 mmol, 5.0 equiv). The resulting mixture was allowed to warm to 23 \u00b0C and stirred for 1.5 h before it was quenched by the addition of sat. aq. NH4Cl solution (50 mL). The layers were separated, and the aqueous layer was extracted with EtOAc (3 \u00d7 50 mL). The combined organic layers were washed with brine (20 mL), dried over Na2SO4, \ufb01ltered, and concentrated under reduced pressure. Flash column chromatography (SiO2, hexanes/EtOAc 10:1, v/v  \u2192  2:1, v/v) of the residue a\ufb00orded enone 38b (5.03 g, 8.72 mmol, 89% yield) as a colorless oil."
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "20i",
+            "name": "rac-tert-Butyl(((E)-4-((1S,2R,5R,7S)-5-(((tert-butyldimethylsilyl)oxy)methyl)-1-methyltricyclo [3.2.1.0 2,7]oct-3-en-4-yl)pent-3-en-1-yl)oxy)dimethylsilane",
+            "text": "rac-tert-Butyl(((E)-4-((1S,2R,5R,7S)-5-(((tert-butyldimethylsilyl)oxy)methyl)-1-methyltricyclo [3.2.1.0 2,7]oct-3-en-4-yl)pent-3-en-1-yl)oxy)dimethylsilane (20i) Following General Procedure A using (Z)-tert-butyldimethyl((4-(4,4,5,5-tetramethyl-1,3,2-dioxaborolan-2-yl)pent-3-en-1-yl) oxy)silane (18a) (60.5 mg, 0.185 mmol, 1.5 equiv.) and rac-(1S,2S,5S,7S)-5-(((tert-butyldimethylsilyl)oxy)methyl)-1-methyl-tricyclo[3.2.1.0 2,7]oct-3-en-4-yl trifluoromethanesulfonate (19d) (51.0 mg, 0.124 mmol, 1.0 equiv.). During the cross-coupling reaction, most of the silyl ether was cleaved and was reprotected using TBSCl (27.9 mg, 0.185 mmol, 1.5 equiv.), imidazole (21.0 mg, 0.309 mmol, 2.5 equiv.) and DMAP (3.0 mg, 0.025 mmol, 10 mol%) in CH2Cl2 (2.5 mL). FC conditions: hex:Et2O = 200:1. Yield: 39.0 mg, 0.084 mmol, 68% as a colorless oil. TLC: Rf = 0.39 (hex:EtOAc = 30:1) "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "2c",
+            "name": "4-(2-Amino-1-azidoethyl)benzonitrile",
+            "text": "4-(2-Amino-1-azidoethyl)benzonitrile (2c)   Following the general procedure for amino azidation using commercially available 4-cyanostyrene (65.6 mg, 0.508 mmol) and purified by silica gel column chromatography (DCM:MeOH 100:0 to 98:2, NEt3-deactivated SiO2) provided the title compound as a yellow oil (46.6 mg, 0.249 mmol, 49%). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "20h",
+            "name": "rac-tert-Butyldimethyl(((1S,2R,5R,7S)-1-methyl-4-(prop-1-en-2-yl)tricyclo[3.2.1.0 2,7]oct-3-en-5-yl) methoxy)silane",
+            "text": "rac-tert-Butyldimethyl(((1S,2R,5R,7S)-1-methyl-4-(prop-1-en-2-yl)tricyclo[3.2.1.0 2,7]oct-3-en-5-yl) methoxy)silane (20h) Following General Procedure A using isopropenylboronic acid pinacol ester (18d) (0.136 g, 0.723 mmol, 1.4 equiv.) and rac-(1S,2S,5S,7S)-5-(((tert-butyldimethylsilyl)oxy)methyl)-1-methyltricyclo[3.2.1.0 2,7]oct-3-en-4-yl trifluoromethanesulfonate (19d) (0.213 g, 0.516 mmol, 1.0 equiv.). During the cross-coupling reaction, most of the silyl ether was cleaved and was reprotected using TBSCl (0.117 g, 0.774 mmol, 1.5 equiv.), imidazole (0.088 g, 1.291 mmol, 2.5 equiv.) and DMAP (6.3 mg, 0.052 mmol, 10 mol%) in CH2Cl2 (6.5 mL). FC conditions: hex. Yield: 0.102 g, 0.335 mmol, 65% as a colorless oil. TLC: Rf = 0.68 (hex:EtOAc = 200:1) "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "2q-6",
+            "name": "2-Azidocyclohexan-1-amine",
+            "text": "2-Azidocyclohexan-1-amine (2q-6)  Title compound was obtained from cyclohexene (40.2 mg, 0.489 mmol) after purification via column chromatography (DCM:MeOH 100:0 to 97.5:2.5, NEt3-deactivated SiO2) in a combined yield of 40%. Analysis of the crude product revealed a dr of 1:2.3 favoring the trans-isomer. Both diasteromers could be isolated separately as yellow oils (cis: 8.7 mg, 0.062 mmol, 13%; trans: 19.0 mg, 0.136 mmol, 28%; the trans-isomer contains inseparable impurities of pivalic acid). For the major trans diastereomer: "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "1",
+            "name": "(4R,7R,8S,11S,12S,E)-4,7,8-Trihydroxy-12-{(S,2E,4E)-7-[(2R,3R)-3-{(2R,3S)-3-hydroxypentan-2-yl}oxiran-2-yl]-6-methylhepta-2,4-dien-2-yl}-7,11-dimethyloxacyclododec-9-en-2-one",
+            "text": "(4R,7R,8S,11S,12S,E)-4,7,8-Trihydroxy-12-{(S,2E,4E)-7-[(2R,3R)-3-{(2R,3S)-3-hydroxypentan-2-yl}oxiran-2-yl]-6-methylhepta-2,4-dien-2-yl}-7,11-dimethyloxacyclododec-9-en-2-one (pladienolide A; 1): To a stirred solution of vinyl iodide 25 (25.0 mg, 58.9 \u00b5mol, 1.0 equiv) and vinyl boronate 35 (23.0 mg, 70.9 \u00b5mol, 1.2 equiv) in degassed (sparged with argon for 15 min) aqueous tetrahydrofuran (0.75 mL, THF:H2O = 3:1) at 22 \u00b0C was added Pd(dppf)Cl2\u00b7CH2Cl2 (4.8 mg, 5.9 \u00b5mol, 0.1 equiv) followed by potassium phosphate (38 mg, 0.18 mmol, 3.0 equiv). After stirring for 3 h, ammonium pyrrolidinedithiocarbamate (36) (4.9 mg, 0.030 mmol, 0.5 equiv) was added, and stirring was continued for 1 h. Then the reaction mixture was filtered through a layer of celite, rinsed thoroughly with ethyl acetate (20 mL), and concentrated under reduced pressure. The obtained residue was purified by flash column chromatography (silica gel, 20% hexanes in ethyl acetate\u2192100% ethyl acetate) to afford pure pladienolide A (1) (22.0 mg, 44.5 \u00b5mol, 76% yield) as a colorless oil. Rf = 0.38 (silica gel, ethyl acetate, UV, p-anisaldehyde). [\ud835\udec2]\ud835\udc03\ud835\udfd0\ud835\udfd0 = \u20131.5 (c = 1.00, MeOH). D. Rhoades,* et al.  "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "2z",
+            "name": "Diethyl (4-amino-3-azidobutyl)phosphonate",
+            "text": "Diethyl (4-amino-3-azidobutyl)phosphonate (2z)   Following the general procedure for amino azidation using commercially available diethyl 3-butenylphosphonate (94.9 mg, 0.49 mmol) and purified by silica gel column chromatography (DCM:MeOH 100:0  to 95:5, NEt3-deactivated SiO2) provided the title compound as a yellow oil (62.9 mg, 0.25 mmol, 51%). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "34",
+            "name": "Methyl (2S,3R)-2-((R)-2-(3-Bromo-4-methoxyphenyl)-2-((tert-butoxycarbonyl)amino)acetamido)-3-(4-fluoro-3-nitrophenyl)-3-((triisopropylsilyl)oxy)propanoate",
+            "text": "Methyl (2S,3R)-2-((R)-2-(3-Bromo-4-methoxyphenyl)-2-((tert-butoxycarbonyl)amino)acetamido)-3-(4-fluoro-3-nitrophenyl)-3-((triisopropylsilyl)oxy)propanoate (34). A stirred solution of 11 (2.16 g, 4.85 mmol, 1 equiv) and 15 6 (2.08 g, 5.77 mmol, 1.2 equiv) in CH3CN (58 mL) was treated with DMTMM (1.60 g, 5.78 mmol, 1.2 equiv). The resulting suspension was stirred for 20 min at room temperature, diluted with EtOAc (100 mL), washed with saturated aqueous NaHCO3 (50 mL) and saturated aqueous NaCl (50 mL), dried over Na2SO4, and concentrated under reduced pressure. Column chromatography (80 g SiO2, 15\u201320% EtOAc\u2013hexanes) provided 34 (3.24 g, 88%) as a yellow solid: mp 67\u201370 \u02daC; Rf 0.67 (65% EtOAc\u2013hexanes); [\u03b1]D24 \u201339.0 (c 1.06, CHCl3); 1H NMR (600 MHz, CDCl3) \u03b4 7.78 (d, J = 5.2 Hz, 1H), 7.47 (d, J = 2.2 Hz, 1H), 7.19\u20137.13 (m, 2H), 7.08 (dd, J = 10.1, 8.6 Hz, 1H), 6.88 (d, J = 8.5 Hz, 1H), 6.37 (br s, 1H), 5.67 (d, J = 5.7 Hz, 1H), 5.45 (d, J = 1.8 Hz, 1H), 5.04 (br s, 1H), 4.68\u20134.66 (m, 1H), 3.94 (s, 3H), 3.81 (s, 3H), 1.39 (s, 9H), 0.93 (s, 21H);  13C NMR (151 MHz, CDCl3) \u03b4 170.0, 169.58, 169.56, 156.2, 155.8, 155.0, 154.0, 137.87, 137.84, 136.82, 136.77, 132.85, 132.80, 132.1, 127.5, 123.5, 118.5, 118.3, 112.4, 112.2, 80.3, 73.2, 58.6, 58.5, 56.3, 53.0, 29.7, 28.3, 17.88, 17.84, 17.78, 12.38, 12.33; IR \u03bdmax 3351, 2923, 2867, 1742, 1672, 1620, 1601, 1539, 1495, 1463, 1438, 1348, 1286, 1257, 1206, 1165, 1102, 1056, 1020, 914, 883, 808 cm -1; HRMS (ESI-TOF) m/z [M+H] + calculated for C33H48BrFN3O9Si, 756.2327; found, 756.2326.     "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "S22",
+            "name": "methyl 3-(3,5-dihydroxyphenyl)-6-hydroxy-2-(4-hydroxyphenyl)benzofuran-4-carboxylate",
+            "text": "S22 \u2013 methyl 3-(3,5-dihydroxyphenyl)-6-hydroxy-2-(4-hydroxyphenyl)benzofuran-4-carboxylate A flame-dried round bottom flask was charged with the starting benzofuran 13B (920 mg, 1.64 mmol) with a stir bar under inert atmosphere. The starting material was dissolved in CH2Cl2 (17 mL) and AlCl3 (1.31 g, 9.85 mmol) was added to the reaction solution in a single portion under a stream of nitrogen. The reaction became yellow and then deep red as the deprotection occurred. After the reaction was complete, it was quenched with sat. aqueous NH4Cl (~20 mL) and transferred to a separatory funnel containing water (~100 mL) and EtOAc (~100 mL). The layers were separated, and the aqueous layer was washed with EtOAc (3 x 50 mL). The combined organic layers were washed with brine (~200 mL), dried over magnesium sulfate, and concentrated under reduced pressure. The crude material was purified via flash column chromatography (2% to 10%, 5 steps in 2% increments, 2 CVs per step, polar phase \u2013 MeOH, nonpolar phase \u2013 CH2Cl2) to afford the desired product as a white solid (587 mg, 91% yield). 1H NMR (500 MHz, Acetone-d6) \u03b4 8.49 (s, 4H), 7.44 (d, J = 8.8 Hz, 2H), 7.18 (d, J = 2.2 Hz, 1H), 7.12 (d, J = 2.2 Hz, 1H), 6.80 (d, J = 8.8 Hz, 2H), 6.42 (t, J = 2.2 Hz, 1H), 6.30 (d, J = 2.2 Hz, 2H), 3.26 (s, 3H).  13C NMR (126 MHz, Acetone-d6) \u03b4 168.1, 159.8, 158.6, 156.1, 155.6, 152.0, 137.4, 129.1, 126.7, 122.9, 121.6, 116.6, 116.1, 113.8, 109.1, 102.6, 101.4, 51.4.  IR (Neat): 3326 (br), 2925, 1684, 1613, 1440, 1341, 1266, 1157, 1135, 1002 cm -1.  HRMS (ESI) m/z calculated for C22H15O7 - ([M-H] -) 391.0823, found 391.0830.    1H NMR, 500 MHz, Acetone-d6, Compound S22  13C NMR, 126 MHz, Acetone-d6, Compound S22       "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "4c",
+            "name": "benzyl 2-methoxy-2-(3-methylene-1-tosyl-6-(trifluoromethyl)indolin-2-yl)acetate",
+            "text": "benzyl 2-methoxy-2-(3-methylene-1-tosyl-6-(trifluoromethyl)indolin-2-yl)acetate, 4c: white solid, 32% yield, >95:5 rr, >20:1 dr. TLC Rf = 0.20 (hexanes/EtOAc = 6:1, v/v). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "1e",
+            "name": "6-methoxy-3-(methoxymethyl)-1-tosyl-1H-indole",
+            "text": "6-methoxy-3-(methoxymethyl)-1-tosyl-1H-indole, 1e:   Using 6-methoxy-1H-indole (1 g, 6.8 mmol) as substrate, following the same procedure for the synthesis of 1b, product 1e was obtained as pale-yellow solid, 838 mg, 38% yield over 3 steps. TLC Rf = 0.29 (hexanes/EtOAc = 4:1, v/v). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "6",
+            "name": "(2S,5R)-5-Allyl-2-[(1S,2R)-2-tert-butoxycarbonylamino-3-(tert-butyldimethylsilanyl-oxy)-1-hydroxypropyl]pyrrolidine-1,2-dicarboxylic acid, 2-benzyl ester, 1-methyl ester",
+            "text": "(2S,5R)-5-Allyl-2-[(1S,2R)-2-tert-butoxycarbonylamino-3-(tert-butyldimethylsilanyl-oxy)-1-hydroxypropyl]pyrrolidine-1,2-dicarboxylic acid, 2-benzyl ester, 1-methyl ester 6: To a solution of oxalic chloride (1.8 mL, 19 mmol) in 25 mL of methylene chloride was added dropwise a mixture of DMSO (2.4 mL, 32 mmol) and 3 mL of methylene chloride at \u201378  oC over 15 min.  After the resultant solution was stirred for 5 min, a solution of 5 (6.06 g, 10 mmol) in 25 mL of methylene chloride was added Retracteddropwise.  After the addition the solution was allowed to warm to -50~-40  oC and the stirring was continued for 1 h.  To this solution was added 5 mL of triethylamine before it was warmed to 0  oC.  After 20 mL of saturated NaHCO3 was added, the organic layer was separated and the aqueous layer was extracted with ether.  The combined organic layers were washed with brine, dried over anhydrous MgSO4, and concentrated.  The residue was chromatographed eluting with 4/1 petroleum ether/ethyl acetate to afford 5.68 g (95%) of ketone. A mixture of the above ketone (5.61 g, 9.3 mmol) in 160 mL of dry ether was cooled to \u201350  oC before NaBH4 (2.0 g, 50 mmol) and 16 mL of anhydrous methanol was added, respectively.  The reaction mixture was allowed to warm to 10  oC and then the stirring was continued for 1 h.  To this solution 50 mL of saturated NH4Cl was added to quench the reaction.  The organic layer was separated and the aqueous layer was extracted with ethyl acetate.  The combined organic layers were washed with brine, dried over anhydrous MgSO4, and concentrated.  Chromatography of the residue eluting with 4/1 petroleum ether/ethyl acetate provided 5.05 g (90%) of 6. [\u03b1]D20 \u20134.6 (c 1.4, CHCl3); 1H NMR (300 MHz, CDCl3) \u03b4 7.42-7.35 (m, 5H), 6.55 (d, J = 9.6 Hz, 1H), 5.63 (m, 1H), 5.52-5.35 (m, 2H), 5.08-4.90 (m, 2H), 4.82 (d, J = 10.0 Hz, 1H), 4.38 (d, J = 9.6 Hz, 1H), 3.99 (br s, 1H), 3.97 (m, 1H), 3.78 (s, 3H), 2.54 (d, J = 13.8 Hz, 1H), 2.28 (m, 1H), 2.00 (m, 2H), 1.71 (m, 2H), 1.46 (s, 9H), 0.89 (s, 9H); ESI-MS m/z 629 (M + + Na +); HRMS found m/z 533.2666 (M + - OBu); C27H41N2O7Si requires 533.2686. "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "S15",
+            "name": "3-(phenoxymethyl)-1-tosyl-1H-indole",
+            "text": "3-(phenoxymethyl)-1-tosyl-1H-indole, S15:  Alcohol S14 (1g, 3.32 mmol) was synthesized according to a literature procedure. 4c Following a modified literature procedure, S14 was dissolved in CH2Cl2 and cooled to 0 \u00b0C under inert  atmosphere. 4d Methanesulfonyl chloride (0.27 mL, 3.49 mmol, 1.05 equiv) and Et3N (0.51 mL, 3.65 mmol, 1.1 equiv) were added and stirred at 0 \u00b0C for 5 h. The reaction mixture was quenched with saturated NaHCO3 solution, extracted with CH2Cl2. The combined organic layers were washed with brine, dried over Na2SO4 and concentrated. The crude product was dissolved in acetone (12 mL) under inert atmosphere. Phenol (282 mg, 3.0 mmol, 0.9 equiv), K2CO3 (918 mg, 6.64 mmol, 2.0 equiv), and NaI (49 mg, 0.33 mmol, 0.10 equiv) were sequentially added to the reaction mixture and stirred at 23 \u00b0C for 48 h. The reaction mixture was concentrated to remove acetone, dissolved in CH2Cl2, diluted with water, and extracted with CH2Cl2 (3X 15 mL). The combined organic layers were washed with brine, dried over Na2SO4 and concentrated. The crude product was purified by flash column chromatography on silica gel (20:1 to 9:1 hexanes/EtOAc) to afford S15 as a white solid, 255 mg, 21% yield. TLC Rf = 0.26 (hexanes/EtOAc = 9:1, v/v). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "3c",
+            "name": "benzyl 2-methoxy-3-(5-methyl-1-tosyl-1H-indol-3-yl)propanoate",
+            "text": "benzyl 2-methoxy-3-(5-methyl-1-tosyl-1H-indol-3-yl)propanoate, 3c: colorless semi-solid, 81% yield, >95:5 rr. TLC Rf = 0.18 (hexanes/EtOAc = 6:1, v/v). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "4d",
+            "name": "Compound 4d",
+            "text": "Compound 4d: pale yellow solid, 30% yield, >95:5 rr, >20:1 dr. TLC Rf = 0.18 (hexanes/EtOAc = 6:1, v/v). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "1m",
+            "name": "methyl 3-(methoxymethyl)-1-tosyl-1H-indole-6-carboxylate",
+            "text": "methyl 3-(methoxymethyl)-1-tosyl-1H-indole-6-carboxylate, 1m:    Using methyl 1H-indole-5-carboxylate (1 g, 5.7 mmol) as substrate, following the same procedure for the synthesis of 1b, product 1m was obtained as white solid, 1.03 g, 48% yield over 3 steps. TLC Rf = 0.15 (hexanes/EtOAc = 4:1, v/v). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "32",
+            "name": "Compound 32",
+            "text": "Compound 32. pale yellow solid, 38% yield, >95:5 rr, >20:1 dr. TLC Rf = 0.11 (hexanes/EtOAc = 9:1, v/v). "
+        }
+    },
+    {
+        "status": "good",
+        "content": {
+            "ref_key": "S21",
+            "name": "1-bromo-4-isopropoxybenzene",
+            "text": "S21 \u2013 1-bromo-4-isopropoxybenzene The starting phenol S20 (5.00 g, 28.9 mmol), 2-propanol (3.31 mL, 43.4 mmol, 1.5 equiv) and PPh3 (8.34 g, 31.8 mmol, 1.1 equiv) were added to a flame-dried 250-mL round bottom flask charged with a stir bar under inert atmosphere. The starting materials were dissolved in THF (90 mL), and to the stirring solution was cooled to 0 \u00b0C in an ice bath. To the cold solution was added diisopropyl azodicarboxylate (DIAD, 6.26 mL, 31.8 mmol, 1.1 equiv) via syringe pump over 10 minutes. The reaction mixture was allowed to warm to room temperature over 12 hours, at which point the reaction was concentrated onto Celite and purified by column chromatography (0-15% CH2Cl2 in Hexanes) to afford the desired product S21 as a colorless oil (6.01 g, 97% yield). The  1H and  13C NMR data for this compound were consistent with prior literature reports. 6 1H NMR (400 MHz, Chloroform-d) \u03b4 7.35 (d, J = 9.0 Hz, 2H), 6.76 (d, J = 8.9 Hz, 2H), 4.49 (hept, J = 6.1 Hz, 1H), 1.32 (d, J = 6.1 Hz, 6H).  13C NMR (100 MHz, Chloroform-d) \u03b4 157.1, 132.4, 117.8, 112.7, 70.4, 22.1.    1H NMR, 400 MHz, Chloroform-d, Compound S21    13C NMR, 100 MHz, Chloroform-d, Compound S21      "
+        }
+    }
+]

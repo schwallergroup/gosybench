@@ -57,7 +57,7 @@ class SynthesisExtract(BaseModel):
         tree.select_syntheses()
         tree.rxn_extract = self.synthex
         tree.raw_prods = await tree.async_extract_rss()
-        # tree = self.after_prod_pipeline(tree)
+        tree = self.after_prod_pipeline(tree)
         return tree
 
     def after_prod_pipeline(self, tree: SynthTree):
@@ -77,8 +77,11 @@ class SynthesisExtract(BaseModel):
         set_llm(self.dspy_model_2)
         tree.gather_smiles()
         json_format = tree.export()  # gets a json for each disjoint tree
-        # TODO maybe save
-        print(json_format.keys())
+
+        # Store json_format
+        import json
+        with open(os.path.join(tree.doc_src, "synth.json"), "w") as f:
+            json.dump(json_format, f)
 
         return tree
 

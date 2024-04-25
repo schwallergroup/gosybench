@@ -28,7 +28,6 @@ class SynthTree(SISynthesis):
         G = self.full_g
 
         iupac = RetrieveName()
-        iupac.load("retrieve_name_compiled.json")
 
         def get_iupac(subs, context):
             try:
