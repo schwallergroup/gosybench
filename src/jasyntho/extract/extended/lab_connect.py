@@ -43,7 +43,7 @@ class LabConnection(dspy.Module):
         if len(context) == 0:
             context = self.retrieve(substance, self.doc.si)
 
-        token_limit = 8000 # TL of lowest model
+        token_limit = 8000  # TL of lowest model
         token_ratio = 0.7
         cc = int(token_limit / token_ratio)
         ctxt_str = "\n\n".join(context)[:cc]

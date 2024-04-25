@@ -3,12 +3,12 @@
 """Command line interface for :mod:`jasyntho`."""
 
 
+import json
 import logging
+import os
 
 import click
 
-import os
-import json
 from jasyntho.metrics import TreeMetrics
 
 from .api import SynthesisExtract
@@ -62,7 +62,11 @@ llm_list = [
 def main(paper, inst_model, dspy_model_1, dspy_model_2):
 
     # Initialize stuff
-    synthex = SynthesisExtract(inst_model=inst_model, dspy_model_1=dspy_model_1, dspy_model_2=dspy_model_2)
+    synthex = SynthesisExtract(
+        inst_model=inst_model,
+        dspy_model_1=dspy_model_1,
+        dspy_model_2=dspy_model_2,
+    )
     metrics = TreeMetrics()
 
     # notebooks/data/angewandte_01
@@ -74,15 +78,16 @@ def main(paper, inst_model, dspy_model_1, dspy_model_2):
     # notebooks/data/jacs.1c01135
 
     import wandb
+
     # Init before to keep track of time
     wandb.init(
-        project="jasyntho-routes", 
+        project="jasyntho-routes",
         config=dict(
-            paper=paper.strip('/').split('/')[-1],
+            paper=paper.strip("/").split("/")[-1],
             start_model=inst_model,
             dspy_model_1=dspy_model_1,
             dspy_model_2=dspy_model_2,
-        )
+        ),
     )
 
     # Run
@@ -91,11 +96,12 @@ def main(paper, inst_model, dspy_model_1, dspy_model_2):
     wandb.summary.update(m)
 
     # Upload plot of SI split
-    wandb.log({
-        "si_split": wandb.Image(os.path.join(paper, "SIsignal.png")),
-        "si_text": tree.si
-    })
-
+    wandb.log(
+        {
+            "si_split": wandb.Image(os.path.join(paper, "SIsignal.png")),
+            "si_text": tree.si,
+        }
+    )
 
 
 if __name__ == "__main__":

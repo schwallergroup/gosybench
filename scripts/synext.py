@@ -1,9 +1,9 @@
-import os
 import json
-import wandb
-from jasyntho.metrics import TreeMetrics
-from jasyntho.api import SynthesisExtract
+import os
 
+import wandb
+from jasyntho.api import SynthesisExtract
+from jasyntho.metrics import TreeMetrics
 
 llm_list = [
     "gpt-3.5-turbo",
@@ -17,6 +17,7 @@ llm_list = [
     "mistral-medium-latest",
     "open-mixtral-8x7b",
 ]
+
 
 def main(inst_model, dspy_model, paper):
 
@@ -36,10 +37,10 @@ def main(inst_model, dspy_model, paper):
     wandb.init(
         project="jasyntho-routes",
         config=dict(
-            paper=paper.strip('/').split('/')[-1],
+            paper=paper.strip("/").split("/")[-1],
             start_model=inst_model,
             dspy_model=dspy_model,
-        )
+        ),
     )
 
     # Run
@@ -51,6 +52,7 @@ def main(inst_model, dspy_model, paper):
     wandb.log({"si_split": wandb.Image(os.path.join(paper, "SIsignal.png"))})
     wandb.finish()
 
+
 if __name__ == "__main__":
     for llm in llm_list:
-        main(inst_model=llm, dspy_model=llm, paper='data/1c10539')
+        main(inst_model=llm, dspy_model=llm, paper="data/1c10539")

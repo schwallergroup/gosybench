@@ -1,11 +1,12 @@
 """Calculate metrics for an extracted tree."""
 
-import os
 import json
+import os
+from typing import Dict, Tuple
+
 import networkx as nx
 from colorama import Fore
 from pydantic import BaseModel
-from PIL.Image import DecompressionBombError
 
 from jasyntho import SynthTree
 
@@ -96,25 +97,30 @@ class TreeMetrics(BaseModel):
 
     def max_seq_smiles(self, tree: SynthTree):
         """Find the top-3 longest paths in the tree such that all nodes have smiles."""
-        len_paths = {}
-        src_paths = {}
+        len_paths_d: Dict[str, int] = {}
+        src_paths: Dict[str, str] = {}
         for k, g in tree.reach_subgraphs.items():
             if len(g) > 1:
                 for n in g.nodes:
                     ml_path_tmp = self._max_length_smiles_one_path(g, n)
-                    len_paths[str(ml_path_tmp)] = len(ml_path_tmp)
+                    len_paths_d[str(ml_path_tmp)] = len(ml_path_tmp)
                     src_paths[str(ml_path_tmp)] = k
 
         # Sort len_paths by value
-        len_paths = sorted(len_paths.items(), key=lambda item: item[1], reverse=True)[:3]
+        len_paths: Tuple[str, int] = sorted(
+            len_paths_d.items(), key=lambda item: item[1], reverse=True
+        )[:3]
 
         results = {}
         print(Fore.LIGHTYELLOW_EX, f"Maximum path length with smiles.\n")
         for i, (p, l) in enumerate(len_paths):
-            print(Fore.LIGHTYELLOW_EX, f"\tPath: {p}, length: {l}. Source: {src_paths[p]}")
+            print(
+                Fore.LIGHTYELLOW_EX,
+                f"\tPath: {p}, length: {l}. Source: {src_paths[p]}",
+            )
             results[f"long_path_{i}_src"] = src_paths[p]
             results[f"long_path_{i}_len"] = l
-        
+
         return results
 
     def _max_length_smiles_one_path(self, G, source):
@@ -135,19 +141,3 @@ class TreeMetrics(BaseModel):
                             max_length = len(path)
                             max_path = path
         return max_path
-
-    def draw_tree(self, tree: SynthTree, max_source, directory):
-        """Draw a tree (RSG)."""
-
-        # Make image of the longest path
-        if max_source != "":
-            json = tree.export()
-            t = ReactionTree.from_dict(json[max_source])
-            try:
-                im = t.to_image()
-                im.save(os.path.join(directory, f"img_max.png"))
-                print(
-                    f"RSG with max SMILES sequence stored at {directory}/img_max.png"
-                )
-            except DecompressionBombError:
-                print("Image too large to save.")

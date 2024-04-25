@@ -5,7 +5,6 @@ Creates a collection of SynthParagraphs from a paper.
 """
 
 import asyncio
-import wandb
 import json
 import logging
 import os
@@ -13,12 +12,12 @@ import re
 from itertools import chain
 from typing import List, Optional
 
-import json
 import fitz  # type: ignore
 from colorama import Fore  # type: ignore
 from dotenv import load_dotenv
 from pydantic import BaseModel
 
+import wandb
 from jasyntho.extract import Extractor
 
 from .base import ResearchDoc
@@ -86,17 +85,18 @@ class SISynthesis(ResearchDoc):
         if self.logger:
 
             def jdump(p):
-                return str(json.dumps(
-                    [c.model_dump() for c in p.children],
-                    indent=2
-                ))
+                return str(
+                    json.dumps([c.model_dump() for c in p.children], indent=2)
+                )
 
             table = [
                 [p.text, jdump(p), f"{p.reference_key} -- {p.substance_name}"]
                 for i, p in enumerate(self.raw_prods)
             ]
 
-            table_wnb = wandb.Table(data=table, columns=["text", "children", "ref_key -- name"])
+            table_wnb = wandb.Table(
+                data=table, columns=["text", "children", "ref_key -- name"]
+            )  # type: ignore
             self.logger.log({"products": table_wnb})
 
     def _report_process(self, raw_prods) -> None:

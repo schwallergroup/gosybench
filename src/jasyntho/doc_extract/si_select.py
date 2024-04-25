@@ -53,15 +53,15 @@ class SISplitter(BaseModel):
                 f"Could not find relevant part of SI in {self.pages}."
             )
 
-    def plot_signal(self, ratios, ranges, src=''):
+    def plot_signal(self, ratios, ranges, src=""):
         """Plot the signal and the selected range."""
         import matplotlib.pyplot as plt
 
-        plt.plot(ratios, 'k--')
+        plt.plot(ratios, "k--")
         plt.axvline(ranges[0], color="r")
         plt.axvline(ranges[1], color="b")
         plt.savefig(os.path.join(src, "SIsignal.png"))
-        plt.close('all')
+        plt.close("all")
 
     def cut_si(self, doc: ResearchDoc):
         """Slice the SI to the relevant part."""

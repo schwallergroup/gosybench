@@ -1,10 +1,11 @@
-import os
 import json
-import click
-import wandb
-from jasyntho.metrics import TreeMetrics
-from jasyntho.api import SynthesisExtract
+import os
 
+import click
+
+import wandb
+from jasyntho.api import SynthesisExtract
+from jasyntho.metrics import TreeMetrics
 
 llm_list = [
     "gpt-3.5-turbo",
@@ -21,15 +22,22 @@ llm_list = [
 ]
 
 papers = [
-    'jacs.0c00969', 'jacs.0c05479', 'jacs.1c01356', 'jacs.0c07397',
-    'jacs.1c01372', 'ja074300t', 'jacs.0c13424', 'jacs.0c10053',
-    'jacs.0c06354', 'jacs.0c02513',
-    'angewandte_01',
-    'jacs.0c11025',
-    'jacs.0c07433',
-    'jacs.0c09520',
-    'jacs.1c00457',
-    'jacs.1c01135'
+    "jacs.0c00969",
+    "jacs.0c05479",
+    "jacs.1c01356",
+    "jacs.0c07397",
+    "jacs.1c01372",
+    "ja074300t",
+    "jacs.0c13424",
+    "jacs.0c10053",
+    "jacs.0c06354",
+    "jacs.0c02513",
+    "angewandte_01",
+    "jacs.0c11025",
+    "jacs.0c07433",
+    "jacs.0c09520",
+    "jacs.1c00457",
+    "jacs.1c01135",
 ]
 
 
@@ -43,10 +51,10 @@ def run(inst_model, dspy_model, paper):
     wandb.init(
         project="jasyntho-routes",
         config=dict(
-            paper=paper.strip('/').split('/')[-1],
+            paper=paper.strip("/").split("/")[-1],
             start_model=inst_model,
             dspy_model=dspy_model,
-        )
+        ),
     )
 
     # Run
@@ -68,7 +76,7 @@ def run(inst_model, dspy_model, paper):
 )
 def main(llm):
     for p in papers:
-        plink = os.path.join('data/', p)
+        plink = os.path.join("data/", p)
         run(inst_model=llm, dspy_model=llm, paper=plink)
 
 
