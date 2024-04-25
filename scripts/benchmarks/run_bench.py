@@ -247,24 +247,22 @@ def run_nameretrieve(inst_model):
 #     help="LLM to use for paragraph processing (can be async).",
 # )
 def main(llm):
+    wandb.init(
+        project="jasyntho-benchmark-llms",
+        config=dict(
+            llm=inst_model,
+        ),
+    )
+    try:
+        print(f"Running {llm}")
+        run_products(inst_model=llm)
+        run_badprods(inst_model=llm)
+        run_nameretrieve(inst_model=llm)
+    except Exception as e:
+        print(f"Run failed", e)
 
-
-    for llm in llm_list:
-        wandb.init(
-            project="jasyntho-benchmark-llms",
-            config=dict(
-                llm=inst_model,
-            ),
-        )
-        try:
-            print(f"Running {llm}")
-            run_products(inst_model=llm)
-            run_badprods(inst_model=llm)
-            run_nameretrieve(inst_model=llm)
-        except Exception as e:
-            print(f"Run failed", e)
-
-        wandb.finish()
+    wandb.finish()
 
 if __name__ == "__main__":
-    main()
+    for llm in llm_list:
+        main(llm)
