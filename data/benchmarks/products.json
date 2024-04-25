@@ -1,0 +1,643 @@
+[
+  {
+    "reference_key": "15",
+    "substance_name": "Compound 15",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "13",
+        "substance_name": "Compound 13",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "MeCN",
+        "substance_name": "acetonitrile",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "CeCl3\u00b77H2O",
+        "substance_name": "Cerium chloride heptahydrate",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "NaI",
+        "substance_name": "Sodium iodide",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "15a",
+        "substance_name": "Crude 15a",
+        "role_in_reaction": "intermediate"
+      },
+      {
+        "reference_key": "NaHCO3",
+        "substance_name": "Saturated aqueous sodium bicarbonate",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "ethyl acetate",
+        "substance_name": "Ethyl acetate",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "Na2SO4",
+        "substance_name": "Sodium sulfate",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "MeOH",
+        "substance_name": "Methanol",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "K2CO3",
+        "substance_name": "Potassium carbonate",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "14",
+        "substance_name": "Compound 14",
+        "role_in_reaction": "reactant"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "2.4 Synthesis of compound 15  To a solution of compound 13 (12.0 g, 31.4 mmol, 1.0 equiv.) in acetonitrile (MeCN; 62 mL) under argon were added cerium chloride heptahydrate (CeCl3\u00b77H2O; 29.25 g, 78.5 mmol, 2.5 equiv.) and sodium iodide (NaI; 3.3 g, 22.0 mmol, 0.7 equiv.). The resulting mixture was warmed up to 82 \u00baC. After about 1 h, the mixture was quenched with saturated aqueous sodium bicarbonate (30 mL) at 25 \u00baC, and extracted with ethyl acetate (30 mL \u00d7 3). The combined organic layers were dried over Na2SO4, filtered and concentrated in vacuo. The residue was purified by flash-column chromatography on silica gel (2.5%~10% ethyl acetate/hexane) to afford crude 15a (11.20 g).  To a solution of the crude 15a (11.20 g) in methanol (MeOH; 30 mL) under argon was added potassium carbonate (K2CO3; 10.85 g, 78.5 mmol, 2.5 equiv.) at 25 \u00baC. Then compound 14 (6.03 g, 31.4 mmol, 1.0 equiv.) was added over 2 h and stirred for overnight at 25 \u00baC. The mixture was quenched with saturated aqueous sodium bicarbonate (30 mL), and extracted with ethyl acetate (30 mL \u00d7 3). The combined organic layers were dried over Na2SO4, filtered and concentrated in vacuo. The residue was purified by flash-column chromatography on silica gel (1.5%~10% ethyl acetate/hexane) to afford 15 (5.87 g, 56%) as a colorless oil, and 13 (2.40 g, 20%) as a colorless oil.  Compound 15: Rf = 0.4 (hexane/ethyl acetate = 20/1); 29 ",
+    "chain_of_thought": "Synthesis of compound 15",
+    "note": null
+  },
+  {
+    "reference_key": "23a",
+    "substance_name": "Compound 23a",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "22",
+        "substance_name": "Compound 22",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "Triethyl phosphonoacetate",
+        "substance_name": "Triethyl phosphonoacetate",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "tetrahydrofuran",
+        "substance_name": "tetrahydrofuran",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "Sodium hydride (NaH)",
+        "substance_name": "Sodium hydride (NaH)",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "Saturated aqueous sodium bicarbonate",
+        "substance_name": "Saturated aqueous sodium bicarbonate",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Ethyl acetate",
+        "substance_name": "Ethyl acetate",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Tetrahydrofuran (THF)",
+        "substance_name": "Tetrahydrofuran (THF)",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "Na2SO4",
+        "substance_name": "Na2SO4",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "2.13 Synthesis of compound 23a  To a solution of triethyl phosphonoacetate [(EtO)2P(O)CH2COOEt; 2.24 g, 10 mmol, 10.0 equiv.] in tetrahydrofuran (THF; 20.0 mL) under argon was added sodium  hydride (NaH; 400 mg, 10.0 mmol, 10 equiv.; 60% in mineral oil) at 0 \u00b0C. The resulting mixture was warmed up to 25 \u00b0C and stirred for 1 h. The compound 22 (482 mg, 1.0 mmol, 1.0 equiv.; in 10 mL THF) was added. After 2 days, the mixture was quenched with saturated aqueous sodium bicarbonate (30 mL) and extracted with ethyl acetate (30 mL \u00d7 3). The combined organic layers were dried over Na2SO4, filtered and concentrated in vacuo. The crude residue was purified by silica gel column chromatography (10%~33% ethyl acetate/hexane) to afford the compound 23a (469.2 mg, 85%) as a yellow oil. Rf = 0.50 (hexane/ethyl acetate = 4/1);  ",
+    "chain_of_thought": "Identifying substances involved in the synthesis of compound 23a",
+    "note": null
+  },
+  {
+    "reference_key": "13a",
+    "substance_name": "Compound 13a",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "NaH",
+        "substance_name": "Sodium hydride",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "DMSO",
+        "substance_name": "Dimethyl sulfoxide",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "10",
+        "substance_name": "Compound 10",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "11",
+        "substance_name": "Compound 11",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "NH4Cl",
+        "substance_name": "Saturated aqueous ammonium chloride",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Et2O",
+        "substance_name": "Diethyl ether",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "brine",
+        "substance_name": "Saturated aqueous brine",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Na2SO4",
+        "substance_name": "Sodium sulfate",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "2.2 Synthesis of compound 13a  A suspension of sodium hydride (NaH; 4.63 g, 115.8 mmol, 1.3 equiv.; 60% in mineral oil) in dimethyl sulfoxide (DMSO; 128 mL) was stirred for 2 h at 55 \u00baC. To the resulting mixture was successively added the compound 10 [1] (24.92 g, 89.0 mmol, 1.0 equiv.; 0.45 M in THF). The mixture was cooled down to 25  oC and stirred for 2 h. The compound 11 [2] (24.35 g, 106.8 mmol, 1.2 equiv.) was added and the mixture was stirred for 12 h. The mixture was quenched with saturated aqueous ammonium chloride (80 mL), and extracted with diethyl ether (200 mL \u00d7 3). The combined organic layers were washed with saturated aqueous brine (300 mL \u00d7 5), dried over Na2SO4, filtered and concentrated in vacuo. The residue was purified by flash-column chromatography on silica gel (5%~20% ethyl acetate/hexane) to afford 13a (20.29 g, 60%) as a yellow oil. Note:  Synthetic compound 10: ",
+    "chain_of_thought": "Synthesis of compound 13a",
+    "note": null
+  },
+  {
+    "reference_key": "29",
+    "substance_name": "(R)-Trimethyl(3-(oxiran-2-yl)prop-1-en-2-yl)silane",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "28",
+        "substance_name": "Chlorohydrin 28",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "Sodium hydroxide",
+        "substance_name": "Sodium hydroxide",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "Diethyl ether (Et2O)",
+        "substance_name": "Diethyl ether (Et2O)",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "Anhydrous sodium sulfate (Na2SO4)",
+        "substance_name": "Anhydrous sodium sulfate (Na2SO4)",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "(R)-Trimethyl(3-(oxiran-2-yl)prop-1-en-2-yl)silane (29). Freshly powdered sodium hydroxide (0.23 g, 5.7 mmol) was added to a solution of chlorohydrin 28 (0.73 g, 3.8 mmol) in Et2O (8 mL). The suspension was stirred for 27 h at room temperature before the mixture was filtered and the residue was washed with Et2O (3 \u00d7 2 mL). The combined filtrates were dried over anhydrous Na2SO4 and concentrated by distilling the solvent off at atmospheric pressure (bath temperature \u2264 40 \u00b0C). The residue was purified by bulb-to-bulk distillation under vacuum to afford the desired epoxide (0.59 g, 99%) as a colorless liquid. The spectral data and specific rotation were in good agreement with those reported in the literature. 10 [\ud835\udf36]\ud835\udc6b\ud835\udfd0\ud835\udfce = \u22124.1 (c = 0.96, CHCl3), literature: [\ud835\udf36]\ud835\udc6b\ud835\udfcf\ud835\udfd6 = \u22126.0 (c = 1.00, CHCl3). ",
+    "chain_of_thought": "Synthesis of (R)-Trimethyl(3-(oxiran-2-yl)prop-1-en-2-yl)silane (29) from chlorohydrin 28",
+    "note": null
+  },
+  {
+    "reference_key": "39",
+    "substance_name": "(((2R,3R,4R,6R)-6-Allyl-2-(((tert-butyldimethylsilyl)oxy)methyl)tetrahydro-2H-pyran-3,4-diyl)bis-(oxy))bis(tert-butyldimethylsilane)",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "37",
+        "substance_name": "triacetate 37",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "K2CO3",
+        "substance_name": "K2CO3",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "methanol",
+        "substance_name": "methanol",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "TBSOTf",
+        "substance_name": "TBSOTf",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "2,6-lutidine",
+        "substance_name": "2,6-lutidine",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "saturated aq. NH4Cl solution",
+        "substance_name": "saturated aq. NH4Cl solution",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "tert-butyl methyl ether",
+        "substance_name": "tert-butyl methyl ether",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "brine",
+        "substance_name": "brine",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Na2SO4",
+        "substance_name": "Na2SO4",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "(((2R,3R,4R,6R)-6-Allyl-2-(((tert-butyldimethylsilyl)oxy)methyl)tetrahydro-2H-pyran-3,4-diyl)bis-(oxy))bis(tert-butyldimethylsilane) (39). K2CO3 (165 mg, 1.19 mmol) was added to a solution of triacetate 37 (3.75 g, 11.9 mmol) in methanol (12 mL) at room temperature. After 1 h, the yellow mixture was filtered through a silica plug, rinsing with 10% MeOH/EtOAc. The combined filtrates were concentrated and the crude material dried in high vacuum overnight to remove any residual methanol.  TBSOTf (12.4 mL, 53.6 mmol) was slowly added to a solution of the crude triol and 2,6-lutidine (8.35 mL, 71.7 mmol) in CH2Cl2 (50 mL) at 0 \u00b0C. The mixture was stirred at room temperature for 24 h before the reaction was quenched with saturated aq. NH4Cl solution (100 mL) and the aqueous phase extracted with tert-butyl methyl ether (3 \u00d7 100 mL). The combined organic layers were washed with brine (100 mL), dried over Na2SO4, filtered and concentrated. The residue was subjected to flash chromatography (hexanes/tert-butyl methyl ether 200:1 to 100:1) to furnish the title compound as a pale yellow liquid (6.01 g, 95% over two steps). [\ud835\udf36]\ud835\udc6b\ud835\udfd0\ud835\udfce = +8.8 (c = 0.58, CHCl3). ",
+    "chain_of_thought": "The reaction involves the synthesis of a compound through multiple steps",
+    "note": null
+  },
+  {
+    "reference_key": "S2",
+    "substance_name": "4-(((tert-Butyldimethylsilyl)oxy)methyl)-2-methylenepent-4-en-1-yl methanesulfonate",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "6",
+        "substance_name": "Allylic alcohol 6",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "MsCl",
+        "substance_name": "MsCl",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "Triethylamine",
+        "substance_name": "Triethylamine",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "Water",
+        "substance_name": "Water",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Brine",
+        "substance_name": "Brine",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Na2SO4",
+        "substance_name": "Na2SO4",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Hexanes",
+        "substance_name": "Hexanes",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "EtOAc",
+        "substance_name": "EtOAc",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "4-(((tert-Butyldimethylsilyl)oxy)methyl)-2-methylenepent-4-en-1-yl methanesulfonate (S2). MsCl (344 mg, 3.00 mmol) was added dropwise to a solution of the allylic alcohol 6 (364 mg, 1.50 mmol) and triethylamine (455 mg, 4.50 mmol) in CH2Cl2 (6 mL) at 0 \u00b0C. The cooling bath was removed after 15 min and stirring continued for 2 h. Water (10 mL) was added to quench the reaction. The resulting mixture was extracted with CH2Cl2 (3 \u00d7 10 mL), the combined organic layers were washed with brine (20 mL), dried over Na2SO4, and concentrated. The residue was subjected to flash chromatography (hexanes/EtOAc 10:1) to give the title compound as pale yellow oil (421 mg, 88%). ",
+    "chain_of_thought": "The reaction involves the addition of MsCl to a solution of allylic alcohol 6 and triethylamine in CH2Cl2 at 0 \u00b0C, followed by quenching with water and extraction with CH2Cl2. The resulting mixture is then washed, dried, and concentrated to obtain the title compound as a pale yellow oil in 88% yield.",
+    "note": null
+  },
+  {
+    "reference_key": "S20",
+    "substance_name": "Dihydrothiophene S-20",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "12",
+        "substance_name": "Triflate 12",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "Toluene",
+        "substance_name": "Toluene",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "Argon",
+        "substance_name": "Argon",
+        "role_in_reaction": "other"
+      },
+      {
+        "reference_key": "Tetrakis-(triphenylphosphine)palladium",
+        "substance_name": "Tetrakis-(triphenylphosphine)palladium",
+        "role_in_reaction": "catalyst"
+      },
+      {
+        "reference_key": "Phenylboronic acid",
+        "substance_name": "Phenylboronic acid",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "Aqueous potassium hydroxide solution (4.00 M)",
+        "substance_name": "Aqueous potassium hydroxide solution (4.00 M)",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "Celite",
+        "substance_name": "Celite",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Diethyl ether",
+        "substance_name": "Diethyl ether",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Water",
+        "substance_name": "Water",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Sodium sulfate",
+        "substance_name": "Sodium sulfate",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "Dihydrothiophene S-20  Triflate 12 (8.50 g, 29.1 mmol, 1 equiv) was dissolved in toluene (140 mL, HPLC grade) and the obtained solution was degassed by sparging with argon. After 20 minutes, tetrakis-(triphenylphosphine)palladium (1.68 g, 1.45 mmol, 5.00 mol%), phenylboronic acid (4.26 g, 34.9 mmol, 1.20 equiv) and aqueous potassium hydroxide solution (4.00 M, 8.73 mL, 34.9 mmol, 1.20 equiv) were added and the mixture was heated to 110 \u00b0C. After 30 minutes, the reaction mixture was allowed to cool to 23 \u00b0C, filtered over a plug of Celite \u00ae and rinsed with diethyl ether (200 mL). Water (200 mL) was added, the layers were separated and the aqueous layer was extracted with diethyl ether (2 \u00d7 200 mL). The combined organic layers were dried over sodium sulfate, the dried solution was filtered and the filtrate was concentrated. The crude product was purified by flash-column chromatography on silica gel (10% to 20% diethyl ether in petroleum ether) to yield dihydrothiophene S-20 (5.56 g, 87%) as a pale-yellow oil which crystallized upon standing to give a colorless solid. TLC (10% diethyl ether in n-pentane): Rf = 0.46 (UV, KMnO4). ",
+    "chain_of_thought": "The reaction steps and substances involved in the synthesis of dihydrothiophene S-20",
+    "note": null
+  },
+  {
+    "reference_key": "16a",
+    "substance_name": "Sulfoxide 16a",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "14a",
+        "substance_name": "Furan 14a",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "3-Chloroperoxybenzoic acid",
+        "substance_name": "3-Chloroperoxybenzoic acid",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "Dichloromethane",
+        "substance_name": "Dichloromethane",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "Saturated aqueous sodium bicarbonate solution",
+        "substance_name": "Saturated aqueous sodium bicarbonate solution",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Sodium sulfate",
+        "substance_name": "Sodium sulfate",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "6.2 S-Oxidation Sulfoxide 16a  To a solution of furan 14a (20 mg, 86 \u00b5mol, 1 equiv) in dichloromethane (0.8 mL) under argon was added dropwise a solution of 3-chloroperoxybenzoic acid (19 mg, 79 \u00b5mol, 1.0 equiv) in dichloromethane (0.8 mL) at \u201378 \u00b0C. After one hour, dichloromethane (5 mL) and saturated aqueous sodium bicarbonate solution (5 mL) were added, the layers were separated and the aqueous layer was extracted with dichloromethane (3 \u00d7 5 mL). The combined organic layers were dried over sodium sulfate, the dried solution was filtered and the filtate concentrated. The crude product was purified by flash-column chromatography on silica gel (ethyl acetate) to provide sulfoxide 16a (21 mg, 98%) as a colorless oil. TLC (ethyl acetate): Rf = 0.44 (UV, KMnO4). ",
+    "chain_of_thought": "Performing S-Oxidation to obtain sulfoxide 16a from furan 14a using 3-chloroperoxybenzoic acid in dichloromethane at -78\u00b0C.",
+    "note": null
+  },
+  {
+    "reference_key": "17b",
+    "substance_name": "Butenolide 17b",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "14a",
+        "substance_name": "Furan 14a",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "Tert-butanol",
+        "substance_name": "Tert-butanol",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "Aqueous hydrogen chloride solution",
+        "substance_name": "Aqueous hydrogen chloride solution",
+        "role_in_reaction": "reagent"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "Butenolide 17b  To a solution of furan 14a (20 mg, 79 \u00b5mol, 1 equiv) in tert-butanol (0.55 mL) was added an aqueous hydrogen chloride solution (3.0 M, 0.29 mL, 0.86 mmol, 10 equiv) at 23 \u00b0C. After complete addition, the reaction mixture was heated to 90 \u00b0C. After 24 hours, water (5 mL) and diethyl ether (5 mL) were added, the layers were separated and the aqueous layer was extracted with diethyl ether (2 \u00d7 5 mL). The combined organic layers were dried over sodium sulfate, the dried solution was filtered and the filtrate was concentrated. The crude product was purified by flash-column chromatography on silica gel (20% diethyl ether in n-pentane) to provide butenolide 17b (15 mg, 84%) as a colorless oil. TLC (50% diethyl ether in petroleum ether): Rf = 0.41 (UV, KMnO4). ",
+    "chain_of_thought": "The reaction describes the synthesis of butenolide 17b from furan 14a using tert-butanol and aqueous hydrogen chloride as reagents.",
+    "note": null
+  },
+  {
+    "reference_key": "34",
+    "substance_name": "Methyl (2S,3R)-2-((R)-2-(3-Bromo-4-methoxyphenyl)-2-((tert-butoxycarbonyl)amino)acetamido)-3-(4-fluoro-3-nitrophenyl)-3-((triisopropylsilyl)oxy)propanoate",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "11",
+        "substance_name": "Compound 11",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "15 6",
+        "substance_name": "Compound 15 6",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "DMTMM",
+        "substance_name": "DMTMM",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "CH3CN",
+        "substance_name": "Acetonitrile (CH3CN)",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "EtOAc",
+        "substance_name": "Ethyl acetate (EtOAc)",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "saturated aqueous NaHCO3",
+        "substance_name": "Saturated aqueous sodium bicarbonate (NaHCO3)",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "saturated aqueous NaCl",
+        "substance_name": "Saturated aqueous sodium chloride (NaCl)",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Na2SO4",
+        "substance_name": "Sodium sulfate (Na2SO4)",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "Methyl (2S,3R)-2-((R)-2-(3-Bromo-4-methoxyphenyl)-2-((tert-butoxycarbonyl)amino)acetamido)-3-(4-fluoro-3-nitrophenyl)-3-((triisopropylsilyl)oxy)propanoate (34). A stirred solution of 11 (2.16 g, 4.85 mmol, 1 equiv) and 15 6 (2.08 g, 5.77 mmol, 1.2 equiv) in CH3CN (58 mL) was treated with DMTMM (1.60 g, 5.78 mmol, 1.2 equiv). The resulting suspension was stirred for 20 min at room temperature, diluted with EtOAc (100 mL), washed with saturated aqueous NaHCO3 (50 mL) and saturated aqueous NaCl (50 mL), dried over Na2SO4, and concentrated under reduced pressure. Column chromatography (80 g SiO2, 15\u201320% EtOAc\u2013hexanes) provided 34 (3.24 g, 88%) as a yellow solid: mp 67\u201370 \u02daC; Rf 0.67 (65% EtOAc\u2013hexanes); [\u03b1]D24 \u201339.0 (c 1.06, CHCl3); 1H NMR (600 MHz, CDCl3) \u03b4 7.78 (d, J = 5.2 Hz, 1H), 7.47 (d, J = 2.2 Hz, 1H), 7.19\u20137.13 (m, 2H), 7.08 (dd, J = 10.1, 8.6 Hz, 1H), 6.88 (d, J = 8.5 Hz, 1H), 6.37 (br s, 1H), 5.67 (d, J = 5.7 Hz, 1H), 5.45 (d, J = 1.8 Hz, 1H), 5.04 (br s, 1H), 4.68\u20134.66 (m, 1H), 3.94 (s, 3H), 3.81 (s, 3H), 1.39 (s, 9H), 0.93 (s, 21H);  13C NMR (151 MHz, CDCl3) \u03b4 170.0, 169.58, 169.56, 156.2, 155.8, 155.0, 154.0, 137.87, 137.84, 136.82, 136.77, 132.85, 132.80, 132.1, 127.5, 123.5, 118.5, 118.3, 112.4, 112.2, 80.3, 73.2, 58.6, 58.5, 56.3, 53.0, 29.7, 28.3, 17.88, 17.84, 17.78, 12.38, 12.33; IR \u03bdmax 3351, 2923, 2867, 1742, 1672, 1620, 1601, 1539, 1495, 1463, 1438, 1348, 1286, 1257, 1206, 1165, 1102, 1056, 1020, 914, 883, 808 cm -1; HRMS (ESI-TOF) m/z [M+H] + calculated for C33H48BrFN3O9Si, 756.2327; found, 756.2326.     ",
+    "chain_of_thought": "The reaction describes the synthesis of Methyl (2S,3R)-2-((R)-2-(3-Bromo-4-methoxyphenyl)-2-((tert-butoxycarbonyl)amino)acetamido)-3-(4-fluoro-3-nitrophenyl)-3-((triisopropylsilyl)oxy)propanoate (34) using compounds 11 and 15 6 as starting materials.",
+    "note": null
+  },
+  {
+    "reference_key": "21",
+    "substance_name": "(S)-2-Amino-2-(2-bromo-3,5-dimethoxyphenyl)ethan-1-ol",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "20",
+        "substance_name": "Compound 20",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "dioxane",
+        "substance_name": "dioxane",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "aqueous 6 N NaOH",
+        "substance_name": "aqueous 6 N NaOH",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "H2O",
+        "substance_name": "H2O",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "Na2SO4",
+        "substance_name": "Na2SO4",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": " (S)-2-Amino-2-(2-bromo-3,5-dimethoxyphenyl)ethan-1-ol (21). A solution of 20 (10.7 g, 35.4 mmol, 1 equiv) in dioxane (50 mL, 5 vol) at 80 \u02daC was treated with aqueous 6 N NaOH (50 mL, 5 vol) and the reaction mixture was warmed at reflux for 18 h, at which point TLC (10% MeOH\u2013CH2Cl2) indicated complete consumption of 20. The reaction mixture was concentrated at 60 \u02daC under reduced pressure to remove dioxane, diluted with H2O (100 mL), and extracted with CH2Cl2 (5 x 200 mL).* The combined organic layers were dried over Na2SO4, filtered and concentrated under reduced pressure to yield 21 (10.2 g, quant) as an off-white solid, which used without further purification. For 21: [\u03b1]D23 +41 (c 1.0, CHCl3); 1H NMR (400 MHz, CD3OD) \u03b4 6.74 (d, J = 2.7 Hz, 1H), 6.53 (d, J = 2.8 Hz, 1H), 4.48 (dd, J = 7.8, 4.0 Hz, 1H), 3.84 (s, 3H), 3.81 (s, 3H), 3.75 (dd, J = 10.9, 4.0 Hz, 1H), 3.43 (dd, J = 10.9, 7.8 Hz, 1H);  13C NMR (100 MHz, CD3OD) \u03b4 161.5, 158.0, 144.0, 105.5, 104.6, 99.5, 67.1, 57.5, 56.7, 56.0; IR (film) \u03bdmax 3382, 2921, 2849, 1586, 1448, 1417, 1352, 1331, 1310, 1282, 1258, 1222, 1200, 1163, 1128, 1077, 1021, 945, 927, 830, 801, 744, 696, 643, 628, 611 cm -1; HRMS (ESI-TOF) m/z [M+H] + calcd for C10H14BrNO3, 276.0235; found, 276.0240. *The solubility of 21 is ca. 10 g/L in CH2Cl2. The product gradually dissolves over the course of multiple extractions.   ",
+    "chain_of_thought": "The reaction and purification of (S)-2-Amino-2-(2-bromo-3,5-dimethoxyphenyl)ethan-1-ol (21)",
+    "note": null
+  },
+  {
+    "reference_key": "23",
+    "substance_name": "(S)-2,2,2-Trifluoro-N-(1-hydroxy-6,8-dimethoxy-3,4-dihydro-1H-benzo[c][1,2]oxaborinin-4-yl)acetamide",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "22",
+        "substance_name": "22",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "B2eg2",
+        "substance_name": "B2eg2",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "APhos2PdCl2",
+        "substance_name": "APhos2PdCl2",
+        "role_in_reaction": "catalyst"
+      },
+      {
+        "reference_key": "anhydrous KOAc",
+        "substance_name": "anhydrous KOAc",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "MeTHF",
+        "substance_name": "MeTHF",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "saturated aqueous NaHCO3",
+        "substance_name": "saturated aqueous NaHCO3",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "S6",
+        "substance_name": "S6",
+        "role_in_reaction": "by-product"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": " (S)-2,2,2-Trifluoro-N-(1-hydroxy-6,8-dimethoxy-3,4-dihydro-1H-benzo[c][1,2]oxaborinin-4-yl)acetamide (23). The reaction has been conducted on scales from 1.5\u201337 g (81 \u2013 85%) and a representative procedure follows. An oven-dried round-bottom flask was charged with 22 (5.16 g, 13.8 mmol, 1 equiv), B2eg2 (2.94 g, 21 mmol, 1.5 equiv), APhos2PdCl2 (98 mg, 0.14 mmol, 0.01 equiv), and anhydrous KOAc (4.0 g, 41 mmol, 3 equiv). The vessel was flushed with Ar and MeTHF (92 mL, 18 vol) was added. The resulting suspension was sparged with Ar while stirring at room temperature for 10 min, and then stirred at 75 \u02daC for 2 h, at which point LC/MS indicated full consumption of 22. The resulting suspension was cooled to room temperature and saturated aqueous NaHCO3 (138 mL, 138 mmol, 10 equiv) was added. The mixture was stirred at room temperature for 30 min, and the aqueous layer was removed. NMR analysis of the organic layer indicated that the ratio of 23 to S6 was 83:17,* with no additional byproducts detected (approximately 83% yield of 23, used directly in the next step as a solution in MeTHF). An analytically pure sample of 23 was obtained by PTLC (SiO2, 60% EtOAc\u2013hexanes) as a white solid. For 23: mp 134\u2013137 \u02daC; Rf 0.32 (60% EtOAc\u2013hexanes); [\u03b1]D23 +117 (c 1.06, CHCl3); 1H NMR (600 MHz, CDCl3) \u03b4 6.76 (d, J = 7.1 Hz, 1H), 6.59 (d, J = 2.0 Hz, 1H), 6.46 (d, J = 2.0 Hz, 1H), 6.44 (s, 1H), 5.09 (dt, J = 8.5, 2.8 Hz, 1H), 4.33\u20134.27 (m, 2H), 3.90 (s, 3H), 3.85 (s, 3H);  13C NMR (151 MHz, CDCl3) \u03b4 165.9, 164.7, 156.9 ( 2JCF = 38 Hz), 146.2, 115.9 ( 1JCF = 287 Hz), 106.6, 105.1, 98.6, 66.6, 55.8, 55.7, 50.1; IR \u03bdmax 3304, 2955, 1716, 1697, 1598, 1580, 1551, 1459, 1428, 1367, 1338, 1281, 1257, 1206, 1192, 1157, 1123, 1079, 1049, 977, 929, 911, 837 cm -1; HRMS (ESI-TOF) m/z [M+H] + calculated for C12H12BF3NO5, 317.0797; found, 317.0798.  *The following resonance was used for quantitation of S6:  1H NMR (600 MHz, CDCl3) \u03b4 3.79 (s, 6H, -OMe x 2).   ",
+    "chain_of_thought": "The reaction procedure for the synthesis of (S)-2,2,2-Trifluoro-N-(1-hydroxy-6,8-dimethoxy-3,4-dihydro-1H-benzo[c][1,2]oxaborinin-4-yl)acetamide (23)",
+    "note": null
+  },
+  {
+    "reference_key": "2",
+    "substance_name": "(\u2013)-casuarinine H (2)",
+    "role_in_reaction": "main product",
+    "children": [
+      {
+        "reference_key": "27",
+        "substance_name": "Methoxy olefin 27",
+        "role_in_reaction": "reactant"
+      },
+      {
+        "reference_key": "anhydrous CHCl3",
+        "substance_name": "anhydrous CHCl3",
+        "role_in_reaction": "solvent"
+      },
+      {
+        "reference_key": "trimethylsilyl iodide (TMSI)",
+        "substance_name": "trimethylsilyl iodide (TMSI)",
+        "role_in_reaction": "reagent"
+      },
+      {
+        "reference_key": "H2O",
+        "substance_name": "H2O",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "sat. aq. K2CO3",
+        "substance_name": "sat. aq. K2CO3",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "sat. aq. Na2S2O3",
+        "substance_name": "sat. aq. Na2S2O3",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "CH2Cl2",
+        "substance_name": "CH2Cl2",
+        "role_in_reaction": "work-up"
+      },
+      {
+        "reference_key": "MgSO4",
+        "substance_name": "MgSO4",
+        "role_in_reaction": "work-up"
+      }
+    ],
+    "origin": "SI",
+    "edge_type": "lab reaction",
+    "text": "2.17. Synthesis of (\u2013)-casuarinine H (2)  Methoxy olefin 27 (10 mg, 0.028 mmol, 1.0 equiv) was concentrated in a 1 dram vial and introduced to a glovebox. In the glovebox, 27 was dissolved in anhydrous CHCl3 (0.5 mL) and trimethylsilyl iodide (TMSI) (40 \u00b5L, 0.28 mmol, 10 equiv) was then added dropwise. The vial was sealed, removed from the glovebox, and heated at 65 \u00b0C for 5 hours, resulting in a dark yellow solution. After cooling to room temperature, the reaction was transferred to a 2 dram vial with CH2Cl2 (2 \u00d7 1.0 mL). The solution was cooled to 0 \u00b0C and H2O, sat. aq. K2CO3, and sat. aq. Na2S2O3 (0.5 mL of each) were added while stirring. The pH of the resulting solution was confirmed to be >10 and the aqueous phase was extracted with CH2Cl2 (3 \u00d7 1 mL). The combined organic extracts were dried over MgSO4 and filtered. Concentration under reduced pressure afforded (\u2012)-casuarinine H (2) as an off-white solid/foam (6.1 mg, 89%). ",
+    "chain_of_thought": "The synthesis of (\u2013)-casuarinine H (2) from methoxy olefin 27",
+    "note": null
+  }
+]
