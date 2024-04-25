@@ -10,6 +10,7 @@ llm_list = [
     "gpt-3.5-turbo",
     "gpt-4-turbo",
     "gpt-4-0613",
+    "gpt-4-turbo-2024-04-09",
     "claude-3-haiku-20240307",
     "claude-3-sonnet-20240229",
     "claude-3-opus-20240229",
@@ -68,8 +69,11 @@ def run(inst_model, dspy_model, paper):
 )
 def main(llm):
     for p in papers:
-        plink = os.path.join('data/', p)
-        run(inst_model=llm, dspy_model=llm, paper=plink)
+        plink = os.path.join('../../data/', p)
+        try:
+            run(inst_model=llm, dspy_model=llm, paper=plink)
+        except:
+            continue
 
 
 if __name__ == "__main__":
