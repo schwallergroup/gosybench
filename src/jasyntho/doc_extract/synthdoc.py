@@ -94,9 +94,9 @@ class SISynthesis(ResearchDoc):
                 for i, p in enumerate(self.raw_prods)
             ]
 
-            table_wnb = wandb.Table(
+            table_wnb = wandb.Table(  # type: ignore
                 data=table, columns=["text", "children", "ref_key -- name"]
-            )  # type: ignore
+            )
             self.logger.log({"products": table_wnb})
 
     def _report_process(self, raw_prods) -> None:

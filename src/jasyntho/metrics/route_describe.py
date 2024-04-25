@@ -2,7 +2,7 @@
 
 import json
 import os
-from typing import Dict, Tuple
+from typing import Dict, List, Tuple, Union
 
 import networkx as nx
 from colorama import Fore
@@ -107,11 +107,11 @@ class TreeMetrics(BaseModel):
                     src_paths[str(ml_path_tmp)] = k
 
         # Sort len_paths by value
-        len_paths: Tuple[str, int] = sorted(
+        len_paths: List[Tuple[str, int]] = sorted(
             len_paths_d.items(), key=lambda item: item[1], reverse=True
         )[:3]
 
-        results = {}
+        results: Dict[str, Union[str, int]] = {}
         print(Fore.LIGHTYELLOW_EX, f"Maximum path length with smiles.\n")
         for i, (p, l) in enumerate(len_paths):
             print(
