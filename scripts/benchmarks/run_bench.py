@@ -127,12 +127,7 @@ def run_products(inst_model):
     wandb.summary.update(df.mean(axis=0).to_dict())
 
 def run_badprods(inst_model):
-    # Load products dataset
     pdata = list(open("data/benchmarks/bad_products.json", "r").readlines())
-
-    # Load list from bad_products.json
-
-    print(pdata)
     synthex = Extractor("rxn_setup", model=inst_model)
 
     # Basically we want to check that extracted products are empty
@@ -140,13 +135,13 @@ def run_badprods(inst_model):
     def empty_prod(p):
         return {"empty": p.isempty()}
 
-    lp = [synthex(p) for p in pdata]
+    lp = [synthex(p)[0] for p in pdata]
 
     def jdump(p):
         return str(json.dumps([c.model_dump() for c in p.children], indent=2))
 
     t = [
-        [i, jdump(p[0]), json.dumps(g, indent=2)]
+        [i, jdump(p), json.dumps(g, indent=2)]
         for i, (p, g) in enumerate(zip(lp, pdata))
     ]
 
@@ -254,9 +249,17 @@ def main(llm):
         ),
     )
     try:
-        print(f"Running {llm}")
+        print(f"Running prods {llm}")
         run_products(inst_model=llm)
+    except Exception as e:
+        print(f"Run failed", e)
+    try:
+        print(f"Running badprods {llm}")
         run_badprods(inst_model=llm)
+    except Exception as e:
+        print(f"Run failed", e)
+    try:
+        print(f"Running nameretrieve {llm}")
         run_nameretrieve(inst_model=llm)
     except Exception as e:
         print(f"Run failed", e)

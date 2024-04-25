@@ -29,14 +29,12 @@ def run_eval(inst_model):
     pdata = list(open("data/benchmarks/bad_products.json", "r").readlines())
 
     # Load list from bad_products.json
-
-    print(pdata)
     synthex = Extractor("rxn_setup", model=inst_model)
 
     # Basically we want to check that extracted products are empty
 
     def empty_prod(p):
-        return {"empty": p.isempty()}
+        return {"empty": p[0].isempty()}
 
     wandb.init(
         project="jasyntho-badprod-benchmark-llms",
