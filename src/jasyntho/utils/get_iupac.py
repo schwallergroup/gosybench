@@ -9,7 +9,7 @@ import requests
 from pydantic import BaseModel
 
 
-class SubsIUPAC(dspy.Signature):
+class Response(dspy.Signature):
     """Retrieve name of a substance."""
 
     context: str = dspy.InputField(
@@ -28,7 +28,7 @@ class RetrieveName(dspy.Module):
     def __init__(self):
         super().__init__()
 
-        self.name = dspy.TypedChainOfThought(SubsIUPAC)
+        self.name = dspy.TypedChainOfThought(Response)
 
     def forward(self, substance: str, context: str):
         """Get the name of the substance."""

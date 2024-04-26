@@ -95,10 +95,10 @@ def run_products(inst_model):
     def calc_all_metrics(gold, pred):
         """Calculate all metrics."""
         return {
-            "reacts": check_reacts(gold, pred),
-            "solvs": check_solvents(gold, pred),
-            "prdname": check_prdname(gold, pred),
-            "prdkey": check_prdkey(gold, pred),
+            "good_prd_reacts": check_reacts(gold, pred),
+            "good_prd_solvs": check_solvents(gold, pred),
+            "good_prd_prdname": check_prdname(gold, pred),
+            "good_prd_prdkey": check_prdkey(gold, pred),
         }
 
     lp = [synthex(p["text"]) for p in pdata]
@@ -135,7 +135,7 @@ def run_badprods(inst_model):
     # Basically we want to check that extracted products are empty
 
     def empty_prod(p):
-        return {"empty": p.isempty()}
+        return {"bad_prd_empty": p.isempty()}
 
     lp = [synthex(p)[0] for p in pdata]
 
@@ -197,15 +197,15 @@ def run_nameretrieve(inst_model):
     def calc_all_metrics(gold, pred):
         if pred is not None:
             return {
-                "exact_match": exact_match(gold, pred),
-                "loose_match": loose_match(gold, pred),
-                "loose_match_rm_key": loose_match_rm_key(gold, pred),
+                "name_exact_match": exact_match(gold, pred),
+                "name_loose_match": loose_match(gold, pred),
+                "name_loose_match_rm_key": loose_match_rm_key(gold, pred),
             }
         else:
             return {
-                "exact_match": False,
-                "loose_match": False,
-                "loose_match_rm_key": False,
+                "name_exact_match": False,
+                "name_loose_match": False,
+                "name_loose_match_rm_key": False,
             }
 
     gname = RetrieveName()
