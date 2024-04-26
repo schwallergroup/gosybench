@@ -65,5 +65,16 @@ class ReactionSetup:
                     api_key=os.getenv("ANTHROPIC_API_KEY"),
                 ),
             )
+        elif model.startswith("tgi-"):
+            self.client = instructor.from_openai(
+                OpenAI(
+                    base_url=model.strip("tgi-"),
+                ),
+            )
+            self.aclient = instructor.from_anthropic(
+                AsyncOpenAI(
+                    base_url=model.strip("tgi-"),
+                ),
+            )
         else:
             raise ValueError(f"Model {model} not recognized.")
