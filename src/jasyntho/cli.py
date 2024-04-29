@@ -44,7 +44,7 @@ llm_list = [
 @click.option(
     "--inst_model",
     default="gpt-3.5-turbo",
-    type=click.Choice(llm_list),
+    type=str,
     help="LLM to use for paragraph processing (can be async).",
 )
 @click.option(
@@ -81,7 +81,7 @@ def main(paper, inst_model, dspy_model_1, dspy_model_2):
 
     # Init before to keep track of time
     wandb.init(
-        project="jasyntho-routes",
+        project="jasy-test",
         config=dict(
             paper=paper.strip("/").split("/")[-1],
             start_model=inst_model,
