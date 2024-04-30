@@ -14,9 +14,9 @@ from typing import Dict, List, Optional
 
 import fitz  # type: ignore
 import networkx as nx  # type: ignore
-import wandb
 from colorama import Fore  # type: ignore
 
+import wandb
 from jasyntho.extract import Extractor, Product
 from jasyntho.extract.extended import LabConnection
 from jasyntho.utils import RetrieveName, name_to_smiles

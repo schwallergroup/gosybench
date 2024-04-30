@@ -5,8 +5,8 @@ import os
 import re
 
 import click
-import wandb
 
+import wandb
 from jasyntho.api import SynthesisExtract
 from jasyntho.extract import Extractor
 from jasyntho.metrics import TreeMetrics

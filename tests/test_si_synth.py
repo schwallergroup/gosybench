@@ -5,7 +5,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from jasyntho.doc_extract.synthdoc import SISynthesis
+from jasyntho import SynthTree
 from jasyntho.extract import Extractor
 
 load_dotenv()
@@ -14,7 +14,7 @@ load_dotenv()
 @pytest.fixture()
 def ex_document():
     """Initialize document."""
-    doc = SISynthesis.from_dir("tests/examples/")
+    doc = SynthTree.from_dir("tests/examples/")
     doc.paragraphs = doc._get_paragraphs(doc.doc_src + "/si_0.pdf")
     return doc
 

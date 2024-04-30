@@ -2,7 +2,6 @@ import json
 import os
 
 import wandb
-
 from jasyntho.api import SynthesisExtract
 from jasyntho.metrics import TreeMetrics
 
