@@ -8,10 +8,7 @@ import logging
 import os
 
 import click
-
-from jasyntho.metrics import TreeMetrics
-
-from .api import SynthesisExtract
+from .api import run_single
 
 __all__ = [
     "main",
@@ -42,66 +39,89 @@ llm_list = [
     help="Source of the paper to process.",
 )
 @click.option(
-    "--inst_model",
+    "--inst_llm",
     default="gpt-3.5-turbo",
     type=str,
     help="LLM to use for paragraph processing (can be async).",
 )
 @click.option(
-    "--dspy_model_1",
+    "--dspy_llm_1",
     default="gpt-3.5-turbo",
     type=click.Choice(llm_list),
     help="LLM to use for elaborate graph building.",
 )
 @click.option(
-    "--dspy_model_2",
+    "--dspy_llm_2",
     default="gpt-3.5-turbo",
     type=click.Choice(llm_list),
     help="LLM to use for elaborate graph building.",
 )
-def main(paper, inst_model, dspy_model_1, dspy_model_2):
-
-    # Initialize stuff
-    synthex = SynthesisExtract(
-        inst_model=inst_model,
-        dspy_model_1=dspy_model_1,
-        dspy_model_2=dspy_model_2,
-    )
-    metrics = TreeMetrics()
-
-    # notebooks/data/angewandte_01
-    # notebooks/data/1c10539
-    # notebooks/data/jacs.0c11025
-    # notebooks/data/jacs.0c07433
-    # notebooks/data/jacs.0c09520
-    # notebooks/data/jacs.1c00457
-    # notebooks/data/jacs.1c01135
-
-    import wandb
-
-    # Init before to keep track of time
-    wandb.init(
-        project="jasy-test",
-        config=dict(
-            paper=paper.strip("/").split("/")[-1],
-            start_model=inst_model,
-            dspy_model_1=dspy_model_1,
-            dspy_model_2=dspy_model_2,
-        ),
+@click.option(
+    "-w",
+    "--wandb_project",
+    default="jasyntho-routes",
+    type=str,
+    help="What project name to log the results to.",
+)
+def run(paper, inst_llm, dspy_llm_1, dspy_llm_2, wandb_project):
+    """Run the synthesis extraction on a single paper."""
+    run_single(
+        paper=paper,
+        inst_model=inst_llm,
+        dspy_model_1=dspy_llm_1,
+        dspy_model_2=dspy_llm_2,
+        wandb_pname=wandb_project
     )
 
-    # Run
-    tree = synthex(paper, logger=wandb.run)
-    m = metrics(tree)
-    wandb.summary.update(m)
+@click.command()
+@click.option(
+    "--inst_llm",
+    default="gpt-3.5-turbo",
+    type=click.Choice(llm_list),
+    help="LLM to use for paragraph processing (can be async).",
+)
+@click.option(
+    "--dspy_llm",
+    default="gpt-3.5-turbo",
+    type=click.Choice(llm_list),
+    help="LLM to use for paragraph processing (can be async).",
+)
+@click.option(
+    "-d",
+    "--directory",
+    default="../../data/",
+    type=click.Path(exists=True),
+    help="Directory to the papers to process.",
+)
+@click.option(
+    "-w",
+    "--wandb_project",
+    default="jasyntho-routes",
+    type=str,
+    help="What project name to log the results to.",
+)
+def these_papers(inst_llm, dspy_llm, directory, wandb_project):
+    papers = os.listdir(directory)
+    for p in papers:
+        plink = os.path.join(directory, p)
+        try:
+            run_single(
+                paper=plink,
+                inst_model=inst_llm,
+                dspy_model_1=dspy_llm,
+                dspy_model_2=dspy_llm,
+                wandb_pname=wandb_project
+            )
+        except:
+            continue
 
-    # Upload plot of SI split
-    wandb.log(
-        {
-            "si_split": wandb.Image(os.path.join(paper, "SIsignal.png")),
-            "si_text": tree.si,
-        }
-    )
+@click.group()
+@click.version_option()
+def main():
+    """CLI for SACCrow."""
+
+main.add_command(run)
+main.add_command(these_papers)
 
 
 if __name__ == "__main__":

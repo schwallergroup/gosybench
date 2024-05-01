@@ -41,7 +41,7 @@ class SynthParagraph:
         """Extract data from paragraph.
 
         Input
-        extractor: Extractor
+        extractor: ExtractReaction
             Initialized data extractor.
         """
         raw_output = extractor(self.text)
@@ -51,7 +51,7 @@ class SynthParagraph:
         """Extract data from paragraph. Asynchronous.
 
         Input
-        extractor: Extractor
+        extractor: ExtractReaction
             Initialized data extractor.
         """
         raw_output = await extractor.async_call(self.text)

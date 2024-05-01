@@ -22,26 +22,6 @@ llm_list = [
     "open-mixtral-8x22b",
 ]
 
-papers = [
-    "jacs.0c00969",
-    "jacs.0c05479",
-    "jacs.1c01356",
-    "jacs.0c07397",
-    "jacs.1c01372",
-    "ja074300t",
-    "jacs.0c13424",
-    "jacs.0c10053",
-    "jacs.0c06354",
-    "jacs.0c02513",
-    "angewandte_01",
-    "jacs.0c11025",
-    "jacs.0c07433",
-    "jacs.0c09520",
-    "jacs.1c00457",
-    "jacs.1c01135",
-]
-
-
 def run(inst_model, dspy_model, paper):
 
     # Initialize stuff
@@ -75,9 +55,17 @@ def run(inst_model, dspy_model, paper):
     type=click.Choice(llm_list),
     help="LLM to use for paragraph processing (can be async).",
 )
-def main(llm):
+@click.option(
+    "-d",
+    "--directory",
+    default="../../data/",
+    type=click.Path(exists=True),
+    help="Directory to the papers to process.",
+)
+def main(llm, directory):
+    papers = os.listdir(directory)
     for p in papers:
-        plink = os.path.join("../../data/", p)
+        plink = os.path.join(directory, p)
         try:
             run(inst_model=llm, dspy_model=llm, paper=plink)
         except:

@@ -17,7 +17,7 @@ import networkx as nx  # type: ignore
 from colorama import Fore  # type: ignore
 
 import wandb
-from jasyntho.extract import Extractor, Product
+from jasyntho.extract import ExtractReaction, Product
 from jasyntho.extract.extended import LabConnection
 from jasyntho.utils import RetrieveName, name_to_smiles
 
@@ -36,7 +36,7 @@ class SynthTree(ResearchDoc):
     products: List[Product] = []
     full_g: nx.DiGraph = nx.DiGraph()
     reach_subgraphs: Dict[str, nx.DiGraph] = {}
-    rxn_extract: Optional[Extractor] = None
+    rxn_extract: Optional[ExtractReaction] = None
     paragraphs: List[SynthParagraph] = []
     raw_prods: List[Product] = []
     v: bool = True

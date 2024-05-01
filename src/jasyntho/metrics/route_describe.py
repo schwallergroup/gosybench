@@ -8,7 +8,7 @@ import networkx as nx
 from colorama import Fore
 from pydantic import BaseModel
 
-from jasyntho import SynthTree
+from jasyntho.document import SynthTree
 
 
 class TreeMetrics(BaseModel):

@@ -6,7 +6,7 @@ import pytest
 from dotenv import load_dotenv
 
 from jasyntho import SynthTree
-from jasyntho.extract import Extractor
+from jasyntho.extract import ExtractReaction
 
 load_dotenv()
 
@@ -36,7 +36,7 @@ def test_extract(ex_document):
     ex_document.paragraphs = ex_document.paragraphs[6:7]
 
     oai_key = os.getenv("OPENAI_API_KEY")
-    rxn_extract = Extractor("rxn_setup", oai_key, model="gpt-3.5-turbo")
+    rxn_extract = ExtractReaction(model="gpt-3.5-turbo")
     ex_document.rxn_extract = rxn_extract
 
     ex_document.extract_rss()
