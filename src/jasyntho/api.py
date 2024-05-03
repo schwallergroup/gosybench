@@ -4,17 +4,16 @@
 
 import asyncio
 import os
-import pickle
-from functools import partial
 from typing import Optional
 
+import wandb
 import dsp
-import dspy
 from dotenv import load_dotenv
 from pydantic import BaseModel, model_validator
 
-from jasyntho.doc_extract import SynthTree
-from jasyntho.extract import Extractor
+from jasyntho.document import SynthTree
+from jasyntho.metrics import TreeMetrics
+from jasyntho.extract import ExtractReaction
 from jasyntho.utils import set_llm
 
 
@@ -45,7 +44,7 @@ class SynthesisExtract(BaseModel):
     def __sync_call__(self, paper_src: str, logger=None):
         """Return the synthesis (sync version)."""
         tree = SynthTree.from_dir(paper_src, logger)
-        tree.select_syntheses()
+        # tree.select_syntheses()
         tree.rxn_extract = self.synthex
         tree.raw_prods = tree.extract_rss()
         tree = self.after_prod_pipeline(tree)
@@ -54,7 +53,7 @@ class SynthesisExtract(BaseModel):
     async def __async_call__(self, paper_src: str, logger=None):
         """Return the synthesis (sync version)."""
         tree = SynthTree.from_dir(paper_src, logger)
-        tree.select_syntheses()
+        # tree.select_syntheses()
         tree.rxn_extract = self.synthex
         tree.raw_prods = await tree.async_extract_rss()
         tree = self.after_prod_pipeline(tree)
@@ -80,6 +79,7 @@ class SynthesisExtract(BaseModel):
 
         # Store json_format
         import json
+
         with open(os.path.join(tree.doc_src, "synth.json"), "w") as f:
             json.dump(json_format, f)
 
@@ -93,5 +93,40 @@ class SynthesisExtract(BaseModel):
         if self.llm is None:
             self.llm = set_llm(llm_dspy=self.dspy_model_1)
         if self.synthex is None:
-            self.synthex = Extractor("rxn_setup", model=self.inst_model)
+            self.synthex = ExtractReaction(model=self.inst_model)
         return self
+
+def run_single(paper, inst_model, dspy_model_1, dspy_model_2, wandb_pname="jasy-test"):
+
+    # Initialize stuff
+    synthex = SynthesisExtract(
+        inst_model=inst_model,
+        dspy_model_1=dspy_model_1,
+        dspy_model_2=dspy_model_2,
+    )
+    metrics = TreeMetrics()
+
+    # Init before to keep track of time
+    wandb.init(
+        project=wandb_pname,
+        config=dict(
+            paper=paper.strip("/").split("/")[-1],
+            start_model=inst_model,
+            dspy_model_1=dspy_model_1,
+            dspy_model_2=dspy_model_2,
+        ),
+    )
+
+    # Run
+    tree = synthex(paper, logger=wandb.run)
+    m = metrics(tree)
+    wandb.summary.update(m)
+
+    # Upload plot of SI split
+    wandb.log(
+        {
+            "si_split": wandb.Image(os.path.join(paper, "SIsignal.png")),
+            "si_text": wandb.Table(columns=['si_text'], data=[[tree.si]]),
+        }
+    )
+    wandb.finish()

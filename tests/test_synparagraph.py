@@ -7,7 +7,7 @@ import os
 import pytest
 from dotenv import load_dotenv
 
-from jasyntho.extract import Extractor
+from jasyntho.extract import ExtractReaction
 
 load_dotenv()
 
@@ -19,9 +19,7 @@ with open("tests/synth_child_io/sample.json") as fh:
 
 def get_products(prg):
     """Execute children extractor chain"""
-    load_dotenv()
-    oai_key = os.getenv("OPENAI_API_KEY")
-    extr = Extractor("rxn_setup", model="gpt-4-0613", api_key=oai_key)
+    extr = ExtractReaction(model="gpt-4-0613")
     out = extr(prg)
     return out
 

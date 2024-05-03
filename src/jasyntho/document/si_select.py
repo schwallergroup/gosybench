@@ -7,10 +7,8 @@ That is, the part containing the synthesis procedures.
 import os
 import re
 
-import fitz  # type: ignore
 import numpy as np
 from pydantic import BaseModel
-from scipy.signal import find_peaks
 
 from .base import ResearchDoc
 
