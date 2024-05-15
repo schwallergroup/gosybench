@@ -8,6 +8,7 @@ import logging
 import os
 
 import click
+
 from .api import run_single
 
 __all__ = [
@@ -70,8 +71,9 @@ def run(paper, inst_llm, dspy_llm_1, dspy_llm_2, wandb_project):
         inst_model=inst_llm,
         dspy_model_1=dspy_llm_1,
         dspy_model_2=dspy_llm_2,
-        wandb_pname=wandb_project
+        wandb_pname=wandb_project,
     )
+
 
 @click.command()
 @click.option(
@@ -110,15 +112,17 @@ def these_papers(inst_llm, dspy_llm, directory, wandb_project):
                 inst_model=inst_llm,
                 dspy_model_1=dspy_llm,
                 dspy_model_2=dspy_llm,
-                wandb_pname=wandb_project
+                wandb_pname=wandb_project,
             )
         except:
             continue
+
 
 @click.group()
 @click.version_option()
 def main():
     """CLI for SACCrow."""
+
 
 main.add_command(run)
 main.add_command(these_papers)
