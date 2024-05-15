@@ -10,7 +10,7 @@ import logging
 import os
 import re
 from itertools import chain
-from typing import Dict, List, Optional
+from typing import Dict, List, Optional, Literal
 
 import fitz  # type: ignore
 import networkx as nx  # type: ignore
@@ -25,6 +25,7 @@ from .base import ResearchDoc
 from .si_select import SISplitter
 from .synthpar import SynthParagraph
 from ..extract.substances import Product
+from .parsing import VisionParser
 
 # Silence retry validator warnings
 logging.getLogger("instructor").setLevel(logging.CRITICAL)
@@ -281,10 +282,10 @@ class SynthTree(ResearchDoc):
         products = [p for p in self.raw_prods if not p.isempty()]
         return products
 
-    async def async_extract_rss(self) -> list:
+    async def async_extract_rss(self, mode: Literal['text', 'vision']='text') -> list:
         """Extract reaction setups for each paragraph in the doc."""
         relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
-        self.paragraphs = self._get_paragraphs(relev_si_src)
+        self.paragraphs = await self._get_paragraphs(relev_si_src, mode=mode)
 
         raw_prodlist = await asyncio.gather(
             *[p.async_extract(self.rxn_extract) for p in self.paragraphs]
@@ -341,18 +342,24 @@ class SynthTree(ResearchDoc):
         for n in set(notes):
             printm(f"\t{n}: {notes.count(n)}")
 
-    def _get_paragraphs(self, doc_src: str) -> List[SynthParagraph]:
+    async def _get_paragraphs(self, doc_src: str, mode: Literal['text', 'vision']='text', api_key: Optional[str]=None) -> List[SynthParagraph]:
         """
         Create list of paragraphs from document.
 
         Input
             doc_src: address of the pdf document.
         """
-        fitz_si_syn = fitz.open(doc_src)
-        end = fitz_si_syn.page_count
+        if mode=='text':
+            fitz_si_syn = fitz.open(doc_src)
+            end = fitz_si_syn.page_count
 
-        parags_pages = self._get_pars_per_page(fitz_si_syn, 0, end)
-        return self._clean_up_pars(parags_pages)
+            parags_pages = self._get_pars_per_page(fitz_si_syn, 0, end)
+            return self._clean_up_pars(parags_pages)
+        if mode=='vision':
+            parser = VisionParser(ptype='vision', api_key=api_key)
+            return await parser.vision_parse(doc_src, batch_size=5, model='gpt-4o', prgr_sep='##---##')
+
+
 
     def _clean_up_pars(self, pars):
         """Merge and filter out paragraphs."""
