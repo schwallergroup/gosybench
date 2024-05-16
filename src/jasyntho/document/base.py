@@ -13,8 +13,8 @@ class ResearchDoc(BaseModel):
     """A research paper and its SI."""
 
     doc_src: str
-    fitz_paper: fitz.fitz.Document
-    fitz_si: fitz.fitz.Document
+    fitz_paper: fitz.Document
+    fitz_si: fitz.Document
     paper: str = ""
     si: str = ""
     si_dict: dict = {}
@@ -47,7 +47,7 @@ class ResearchDoc(BaseModel):
         )
 
     @classmethod
-    def load(cls, path: str) -> Tuple[fitz.fitz.Document, str]:
+    def load(cls, path: str) -> Tuple[fitz.Document, str]:
         """Load a PDF as a string."""
         doc = fitz.open(path)
         text = ""
@@ -56,7 +56,7 @@ class ResearchDoc(BaseModel):
         return doc, text
 
     @classmethod
-    def load_si(cls, path: str) -> Tuple[fitz.fitz.Document, str]:
+    def load_si(cls, path: str) -> Tuple[fitz.Document, str]:
         """Load an SI from a directory, potentially multiple files."""
         doc = fitz.open()
         text = ""

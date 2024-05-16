@@ -938,3 +938,4 @@ notebooks/see_trees/
 _.py
 data/
 wandb*
+*.jpg
