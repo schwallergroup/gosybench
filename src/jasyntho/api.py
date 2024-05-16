@@ -1,60 +1,132 @@
 # -*- coding: utf-8 -*-
 
-"""Main code."""
+"""Synthesis extraction API."""
+
+import asyncio
+import os
+from typing import Optional
+
+import wandb
+import dsp
+from dotenv import load_dotenv
+from pydantic import BaseModel, model_validator
+
+from jasyntho.document import SynthTree
+from jasyntho.metrics import TreeMetrics
+from jasyntho.extract import ExtractReaction
+from jasyntho.utils import set_llm
 
 
-def segment_sample(model):
-    """
-    Main data processing pipeline for USPTO
-    """
+class SynthesisExtract(BaseModel):
+    """Synthesis of a substance."""
 
-    import os
-    import pickle
-    import random
+    inst_model: str = "gpt-4-0613"
+    dspy_model_1: str = "gpt-4-0613"
+    dspy_model_2: str = "gpt-4-0613"
+    llm: Optional[dsp.LM] = None
+    synthex: Optional[BaseModel] = None
 
-    from jasyntho.segment import Segmentor
+    class Config:
+        """Model configuration."""
 
-    with open("DATASET_PARAGRAPH_Q2_Q3.pickle", "rb") as r:
-        DATA = pickle.load(r)
+        arbitrary_types_allowed = True
 
-    # Initialize Segmentor object with chosen model
-    segmenter = Segmentor(model)
+    def __call__(self, file_path: str, logger=None):
+        """Call the appropriate method."""
 
-    # Select name for pickle to store
-    name_db = f"DATABASE_Q2_Q3_{model}.pickle"
-
-    # infinitely process the pipeline
-    while True:
-        # check if the pickle file exists
-        if os.path.isfile(name_db):
-            with open(name_db, "rb") as f:
-                DATABASE = pickle.load(f)
+        if self.inst_model.startswith("gpt"):
+            print("Using async version")
+            return asyncio.run(self.__async_call__(file_path, logger=logger))
         else:
-            DATABASE = {}
+            print("Using sync version")
+            return self.__sync_call__(file_path, logger=logger)
 
-        if len(DATABASE) % 50 == 0:
-            print(f"DB size: {len(DATABASE)}")
+    def __sync_call__(self, paper_src: str, logger=None):
+        """Return the synthesis (sync version)."""
+        tree = SynthTree.from_dir(paper_src, logger)
+        # tree.select_syntheses()
+        tree.rxn_extract = self.synthex
+        tree.raw_prods = tree.extract_rss()
+        tree = self.after_prod_pipeline(tree)
+        return tree
 
-        # step 1: check if paragraph (p) has been processed and saved into DATABASE;
-        # if not, undergo paragraph segmentation
-        # generate a random number in the range of DATASET_PARAGRAPH_Q2_Q3
-        num = random.randint(0, len(DATA) - 1)
+    async def __async_call__(self, paper_src: str, logger=None):
+        """Return the synthesis (sync version)."""
+        tree = SynthTree.from_dir(paper_src, logger)
+        # tree.select_syntheses()
+        tree.rxn_extract = self.synthex
+        tree.raw_prods = await tree.async_extract_rss()
+        tree = self.after_prod_pipeline(tree)
+        return tree
 
-        parag = DATA[num]
+    def after_prod_pipeline(self, tree: SynthTree):
+        """Run the pipeline after products are extracted."""
 
-        if parag not in DATABASE.keys():
-            segm_parag = segmenter.syn2segment(parag)
+        tree.products = [p for p in tree.raw_prods if not p.isempty()]
 
-            # update the DB
-            DATABASE[parag] = segm_parag
+        reach_sgs = tree.partition()
+        print(f"Number of RSGs: {len([r for r in reach_sgs if len(r) > 1])}")
 
-            # Store the updated DB
-            with open(name_db, "wb") as f:
-                pickle.dump(DATABASE, f)
+        print("Extending full graph...")
+        new_connects = tree.extended_connections()
+        tree.reach_subgraphs = tree.partition(new_connects)
+        print(f"New Number of RSGs: {len(tree.reach_subgraphs)}")
 
-        else:
-            # Stop the program if no more samples possible
-            if len(DATABASE) == len(DATA):
-                break
+        print("Gathering smiles...")
+        set_llm(self.dspy_model_2)
+        tree.gather_smiles()
+        json_format = tree.export()  # gets a json for each disjoint tree
 
-            continue
+        # Store json_format
+        import json
+
+        with open(os.path.join(tree.doc_src, "synth.json"), "w") as f:
+            json.dump(json_format, f)
+
+        return tree
+
+    @model_validator(mode="after")
+    def init_llm_synthex(self):
+        """Set the llm and synthesis extractor."""
+
+        load_dotenv()
+        if self.llm is None:
+            self.llm = set_llm(llm_dspy=self.dspy_model_1)
+        if self.synthex is None:
+            self.synthex = ExtractReaction(model=self.inst_model)
+        return self
+
+def run_single(paper, inst_model, dspy_model_1, dspy_model_2, wandb_pname="jasy-test"):
+
+    # Initialize stuff
+    synthex = SynthesisExtract(
+        inst_model=inst_model,
+        dspy_model_1=dspy_model_1,
+        dspy_model_2=dspy_model_2,
+    )
+    metrics = TreeMetrics()
+
+    # Init before to keep track of time
+    wandb.init(
+        project=wandb_pname,
+        config=dict(
+            paper=paper.strip("/").split("/")[-1],
+            start_model=inst_model,
+            dspy_model_1=dspy_model_1,
+            dspy_model_2=dspy_model_2,
+        ),
+    )
+
+    # Run
+    tree = synthex(paper, logger=wandb.run)
+    m = metrics(tree)
+    wandb.summary.update(m)
+
+    # Upload plot of SI split
+    wandb.log(
+        {
+            "si_split": wandb.Image(os.path.join(paper, "SIsignal.png")),
+            "si_text": wandb.Table(columns=['si_text'], data=[[tree.si]]),
+        }
+    )
+    wandb.finish()

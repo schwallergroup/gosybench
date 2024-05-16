@@ -126,6 +126,7 @@ class Product(SubstanceInReaction):
                 messages=[
                     {"role": "user", "content": prgr},
                 ],
+                max_tokens=config.max_tokens,
                 temperature=config.temperature,
                 max_retries=config.max_retries,
                 timeout=config.timeout,
@@ -153,12 +154,13 @@ class Product(SubstanceInReaction):
                 messages=[
                     {"role": "user", "content": prgr},
                 ],
+                max_tokens=config.max_tokens,
                 temperature=config.temperature,
                 max_retries=config.max_retries,
                 timeout=config.timeout,
             )
             prd = cls.from_substancelist(subs_list)
-        except (openai.APITimeoutError, ValidationError) as e:  # type: ignore
+        except (openai.APITimeoutError, ValidationError, instructor.exceptions.IncompleteOutputException) as e:  # type: ignore
             if isinstance(e, openai.APITimeoutError):  # type: ignore
                 prd = [cls.empty(note=e.message)]
             else:

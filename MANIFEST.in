@@ -15,3 +15,7 @@ global-exclude *.py[cod] __pycache__ *.so *.dylib .DS_Store *.gpickle
 
 include README.md LICENSE
 exclude tox.ini .bumpversion.cfg .readthedocs.yml .cruft.json CITATION.cff docker-compose.yml Dockerfile *.ipynb
+
+include data/benchmarks/products.json
+include data/benchmarks/bad_products.json
+include data/benchmarks/samples_iupac.json
