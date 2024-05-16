@@ -10,6 +10,7 @@ from dotenv import load_dotenv
 from openai import AsyncOpenAI
 from pdf2image import convert_from_path
 from pydantic import BaseModel, Field, model_validator
+from openai import BadRequestError
 
 from jasyntho.document.synthpar import SynthParagraph
 
@@ -96,18 +97,24 @@ class VisionParser(BaseModel):
             },
         ]
 
-        response = await client.chat.completions.create(
-            model=model, messages=messages, max_tokens=4096
-        )
-        cost = self.calc_cost(response)
-        print(f"Finished processing batch. Cost: {cost}")
-        return response.choices[0].message.content
+        try:
+            response = await client.chat.completions.create(
+                model=model, messages=messages, max_tokens=4096
+            )
+            cost = self.calc_cost(response)
+            print(f"Finished processing batch. Cost: {cost}")
+            return response.choices[0].message.content
+        except BadRequestError as e:
+            print(f"Error in processing batch: {e}")
+            return ""
 
     def split_images(self, pdf):
         """Split PDF into a sequence of images."""
         images = convert_from_path(pdf)
         # Store images into .tmp
         os.makedirs(".tmp", exist_ok=True)
+        os.system("rm .tmp/*")  # Clear from previous runs
+
         for i in range(len(images)):
             images[i].save(f".tmp/page{i}.jpg", "JPEG")
         return images
