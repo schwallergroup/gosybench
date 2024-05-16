@@ -273,7 +273,7 @@ class SynthTree(ResearchDoc):
         self, mode: Literal["text", "vision"] = "text"
     ) -> list:
         """Extract reaction setups for each paragraph in the doc."""
-        relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
+        relev_si_src = os.path.join(self.doc_src, "si_0.pdf")
         self.paragraphs = await self._get_paragraphs(relev_si_src, mode=mode)
 
         raw_prodlist = await asyncio.gather(
