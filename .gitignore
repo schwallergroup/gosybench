@@ -939,3 +939,5 @@ _.py
 data/
 wandb*
 *.jpg
+benchmark/papers/*/*pdf
+benchmark/papers/*/*png
