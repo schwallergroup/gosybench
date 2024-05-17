@@ -31,6 +31,15 @@ class TreeMetrics(BaseModel):
         """Calculate properties of the extracted graph."""
 
         G = tree.full_g
+        if len(G.nodes) == 0:
+            return dict(
+                nnodes=0,
+                nedges=0,
+                nproducts=0,
+                nrgs_initial=0,
+                max_node_seq=0,
+                paths_longer_than_5=0,
+            )
 
         print(Fore.LIGHTRED_EX, f"\nNumber of nodes: {len(G.nodes)}")
         print(Fore.LIGHTRED_EX, f"Number of edges: {len(G.edges)}")

@@ -7,10 +7,9 @@ from typing import Literal, Optional
 
 import requests
 from dotenv import load_dotenv
-from openai import AsyncOpenAI
+from openai import AsyncOpenAI, BadRequestError
 from pdf2image import convert_from_path
 from pydantic import BaseModel, Field, model_validator
-from openai import BadRequestError
 
 from jasyntho.document.synthpar import SynthParagraph
 

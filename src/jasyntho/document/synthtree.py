@@ -270,10 +270,13 @@ class SynthTree(ResearchDoc):
         relevant_si.save(relev_si_src)
 
     async def async_extract_rss(
-        self, mode: Literal["text", "vision"] = "text"
+        self, mode: Literal["text", "vision"] = "text", si_select: bool = False
     ) -> list:
         """Extract reaction setups for each paragraph in the doc."""
-        relev_si_src = os.path.join(self.doc_src, "si_0.pdf")
+        if si_select:
+            relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
+        else:
+            relev_si_src = os.path.join(self.doc_src, "si_0.pdf")
         self.paragraphs = await self._get_paragraphs(relev_si_src, mode=mode)
 
         raw_prodlist = await asyncio.gather(
