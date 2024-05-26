@@ -274,6 +274,7 @@ class SynthTree(ResearchDoc):
     ) -> list:
         """Extract reaction setups for each paragraph in the doc."""
         if si_select:
+            self.select_syntheses()
             relev_si_src = os.path.join(self.doc_src, "si_syntheses.pdf")
         else:
             relev_si_src = os.path.join(self.doc_src, "si_0.pdf")
