@@ -1,0 +1,1467 @@
+{
+    "S1": {
+        "smiles": "S1",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "9",
+                        "name": "9",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "3-iodobenzoic acid",
+                        "name": "3-iodobenzoic acid",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "PPh3",
+                        "name": "PPh3",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "DEAD",
+                        "name": "DEAD",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "ZnCl2",
+                        "name": "ZnCl2",
+                        "type": "mol",
+                        "in_stock": false
+                    }
+                ]
+            }
+        ]
+    },
+    "11": {
+        "smiles": "11",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "compound S2",
+                        "name": "compound S2",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "9",
+                                        "name": "9",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "3-iodobenzoic acid",
+                                        "name": "3-iodobenzoic acid",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "PPh3",
+                                        "name": "PPh3",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "DEAD",
+                                        "name": "DEAD",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "ZnCl2",
+                                        "name": "ZnCl2",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "smiles": "TCCA",
+                        "name": "TCCA",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "DIB",
+                        "name": "DIB",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "I2",
+                        "name": "I2",
+                        "type": "mol",
+                        "in_stock": false
+                    }
+                ]
+            }
+        ]
+    },
+    "15a": {
+        "smiles": "15a",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "compound 12",
+                        "name": "compound 12",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "compound S2",
+                                        "name": "compound S2",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "9",
+                                                        "name": "9",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "3-iodobenzoic acid",
+                                                        "name": "3-iodobenzoic acid",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "PPh3",
+                                                        "name": "PPh3",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "DEAD",
+                                                        "name": "DEAD",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "ZnCl2",
+                                                        "name": "ZnCl2",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "smiles": "TCCA",
+                                        "name": "TCCA",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "DIB",
+                                        "name": "DIB",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "I2",
+                                        "name": "I2",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "smiles": "DBU",
+                        "name": "DBU",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "n-C4F9SO2F",
+                        "name": "n-C4F9SO2F",
+                        "type": "mol",
+                        "in_stock": false
+                    }
+                ]
+            }
+        ]
+    },
+    "15b": {
+        "smiles": "15b",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "compound 12",
+                        "name": "compound 12",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "compound S2",
+                                        "name": "compound S2",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "9",
+                                                        "name": "9",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "3-iodobenzoic acid",
+                                                        "name": "3-iodobenzoic acid",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "PPh3",
+                                                        "name": "PPh3",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "DEAD",
+                                                        "name": "DEAD",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "ZnCl2",
+                                                        "name": "ZnCl2",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "smiles": "TCCA",
+                                        "name": "TCCA",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "DIB",
+                                        "name": "DIB",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "I2",
+                                        "name": "I2",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "smiles": "DBU",
+                        "name": "DBU",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "n-C4F9SO2F",
+                        "name": "n-C4F9SO2F",
+                        "type": "mol",
+                        "in_stock": false
+                    }
+                ]
+            }
+        ]
+    },
+    "15c": {
+        "smiles": "15c",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "compound 12",
+                        "name": "compound 12",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "compound S2",
+                                        "name": "compound S2",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "9",
+                                                        "name": "9",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "3-iodobenzoic acid",
+                                                        "name": "3-iodobenzoic acid",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "PPh3",
+                                                        "name": "PPh3",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "DEAD",
+                                                        "name": "DEAD",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "ZnCl2",
+                                                        "name": "ZnCl2",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "smiles": "TCCA",
+                                        "name": "TCCA",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "DIB",
+                                        "name": "DIB",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "I2",
+                                        "name": "I2",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "smiles": "DBU",
+                        "name": "DBU",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "n-C4F9SO2F",
+                        "name": "n-C4F9SO2F",
+                        "type": "mol",
+                        "in_stock": false
+                    }
+                ]
+            }
+        ]
+    },
+    "S4": {
+        "smiles": "S4",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "Compound 16",
+                        "name": "Compound 16",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "compound 12",
+                                        "name": "compound 12",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "compound S2",
+                                                        "name": "compound S2",
+                                                        "type": "mol",
+                                                        "in_stock": false,
+                                                        "children": [
+                                                            {
+                                                                "smiles": "",
+                                                                "type": "reaction",
+                                                                "children": [
+                                                                    {
+                                                                        "smiles": "9",
+                                                                        "name": "9",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "3-iodobenzoic acid",
+                                                                        "name": "3-iodobenzoic acid",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "PPh3",
+                                                                        "name": "PPh3",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "DEAD",
+                                                                        "name": "DEAD",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "ZnCl2",
+                                                                        "name": "ZnCl2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "smiles": "TCCA",
+                                                        "name": "TCCA",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "DIB",
+                                                        "name": "DIB",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "I2",
+                                                        "name": "I2",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "smiles": "DMAP",
+                                        "name": "DMAP",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "Et3N",
+                                        "name": "Et3N",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "MsCl",
+                                        "name": "MsCl",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "S6": {
+        "smiles": "S6",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "Compound 16",
+                        "name": "Compound 16",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "compound 12",
+                                        "name": "compound 12",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "compound S2",
+                                                        "name": "compound S2",
+                                                        "type": "mol",
+                                                        "in_stock": false,
+                                                        "children": [
+                                                            {
+                                                                "smiles": "",
+                                                                "type": "reaction",
+                                                                "children": [
+                                                                    {
+                                                                        "smiles": "9",
+                                                                        "name": "9",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "3-iodobenzoic acid",
+                                                                        "name": "3-iodobenzoic acid",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "PPh3",
+                                                                        "name": "PPh3",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "DEAD",
+                                                                        "name": "DEAD",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "ZnCl2",
+                                                                        "name": "ZnCl2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "smiles": "TCCA",
+                                                        "name": "TCCA",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "DIB",
+                                                        "name": "DIB",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "I2",
+                                                        "name": "I2",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "smiles": "DMAP",
+                                        "name": "DMAP",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "Et3N",
+                                        "name": "Et3N",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "MsCl",
+                                        "name": "MsCl",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "21": {
+        "smiles": "21",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "Compound 16",
+                        "name": "Compound 16",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "compound 12",
+                                        "name": "compound 12",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "compound S2",
+                                                        "name": "compound S2",
+                                                        "type": "mol",
+                                                        "in_stock": false,
+                                                        "children": [
+                                                            {
+                                                                "smiles": "",
+                                                                "type": "reaction",
+                                                                "children": [
+                                                                    {
+                                                                        "smiles": "9",
+                                                                        "name": "9",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "3-iodobenzoic acid",
+                                                                        "name": "3-iodobenzoic acid",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "PPh3",
+                                                                        "name": "PPh3",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "DEAD",
+                                                                        "name": "DEAD",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "ZnCl2",
+                                                                        "name": "ZnCl2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "smiles": "TCCA",
+                                                        "name": "TCCA",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "DIB",
+                                                        "name": "DIB",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "I2",
+                                                        "name": "I2",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "smiles": "DMAP",
+                                        "name": "DMAP",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "Et3N",
+                                        "name": "Et3N",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "MsCl",
+                                        "name": "MsCl",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "23": {
+        "smiles": "23",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "Compound 16",
+                        "name": "Compound 16",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "compound 12",
+                                        "name": "compound 12",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "compound S2",
+                                                        "name": "compound S2",
+                                                        "type": "mol",
+                                                        "in_stock": false,
+                                                        "children": [
+                                                            {
+                                                                "smiles": "",
+                                                                "type": "reaction",
+                                                                "children": [
+                                                                    {
+                                                                        "smiles": "9",
+                                                                        "name": "9",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "3-iodobenzoic acid",
+                                                                        "name": "3-iodobenzoic acid",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "PPh3",
+                                                                        "name": "PPh3",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "DEAD",
+                                                                        "name": "DEAD",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "ZnCl2",
+                                                                        "name": "ZnCl2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "smiles": "TCCA",
+                                                        "name": "TCCA",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "DIB",
+                                                        "name": "DIB",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "I2",
+                                                        "name": "I2",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "smiles": "DMAP",
+                                        "name": "DMAP",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "Et3N",
+                                        "name": "Et3N",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "MsCl",
+                                        "name": "MsCl",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "S7": {
+        "smiles": "S7",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "Compound 16",
+                        "name": "Compound 16",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "compound 12",
+                                        "name": "compound 12",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "compound S2",
+                                                        "name": "compound S2",
+                                                        "type": "mol",
+                                                        "in_stock": false,
+                                                        "children": [
+                                                            {
+                                                                "smiles": "",
+                                                                "type": "reaction",
+                                                                "children": [
+                                                                    {
+                                                                        "smiles": "9",
+                                                                        "name": "9",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "3-iodobenzoic acid",
+                                                                        "name": "3-iodobenzoic acid",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "PPh3",
+                                                                        "name": "PPh3",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "DEAD",
+                                                                        "name": "DEAD",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "ZnCl2",
+                                                                        "name": "ZnCl2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "smiles": "TCCA",
+                                                        "name": "TCCA",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "DIB",
+                                                        "name": "DIB",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "I2",
+                                                        "name": "I2",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "smiles": "DMAP",
+                                        "name": "DMAP",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "Et3N",
+                                        "name": "Et3N",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "MsCl",
+                                        "name": "MsCl",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "28": {
+        "smiles": "28",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "Compound 16",
+                        "name": "Compound 16",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "compound 12",
+                                        "name": "compound 12",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "compound S2",
+                                                        "name": "compound S2",
+                                                        "type": "mol",
+                                                        "in_stock": false,
+                                                        "children": [
+                                                            {
+                                                                "smiles": "",
+                                                                "type": "reaction",
+                                                                "children": [
+                                                                    {
+                                                                        "smiles": "9",
+                                                                        "name": "9",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "3-iodobenzoic acid",
+                                                                        "name": "3-iodobenzoic acid",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "PPh3",
+                                                                        "name": "PPh3",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "DEAD",
+                                                                        "name": "DEAD",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "ZnCl2",
+                                                                        "name": "ZnCl2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "smiles": "TCCA",
+                                                        "name": "TCCA",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "DIB",
+                                                        "name": "DIB",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "I2",
+                                                        "name": "I2",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    },
+                                    {
+                                        "smiles": "DMAP",
+                                        "name": "DMAP",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "Et3N",
+                                        "name": "Et3N",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    },
+                                    {
+                                        "smiles": "MsCl",
+                                        "name": "MsCl",
+                                        "type": "mol",
+                                        "in_stock": false
+                                    }
+                                ]
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    "31": {
+        "smiles": "31",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "Compound 30",
+                        "name": "Compound 30",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "Compound 16",
+                                        "name": "Compound 16",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "compound 12",
+                                                        "name": "compound 12",
+                                                        "type": "mol",
+                                                        "in_stock": false,
+                                                        "children": [
+                                                            {
+                                                                "smiles": "",
+                                                                "type": "reaction",
+                                                                "children": [
+                                                                    {
+                                                                        "smiles": "compound S2",
+                                                                        "name": "compound S2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false,
+                                                                        "children": [
+                                                                            {
+                                                                                "smiles": "",
+                                                                                "type": "reaction",
+                                                                                "children": [
+                                                                                    {
+                                                                                        "smiles": "9",
+                                                                                        "name": "9",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    },
+                                                                                    {
+                                                                                        "smiles": "3-iodobenzoic acid",
+                                                                                        "name": "3-iodobenzoic acid",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    },
+                                                                                    {
+                                                                                        "smiles": "PPh3",
+                                                                                        "name": "PPh3",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    },
+                                                                                    {
+                                                                                        "smiles": "DEAD",
+                                                                                        "name": "DEAD",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    },
+                                                                                    {
+                                                                                        "smiles": "ZnCl2",
+                                                                                        "name": "ZnCl2",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "smiles": "TCCA",
+                                                                        "name": "TCCA",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "DIB",
+                                                                        "name": "DIB",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "I2",
+                                                                        "name": "I2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "smiles": "DMAP",
+                                                        "name": "DMAP",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "Et3N",
+                                                        "name": "Et3N",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "MsCl",
+                                                        "name": "MsCl",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "smiles": "PTSA",
+                        "name": "PTSA",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "AD-mix-\u03b1",
+                        "name": "AD-mix-\u03b1",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "MeSO2NH2",
+                        "name": "MeSO2NH2",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "K2OsO4\u00b72H2O",
+                        "name": "K2OsO4\u00b72H2O",
+                        "type": "mol",
+                        "in_stock": false
+                    }
+                ]
+            }
+        ]
+    },
+    "1": {
+        "smiles": "1",
+        "type": "mol",
+        "in_stock": false,
+        "children": [
+            {
+                "smiles": "",
+                "type": "reaction",
+                "children": [
+                    {
+                        "smiles": "Compound 30",
+                        "name": "Compound 30",
+                        "type": "mol",
+                        "in_stock": false,
+                        "children": [
+                            {
+                                "smiles": "",
+                                "type": "reaction",
+                                "children": [
+                                    {
+                                        "smiles": "Compound 16",
+                                        "name": "Compound 16",
+                                        "type": "mol",
+                                        "in_stock": false,
+                                        "children": [
+                                            {
+                                                "smiles": "",
+                                                "type": "reaction",
+                                                "children": [
+                                                    {
+                                                        "smiles": "compound 12",
+                                                        "name": "compound 12",
+                                                        "type": "mol",
+                                                        "in_stock": false,
+                                                        "children": [
+                                                            {
+                                                                "smiles": "",
+                                                                "type": "reaction",
+                                                                "children": [
+                                                                    {
+                                                                        "smiles": "compound S2",
+                                                                        "name": "compound S2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false,
+                                                                        "children": [
+                                                                            {
+                                                                                "smiles": "",
+                                                                                "type": "reaction",
+                                                                                "children": [
+                                                                                    {
+                                                                                        "smiles": "9",
+                                                                                        "name": "9",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    },
+                                                                                    {
+                                                                                        "smiles": "3-iodobenzoic acid",
+                                                                                        "name": "3-iodobenzoic acid",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    },
+                                                                                    {
+                                                                                        "smiles": "PPh3",
+                                                                                        "name": "PPh3",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    },
+                                                                                    {
+                                                                                        "smiles": "DEAD",
+                                                                                        "name": "DEAD",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    },
+                                                                                    {
+                                                                                        "smiles": "ZnCl2",
+                                                                                        "name": "ZnCl2",
+                                                                                        "type": "mol",
+                                                                                        "in_stock": false
+                                                                                    }
+                                                                                ]
+                                                                            }
+                                                                        ]
+                                                                    },
+                                                                    {
+                                                                        "smiles": "TCCA",
+                                                                        "name": "TCCA",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "DIB",
+                                                                        "name": "DIB",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    },
+                                                                    {
+                                                                        "smiles": "I2",
+                                                                        "name": "I2",
+                                                                        "type": "mol",
+                                                                        "in_stock": false
+                                                                    }
+                                                                ]
+                                                            }
+                                                        ]
+                                                    },
+                                                    {
+                                                        "smiles": "DMAP",
+                                                        "name": "DMAP",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "Et3N",
+                                                        "name": "Et3N",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    },
+                                                    {
+                                                        "smiles": "MsCl",
+                                                        "name": "MsCl",
+                                                        "type": "mol",
+                                                        "in_stock": false
+                                                    }
+                                                ]
+                                            }
+                                        ]
+                                    }
+                                ]
+                            }
+                        ]
+                    },
+                    {
+                        "smiles": "PTSA",
+                        "name": "PTSA",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "AD-mix-\u03b1",
+                        "name": "AD-mix-\u03b1",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "MeSO2NH2",
+                        "name": "MeSO2NH2",
+                        "type": "mol",
+                        "in_stock": false
+                    },
+                    {
+                        "smiles": "K2OsO4\u00b72H2O",
+                        "name": "K2OsO4\u00b72H2O",
+                        "type": "mol",
+                        "in_stock": false
+                    }
+                ]
+            }
+        ]
+    }
+}
