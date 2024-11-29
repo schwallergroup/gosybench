@@ -941,3 +941,7 @@ wandb*
 *.jpg
 benchmark/papers/*/*pdf
 benchmark/papers/*/*png
+*.svg
+*.png
+.vscode/
+*.tar.gz

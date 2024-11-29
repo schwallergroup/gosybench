@@ -11,7 +11,11 @@ from jasyntho.metrics import TreeMetrics
 def run(inst_model, dspy_model_1, dspy_model_2, paper):
 
     # Initialize stuff
-    synthex = SynthesisExtract(inst_model=inst_model, dspy_model_1=dspy_model_1, dspy_model_2=dspy_model_2)
+    synthex = SynthesisExtract(
+        inst_model=inst_model,
+        dspy_model_1=dspy_model_1,
+        dspy_model_2=dspy_model_2,
+    )
     metrics = TreeMetrics()
 
     # Init before to keep track of time
@@ -69,7 +73,12 @@ def main(llm1, llm2, llm3, dir_):
         plink = os.path.join(dir_, p)
         print(plink)
         try:
-            run(inst_model=llm1, dspy_model_1=llm2, dspy_model_2=llm3, paper=plink)
+            run(
+                inst_model=llm1,
+                dspy_model_1=llm2,
+                dspy_model_2=llm3,
+                paper=plink,
+            )
             print(f"Succesfully ran {plink}")
         except:
             continue

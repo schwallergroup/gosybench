@@ -39,7 +39,6 @@ async def extractg(
         tree.full_g = tree.get_full_graph(tree.products)
         tree.reach_subgraphs = tree.get_reach_subgraphs(tree.full_g)
 
-
         if model == "gpt-3.5-turbo":
             k = "gpt35"
         elif model == "gpt-4-turbo":
@@ -70,6 +69,7 @@ async def extractg(
     wandb.finish()
 
     # return tree.full_g
+
 
 async def main(path):
     for method in ["vision", "text"]:
@@ -108,7 +108,7 @@ if __name__ == "__main__":
         "jacs.1c01356",
         "jacs.1c00293",
         "jacs.3c01991",
-        "jacs.3c07019",  # left to finish
+        "jacs.3c07019",
         "jacs.8b00148",
         "jacs.7b13260",
         "jacs.7b09929",

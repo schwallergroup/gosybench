@@ -20,9 +20,15 @@ class TreeMetrics(BaseModel):
         max_source = self.max_seq_smiles(tree)
 
         # Save json
-        tjson = tree.export()
-        with open(os.path.join(directory, "tree.json"), "w") as f:
-            json.dump(tjson, f, indent=4)
+        try:
+            tjson = tree.export()
+            with open(os.path.join(directory, "tree.json"), "w") as f:
+                json.dump(tjson, f, indent=4)
+        except:
+            print(
+                Fore.LIGHTRED_EX,
+                "Error saving tree json. Max recursion depth exceeded.",
+            )
 
         # self.draw_tree(tree, max_source["source_max_len"], directory)
         return dict(**gd, **rxns, **max_source)
@@ -61,21 +67,29 @@ class TreeMetrics(BaseModel):
         max_in_degree = max([G.in_degree(n) for n in G.nodes])
 
         # Longest sequence of nodes
-        max_node_seq = max(
-            [
-                nx.dag_longest_path_length(p)
-                for p in tree.reach_subgraphs.values()
-            ]
-        )
-        print(
-            Fore.LIGHTCYAN_EX, f"Longest sequence of nodes: {max_node_seq}\n"
-        )
+        try:
+            max_node_seq = max(
+                [
+                    nx.dag_longest_path_length(p)
+                    for p in tree.reach_subgraphs.values()
+                ]
+            )
+            print(
+                Fore.LIGHTCYAN_EX,
+                f"Longest sequence of nodes: {max_node_seq}\n",
+            )
+        except:
+            max_node_seq = "--"
+            print(Fore.LIGHTCYAN_EX, "Error calculating longest sequence.")
 
         # Count how many sequences are longer than 5
         count_5 = 0
         for k, v in tree.reach_subgraphs.items():
-            if nx.dag_longest_path_length(v) > 5:
-                count_5 += 1
+            try:
+                if nx.dag_longest_path_length(v) > 5:
+                    count_5 += 1
+            except:
+                pass
 
         return dict(
             nnodes=len(G.nodes),
