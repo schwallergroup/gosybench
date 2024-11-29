@@ -6,7 +6,7 @@ import pytest
 from dotenv import load_dotenv
 
 from jasyntho import SynthTree
-from jasyntho.extract import Extractor
+from jasyntho.extract import ExtractReaction
 
 load_dotenv()
 
@@ -15,7 +15,7 @@ load_dotenv()
 @pytest.fixture()
 def ex_tree():
     """Initialize document."""
-    rxn_extract = Extractor("rxn_setup", model="gpt-4-1106-preview")
+    rxn_extract = ExtractReaction(model="gpt-4-1106-preview")
 
     doc = SynthTree.from_dir(
         "tests/examples",
