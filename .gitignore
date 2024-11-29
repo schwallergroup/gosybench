@@ -291,7 +291,6 @@ Temporary Items
 # https://plugins.jetbrains.com/plugin/12206-codestream
 
 ### Python ###
->>>>>>> c2eae3a7ecd141bdb4574505d010e1b310843909
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -304,10 +303,7 @@ __pycache__/
 .Python
 build/
 develop-eggs/
-<<<<<<< HEAD
 dist/
-=======
->>>>>>> c2eae3a7ecd141bdb4574505d010e1b310843909
 downloads/
 eggs/
 .eggs/
@@ -317,10 +313,7 @@ parts/
 sdist/
 var/
 wheels/
-<<<<<<< HEAD
 pip-wheel-metadata/
-=======
->>>>>>> c2eae3a7ecd141bdb4574505d010e1b310843909
 share/python-wheels/
 *.egg-info/
 .installed.cfg
@@ -350,10 +343,7 @@ coverage.xml
 *.py,cover
 .hypothesis/
 .pytest_cache/
-<<<<<<< HEAD
-=======
 cover/
->>>>>>> c2eae3a7ecd141bdb4574505d010e1b310843909
 
 # Translations
 *.mo
@@ -374,21 +364,6 @@ instance/
 
 # Sphinx documentation
 docs/_build/
-<<<<<<< HEAD
-
-# PyBuilder
-target/
-
-# Jupyter Notebook
-.ipynb_checkpoints
-
-# IPython
-profile_default/
-ipython_config.py
-
-# pyenv
-.python-version
-=======
 docs/build
 docs/source/api
 
@@ -404,7 +379,6 @@ target/
 #   For a library or package, you might want to ignore these files since the code is
 #   intended to run in multiple environments; otherwise, check them in:
 # .python-version
->>>>>>> c2eae3a7ecd141bdb4574505d010e1b310843909
 
 # pipenv
 #   According to pypa/pipenv#598, it is recommended to include Pipfile.lock in version control.
@@ -413,8 +387,6 @@ target/
 #   install all needed dependencies.
 #Pipfile.lock
 
-<<<<<<< HEAD
-=======
 # poetry
 #   Similar to Pipfile.lock, it is generally recommended to include poetry.lock in version control.
 #   This is especially recommended for binary packages to ensure reproducibility, and is more
@@ -422,7 +394,6 @@ target/
 #   https://python-poetry.org/docs/basic-usage/#commit-your-poetrylock-file-to-version-control
 #poetry.lock
 
->>>>>>> c2eae3a7ecd141bdb4574505d010e1b310843909
 # PEP 582; used by e.g. github.com/David-OConnor/pyflow
 __pypackages__/
 
@@ -459,10 +430,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
-<<<<<<< HEAD
 **/models/*.txt
 local/
-=======
 
 # pytype static type analyzer
 .pytype/
@@ -938,3 +907,10 @@ notebooks/see_trees/
 _.py
 data/
 wandb*
+*.jpg
+benchmark/papers/*/*pdf
+benchmark/papers/*/*png
+*.svg
+*.png
+.vscode/
+*.tar.gz

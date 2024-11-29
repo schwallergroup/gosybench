@@ -1,13 +1,13 @@
 """Data extractors for segments of chemical synthesis paragraphs."""
 
 import os
-from typing import Any, Optional, List
-from pydantic import BaseModel, model_validator
+from typing import Any, List, Optional
 
 import instructor  # type: ignore
 from anthropic import Anthropic, AsyncAnthropic  # type: ignore
 from dotenv import load_dotenv
 from openai import AsyncOpenAI, OpenAI  # type: ignore
+from pydantic import BaseModel, model_validator
 
 from .substances import Product
 
@@ -21,7 +21,7 @@ class ExtractReaction(BaseModel):
         """Execute the extraction pipeline for a single paragraph."""
         product = Product.from_paragraph(text, self.client, self.llm)
         return product
-    
+
     async def async_call(self, text: str) -> List[Product]:
         """Execute the extraction pipeline for a paragraph asynchronously."""
         product = await Product.async_from_paragraph(

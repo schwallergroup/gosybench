@@ -14,8 +14,13 @@ recursive-include docs/source *.png
 global-exclude *.py[cod] __pycache__ *.so *.dylib .DS_Store *.gpickle
 
 include README.md LICENSE
-exclude tox.ini .bumpversion.cfg .readthedocs.yml .cruft.json CITATION.cff docker-compose.yml Dockerfile *.ipynb
+exclude tox.ini .bumpversion.cfg .readthedocs.yml .cruft.json CITATION.cff docker-compose.yml Dockerfile *.ipynb *jpg
 
 include data/benchmarks/products.json
 include data/benchmarks/bad_products.json
 include data/benchmarks/samples_iupac.json
+
+recursive-include benchmark *.txt
+recursive-include benchmark *.pickle
+recursive-exclude src *ipynb
+recursive-exclude src *jpg
