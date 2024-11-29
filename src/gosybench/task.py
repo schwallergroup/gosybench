@@ -6,6 +6,8 @@ import networkx as nx
 from pydantic import BaseModel
 import os
 import pickle
+from typing import Callable
+import logging
 
 
 class Task(BaseModel):
@@ -17,6 +19,7 @@ class Task(BaseModel):
     model: str = "Default Model"
     metric: str = "Default Metric"
     score: Optional[float] = None
+    path: str
     graph: nx.DiGraph
 
     class Config:
@@ -38,8 +41,21 @@ class Task(BaseModel):
         """Load a task from a directory."""
         with open(os.path.join(path, "gt_graph.pickle"), "rb") as f:
             data = pickle.load(f)
-        return cls(graph=data)
-    
+            logging.info(f"Loaded task from {path}")
+        return cls(graph=data, path=path, name=os.path.basename(path))
+
+    def run(self, f: Callable):
+        """Run the task.
+        f: function to run on the task.
+            takes as input the path to the task, returns a SynTree.
+        """
+        results = f(self.path)
+
+        # TODO: Run evaluation metrics on this
+
+        return results
+
+
 
 def _load_default_tasks() -> List[Task]:
     """Load the default tasks for GOSyBench."""
