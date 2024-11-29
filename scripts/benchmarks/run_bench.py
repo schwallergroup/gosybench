@@ -8,28 +8,28 @@ import click
 
 import wandb
 from jasyntho.api import SynthesisExtract
-from jasyntho.extract import ExtractReaction
+from jasyntho.extract import Extractor
 from jasyntho.metrics import TreeMetrics
 from jasyntho.utils import RetrieveName, set_llm
 
 llm_list = [
-    # "gpt-3.5-turbo",
-    # "gpt-4-turbo",
-    # "gpt-4-0613",
+    "gpt-3.5-turbo",
+    "gpt-4-turbo",
+    "gpt-4-0613",
     "claude-3-haiku-20240307",
-    # "claude-3-sonnet-20240229",
-    # "claude-3-opus-20240229",
+    "claude-3-sonnet-20240229",
+    "claude-3-opus-20240229",
     "mistral-small-latest",
-    # "mistral-large-latest",
+    "mistral-large-latest",
     "mistral-medium-latest",
     "open-mixtral-8x7b",
-    # "open-mixtral-8x22b",
+    "open-mixtral-8x22b",
 ]
 
 
 def run_products(inst_model):
     pdata = json.load(open("data/benchmarks/products.json", "r"))
-    synthex = ExtractReaction(model=inst_model)
+    synthex = Extractor("rxn_setup", model=inst_model)
 
     def check_reacts(gold, pred):
         """Check if the list of reactants is the same."""
@@ -130,7 +130,7 @@ def run_products(inst_model):
 
 def run_badprods(inst_model):
     pdata = list(open("data/benchmarks/bad_products.json", "r").readlines())
-    synthex = ExtractReaction(model=inst_model)
+    synthex = Extractor("rxn_setup", model=inst_model)
 
     # Basically we want to check that extracted products are empty
 

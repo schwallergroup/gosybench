@@ -6,14 +6,14 @@ import asyncio
 import os
 from typing import Optional
 
+import wandb
 import dsp
 from dotenv import load_dotenv
 from pydantic import BaseModel, model_validator
 
-import wandb
 from jasyntho.document import SynthTree
-from jasyntho.extract import ExtractReaction
 from jasyntho.metrics import TreeMetrics
+from jasyntho.extract import ExtractReaction
 from jasyntho.utils import set_llm
 
 
@@ -96,10 +96,7 @@ class SynthesisExtract(BaseModel):
             self.synthex = ExtractReaction(model=self.inst_model)
         return self
 
-
-def run_single(
-    paper, inst_model, dspy_model_1, dspy_model_2, wandb_pname="jasy-test"
-):
+def run_single(paper, inst_model, dspy_model_1, dspy_model_2, wandb_pname="jasy-test"):
 
     # Initialize stuff
     synthex = SynthesisExtract(
@@ -129,7 +126,7 @@ def run_single(
     wandb.log(
         {
             "si_split": wandb.Image(os.path.join(paper, "SIsignal.png")),
-            "si_text": wandb.Table(columns=["si_text"], data=[[tree.si]]),
+            "si_text": wandb.Table(columns=['si_text'], data=[[tree.si]]),
         }
     )
     wandb.finish()
