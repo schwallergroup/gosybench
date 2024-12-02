@@ -1,134 +1,135 @@
 """Metrics for quality of extraction."""
 
+import networkx as nx
+from pydantic import BaseModel
 
 
-# Similar thing, but with pruned trees paths (test only backbone)
+class GraphEval(BaseModel):
+    def __call__(self, gt, og):
+        """Evaluate the extraction."""
+        loc = self.compare_porder(gt, og)
+        pat = self.compare_path_exact(gt, og)
+        prun = self.compare_path_exact_pruned(gt, og)
+
+        return dict(
+            path_sim_in=pat[0],
+            path_sim_out=pat[1],
+            local_sim_in=loc[0],
+            local_sim_out=loc[1],
+            ploc_sim_in=prun[0],
+            ploc_sim_out=prun[1],
+        )
+
+    def compare_porder(self, gt, G):
+        c0 = self._compare_porder_0(gt, G)
+        c1 = self._compare_porder_0(G, gt)
+        return c0, c1
+
+    def compare_path_exact(self, gt, G):
+        c0 = self._compare_path_exact_0(gt, G)
+        c1 = self._compare_path_exact_0(G, gt)
+        return c0, c1
+
+    def compare_path_exact_pruned(self, gt, G):
+        pG = self._prune(G)
+        pgtG = self._prune(gt)
+
+        c0 = self._compare_path_exact_0(pgtG, pG)
+        c1 = self._compare_path_exact_0(pG, pgtG)
+        return c0, c1
+
+    def _compare_path_exact_0(self, G, gt_G):
+        """How many paths in G are also in gt_G"""
+        quant = []
+        subgraphs = self._get_paths(G)
+        for path in subgraphs:
+            if len(path) > 1:
+                sg = G.subgraph(path)
+                v = self._subgraph_in_gt_exact(sg, gt_G)
+                quant.append(v)
+        return (sum(quant) + 1) / (len(quant) + 1)
+
+    @staticmethod
+    def _subgraph_in_gt_exact(subgraph, gt_G):
+        """Check if the subgraph is present in the host graph."""
+        subg_gt = gt_G.subgraph(subgraph.nodes)
+        if len(subg_gt) == len(subgraph):
+            return True
+        return False
+
+    @staticmethod
+    def _prune(G):
+        """Drop all nodes with outdeg==0."""
+        pruned = G.copy()
+        for node in G.nodes:
+            if G.out_degree(node) == 0:
+                pruned.remove_node(node)
+        return pruned
+
+    @staticmethod
+    def _get_paths(G):
+        paths = []
+        for n0 in G.nodes:
+            for n1 in G.nodes:
+                if n0 != n1:
+                    if nx.has_path(G, n0, n1):
+                        ps = nx.all_simple_paths(G, source=n0, target=n1)
+                        paths += list(ps)
+        return paths
+
+    def _compare_porder_0(self, G, gt_G):
+        quant = []
+        subgraphs = self._get_paths(G)
+        for path in subgraphs:
+            if len(path) > 2:
+                sg = POSet(path=G.subgraph(path))
+                gt_sg = POSet(path=gt_G.subgraph(path))
+                quant.append(sg.iso(gt_sg))
+
+        return (sum(quant) + 1) / (len(quant) + 1)
 
 
-def get_paths(G):
-    paths = []
-    for n0 in G.nodes:
-        for n1 in G.nodes:
-            if n0 != n1:
-                if nx.has_path(G, n0, n1):
-                    ps = nx.all_simple_paths(G, source=n0, target=n1)
-                    paths += list(ps)
-    return paths
+class POSet(BaseModel):
+    path: nx.DiGraph
+
+    class Config:
+        arbitrary_types_allowed = True
+
+    def gt(self, a, b):
+        """Check if a is greater than b."""
+        return nx.has_path(self.path, a, b)
+
+    def iso(self, _poset):
+        """Check if this poset contains _poset."""
+        # If nodes in _poset not contained in self
+        if set(self.path.nodes).intersection(_poset.path.nodes) != set(
+            _poset.path.nodes
+        ):
+            return False
+
+        # Else, check that the gt relation is preserved for each edge in _poset
+        for i in _poset.path.nodes:
+            for j in _poset.path.nodes:
+                if i != j:
+                    if not self.gt(i, j) == _poset.gt(i, j):
+                        return False
+        return True
 
 
-def prune(G):
-    """Drop all nodes with outdeg==0."""
-    pruned = G.copy()
-    for node in G.nodes:
-        if G.out_degree(node) == 0:
-            pruned.remove_node(node)
-    return pruned
+if __name__ == "__main__":
+    gt = nx.DiGraph()
+    gt.add_edge(0, 1)
+    gt.add_edge(1, 2)
+    gt.add_edge(2, 3)
+    gt.add_edge(3, 4)
+    gt.add_edge(4, 5)
 
+    og = nx.DiGraph()
+    og.add_edge(0, 1)
+    og.add_edge(1, 2)
+    og.add_edge(2, 3)
+    og.add_edge(3, 4)
+    og.add_edge(4, 5)
 
-def compare_path_exact_0(G, gt_G):
-    """How many paths in pruned-G are also in pruned-gt_G"""
-    quant = []
-    subgraphs = get_paths(G)
-    for path in subgraphs:
-        if len(path) > 1:
-            sg = G.subgraph(path)
-            v = subgraph_in_gt_exact(sg, gt_G)
-            quant.append(v)
-
-    return (sum(quant) + 1) / (len(quant) + 1)
-
-
-def compare_path_exact_pruned(gt_G, G):
-    pG = prune(G)
-    pgt_G = prune(gt_G)
-
-    # gt_G in G
-    c0 = compare_path_exact_0(pgt_G, pG)
-    # G in gt_G
-    c1 = compare_path_exact_0(pG, pgt_G)
-    return c0, c1
-
-
-# Similar thing, but with paths (testing more long-range structure)
-
-
-def get_paths(G):
-    paths = []
-    for n0 in G.nodes:
-        for n1 in G.nodes:
-            if n0 != n1:
-                if nx.has_path(G, n0, n1):
-                    ps = nx.all_simple_paths(G, source=n0, target=n1)
-                    paths += list(ps)
-    return paths
-
-
-def compare_path_exact_0(G, gt_G):
-    """How many paths in G are also in gt_G"""
-    quant = []
-    subgraphs = get_paths(G)
-    for path in subgraphs:
-        if len(path) > 1:
-            sg = G.subgraph(path)
-            v = subgraph_in_gt_exact(sg, gt_G)
-            quant.append(v)
-    return (sum(quant) + 1) / (len(quant) + 1)
-
-
-def compare_path_exact(gt_G, G):
-    # gt_G in G
-    c0 = compare_path_exact_0(gt_G, G)
-    # G in gt_G
-    c1 = compare_path_exact_0(G, gt_G)
-    return c0, c1
-
-
-
-def compare_porder_0(G, gt_G):
-    quant = []
-    subgraphs = get_paths(G)
-    for path in subgraphs:
-        if len(path) > 2:
-            sg = POSet(path=G.subgraph(path))
-            gt_sg = POSet(path=gt_G.subgraph(path))
-            quant.append(sg.iso(gt_sg))
-
-    return (sum(quant) + 1) / (len(quant) + 1)
-
-
-def compare_porder(gt_G, G):
-    c0 = compare_porder_0(gt_G, G)
-    c1 = compare_porder_0(G, gt_G)
-    return c0, c1
-
-
-# loc = compare_porder(gt, og)
-# pat = compare_path_exact(gt, og)
-# prun = compare_path_exact_pruned(gt, og)
-
-
-#     df.append(
-#         {
-#             "paper": paper,
-#             "model": model,
-#             "method": method,
-#             "si_select": si_select,
-#             "path_sim_in": pat[0],
-#             "path_sim_out": pat[1],
-#             "local_sim_in": loc[0],
-#             "local_sim_out": loc[1],
-#             "ploc_sim_in": prun[0],
-#             "ploc_sim_out": prun[1],
-#         }
-#     )
-
-
-# for m in [
-#     "local_sim_in",
-#     "local_sim_out",
-#     "path_sim_in",
-#     "path_sim_out",
-#     "ploc_sim_in",
-#     "ploc_sim_out",
-# ]:
-#     make_plot(m)
+    ge = GraphEval()
+    print(ge(gt, og))
