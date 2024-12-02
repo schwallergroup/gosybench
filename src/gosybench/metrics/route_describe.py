@@ -8,8 +8,11 @@ import networkx as nx
 from colorama import Fore
 from pydantic import BaseModel
 
-from jasyntho import SynthTree
+from gosybench.logger import setup_logger
+from gosybench.basetypes import STree
 
+
+logger = setup_logger(__package__)
 
 class TreeMetrics(BaseModel):
 
@@ -19,24 +22,19 @@ class TreeMetrics(BaseModel):
         rxns = self.total_reactions(tree)
         max_source = self.max_seq_smiles(tree)
 
-        # Save json
-        try:
-            tjson = tree.export()
-            with open(os.path.join(directory, "tree.json"), "w") as f:
-                json.dump(tjson, f, indent=4)
-        except:
-            print(
-                Fore.LIGHTRED_EX,
-                "Error saving tree json. Max recursion depth exceeded.",
-            )
+        tjson = tree.export()
+        with open(os.path.join(directory, "tree.json"), "w") as f:
+            json.dump(tjson, f, indent=4)
 
         # self.draw_tree(tree, max_source["source_max_len"], directory)
         return dict(**gd, **rxns, **max_source)
 
-    def graph_describe(self, tree: SynthTree):
+    def graph_describe(self, tree: STree):
         """Calculate properties of the extracted graph."""
 
-        G = tree.full_g
+        logger.info("Calculating graph properties.")
+
+        G = tree.graph
         if len(G.nodes) == 0:
             return dict(
                 nnodes=0,
@@ -47,21 +45,19 @@ class TreeMetrics(BaseModel):
                 paths_longer_than_5=0,
             )
 
-        print(Fore.LIGHTRED_EX, f"\nNumber of nodes: {len(G.nodes)}")
-        print(Fore.LIGHTRED_EX, f"Number of edges: {len(G.edges)}")
-        print(Fore.LIGHTRED_EX, f"Number of products: {len(tree.products)}")
+        logger.debug(f"Number of nodes: {len(G.nodes)}")
+        logger.debug(f"Number of edges: {len(G.edges)}")
+        logger.debug(f"Number of products: {len(tree.products)}")
 
-        nrgs = len([r for r in tree.reach_subgraphs if len(r) > 1])
-        print(Fore.LIGHTRED_EX, f"Number of RSGs: {nrgs}\n")
+        tree_components = tree.get_components()
+        nrgs = len([r for r in tree_components if len(r) > 1])
+        logger.debug(f"Number of components: {nrgs}\n")
 
         # Number of nodes with smiles
         nodes_w_attr = [
-            G.nodes[n] for n in G.nodes if "attr" in tree.full_g.nodes[n]
+            G.nodes[n] for n in G.nodes if "attr" in tree.graph.nodes[n]
         ]
-        print(
-            Fore.LIGHTCYAN_EX,
-            f"Number of nodes with smiles: {len([n for n in nodes_w_attr if 'smiles' in n['attr']])}",
-        )
+        logger.debug(f"Number of nodes with smiles: {len([n for n in nodes_w_attr if 'smiles' in n['attr']])}")
 
         # Count max node in-degree
         max_in_degree = max([G.in_degree(n) for n in G.nodes])
@@ -71,20 +67,17 @@ class TreeMetrics(BaseModel):
             max_node_seq = max(
                 [
                     nx.dag_longest_path_length(p)
-                    for p in tree.reach_subgraphs.values()
+                    for p in tree_components.values()
                 ]
             )
-            print(
-                Fore.LIGHTCYAN_EX,
-                f"Longest sequence of nodes: {max_node_seq}\n",
-            )
+            logger.debug(f"Longest sequence of nodes: {max_node_seq}\n")
         except:
             max_node_seq = "--"
-            print(Fore.LIGHTCYAN_EX, "Error calculating longest sequence.")
+            logger.debug("Error calculating longest sequence.")
 
         # Count how many sequences are longer than 5
         count_5 = 0
-        for k, v in tree.reach_subgraphs.items():
+        for k, v in tree_components.items():
             try:
                 if nx.dag_longest_path_length(v) > 5:
                     count_5 += 1
@@ -101,28 +94,31 @@ class TreeMetrics(BaseModel):
             max_in_degree=max_in_degree,
         )
 
-    def total_reactions(self, tree: SynthTree):
+    def total_reactions(self, tree: STree):
         """Calculate the total number of reactions in the tree."""
+        logger.info("Calculating total number of reactions with SMILES.")
+
         count = 0
-        G = tree.full_g
+        G = tree.graph
         for u, v in G.edges:
             if "attr" in G.nodes[u] and "attr" in G.nodes[v]:
                 if G.nodes[u]["attr"].get("smiles") and G.nodes[v]["attr"].get(
                     "smiles"
                 ):
-                    print(Fore.LIGHTWHITE_EX, f"\tReaction: {v} -> {u}")
+                    logger.debug(f"\tReaction: {v} -> {u}")
                     count += 1
-        print(
-            Fore.LIGHTWHITE_EX,
-            f"Number of reactions recovered (smiles): {count}",
-        )
+        logger.debug(f"Number of reactions recovered (smiles): {count}")
         return dict(total_single_reactions=count)
 
-    def max_seq_smiles(self, tree: SynthTree):
+    def max_seq_smiles(self, tree: STree):
         """Find the top-3 longest paths in the tree such that all nodes have smiles."""
+        logger.info("Calculating maximum path length with SMILES.")
+
+        tree_components = tree.get_components()
+
         len_paths_d: Dict[str, int] = {}
         src_paths: Dict[str, str] = {}
-        for k, g in tree.reach_subgraphs.items():
+        for k, g in tree_components.items():
             if len(g) > 1:
                 for n in g.nodes:
                     ml_path_tmp = self._max_length_smiles_one_path(g, n)
@@ -135,19 +131,15 @@ class TreeMetrics(BaseModel):
         )[:3]
 
         results: Dict[str, Union[str, int]] = {}
-        print(Fore.LIGHTYELLOW_EX, f"Maximum path length with smiles.\n")
         for i, (p, l) in enumerate(len_paths):
-            print(
-                Fore.LIGHTYELLOW_EX,
-                f"\tPath: {p}, length: {l}. Source: {src_paths[p]}",
-            )
+            logger.debug(f"\tPath: {p}, length: {l}. Source: {src_paths[p]}")
             results[f"long_path_{i}_src"] = src_paths[p]
             results[f"long_path_{i}_len"] = l
 
         return results
 
     def _max_length_smiles_one_path(self, G, source):
-        """Find the longest path in a RSG such that all nodes have smiles."""
+        """Find the longest path in a components such that all nodes have smiles."""
 
         max_length = 0
         max_path = []
