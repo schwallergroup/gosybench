@@ -33,7 +33,7 @@ class TreeMetrics(BaseModel):
     def graph_describe(self, tree: STree):
         """Calculate properties of the extracted graph."""
 
-        logger.info("Calculating graph properties.")
+        logger.debug("Calculating graph properties.")
 
         G = tree.graph
         if len(G.nodes) == 0:
@@ -52,7 +52,7 @@ class TreeMetrics(BaseModel):
 
         tree_components = tree.get_components()
         nrgs = len([r for r in tree_components if len(r) > 1])
-        logger.debug(f"Number of components: {nrgs}\n")
+        logger.debug(f"Number of components: {nrgs}")
 
         # Number of nodes with smiles
         nodes_w_attr = [
@@ -73,7 +73,7 @@ class TreeMetrics(BaseModel):
                     for p in tree_components.values()
                 ]
             )
-            logger.debug(f"Longest sequence of nodes: {max_node_seq}\n")
+            logger.debug(f"Longest sequence of nodes: {max_node_seq}")
         except:
             max_node_seq = "--"
             logger.debug("Error calculating longest sequence.")
@@ -99,7 +99,7 @@ class TreeMetrics(BaseModel):
 
     def total_reactions(self, tree: STree):
         """Calculate the total number of reactions in the tree."""
-        logger.info("Calculating total number of reactions with SMILES.")
+        logger.debug("Calculating total number of reactions with SMILES.")
 
         count = 0
         G = tree.graph
@@ -115,7 +115,7 @@ class TreeMetrics(BaseModel):
 
     def max_seq_smiles(self, tree: STree):
         """Find the top-3 longest paths in the tree such that all nodes have smiles."""
-        logger.info("Calculating maximum path length with SMILES.")
+        logger.debug("Calculating maximum path length with SMILES.")
 
         tree_components = tree.get_components()
 

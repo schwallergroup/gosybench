@@ -3,6 +3,10 @@
 import networkx as nx
 from pydantic import BaseModel
 
+from gosybench.logger import setup_logger
+
+logger = setup_logger(__package__)
+
 
 class GraphEval(BaseModel):
     """Evaluate the quality of a graph extraction."""
@@ -26,12 +30,14 @@ class GraphEval(BaseModel):
         """Compare the partial order of the graphs."""
         c0 = self._compare_porder_0(gt, G)
         c1 = self._compare_porder_0(G, gt)
+        logger.debug(f"Partial order similarity: {c0}, {c1}")
         return c0, c1
 
     def compare_path_exact(self, gt, G):
         """Compare the paths in the graphs."""
         c0 = self._compare_path_exact_0(gt, G)
         c1 = self._compare_path_exact_0(G, gt)
+        logger.debug(f"Path similarity: {c0}, {c1}")
         return c0, c1
 
     def compare_path_exact_pruned(self, gt, G):
@@ -41,6 +47,7 @@ class GraphEval(BaseModel):
 
         c0 = self._compare_path_exact_0(pgtG, pG)
         c1 = self._compare_path_exact_0(pG, pgtG)
+        logger.debug(f"Pruned path similarity: {c0}, {c1}")
         return c0, c1
 
     def _compare_path_exact_0(self, G, gt_G):
@@ -134,11 +141,8 @@ if __name__ == "__main__":
     gt.add_edge(4, 5)
 
     og = nx.DiGraph()
-    og.add_edge(0, 1)
+    og.add_edge(1, 0)
     og.add_edge(1, 2)
-    og.add_edge(2, 3)
-    og.add_edge(3, 4)
-    og.add_edge(4, 5)
 
     ge = GraphEval()
-    print(ge(gt, og))
+    ge(gt, og)

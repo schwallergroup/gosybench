@@ -53,7 +53,7 @@ class Task(BaseModel):
         to = time.time()
         results = f(self.path)
         return {
-            "graph": results,
+            "tree": results,
             "time": time.time() - to,
         }
 
