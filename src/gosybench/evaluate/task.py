@@ -1,12 +1,13 @@
 """Definition of a GosyBench Task."""
 
 import os
-from typing import Callable, List, Optional
+import time
+from typing import Callable, Dict, List, Optional
 
 import networkx as nx
-from basetypes import STree
 from pydantic import BaseModel
 
+from gosybench.basetypes import STree
 from gosybench.logger import setup_logger
 
 logger = setup_logger(__package__)
@@ -44,18 +45,22 @@ class Task(BaseModel):
             tree=tree,
         )
 
-    def run(self, f: Callable):
+    def run(self, f: Callable) -> Dict:
         """Run the task.
         f: function to run on the task.
             takes as input the path to the task, returns a SynTree.
         """
+        to = time.time()
         results = f(self.path)
-        return results
+        return {
+            "graph": results,
+            "time": time.time() - to,
+        }
 
 
 def _load_default_tasks() -> List[Task]:
     """Load the default tasks for GOSyBench."""
-    tpath = os.path.join(os.path.dirname(__file__), "data/papers/")
+    tpath = os.path.join(os.path.dirname(__file__), "../data/papers/")
 
     tasks = []
     for f in os.listdir(tpath):

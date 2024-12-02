@@ -15,6 +15,7 @@ logger = setup_logger(__package__)
 
 
 class TreeMetrics(BaseModel):
+    """Calculate descriptive metrics for an extracted tree."""
 
     def __call__(self, tree, directory="."):
         """Run all metrics."""

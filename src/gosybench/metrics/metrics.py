@@ -5,6 +5,8 @@ from pydantic import BaseModel
 
 
 class GraphEval(BaseModel):
+    """Evaluate the quality of a graph extraction."""
+
     def __call__(self, gt, og):
         """Evaluate the extraction."""
         loc = self.compare_porder(gt, og)
@@ -21,16 +23,19 @@ class GraphEval(BaseModel):
         )
 
     def compare_porder(self, gt, G):
+        """Compare the partial order of the graphs."""
         c0 = self._compare_porder_0(gt, G)
         c1 = self._compare_porder_0(G, gt)
         return c0, c1
 
     def compare_path_exact(self, gt, G):
+        """Compare the paths in the graphs."""
         c0 = self._compare_path_exact_0(gt, G)
         c1 = self._compare_path_exact_0(G, gt)
         return c0, c1
 
     def compare_path_exact_pruned(self, gt, G):
+        """Compare the paths in the pruned graphs."""
         pG = self._prune(G)
         pgtG = self._prune(gt)
 
@@ -68,6 +73,7 @@ class GraphEval(BaseModel):
 
     @staticmethod
     def _get_paths(G):
+        """Get all simple paths in the graph."""
         paths = []
         for n0 in G.nodes:
             for n1 in G.nodes:
@@ -78,6 +84,7 @@ class GraphEval(BaseModel):
         return paths
 
     def _compare_porder_0(self, G, gt_G):
+        """Compare the partial order of the graphs."""
         quant = []
         subgraphs = self._get_paths(G)
         for path in subgraphs:
@@ -90,6 +97,8 @@ class GraphEval(BaseModel):
 
 
 class POSet(BaseModel):
+    """A partially ordered set."""
+
     path: nx.DiGraph
 
     class Config:

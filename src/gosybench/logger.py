@@ -9,6 +9,8 @@ init(autoreset=True)
 
 
 class ColoredFormatter(logging.Formatter):
+    """Logging formatter with colored output."""
+
     COLORS = {
         "DEBUG": Fore.BLUE,
         "INFO": Fore.GREEN,
@@ -18,11 +20,13 @@ class ColoredFormatter(logging.Formatter):
     }
 
     def format(self, record):
+        """Format the log message with color."""
         log_message = super().format(record)
         return f"{self.COLORS.get(record.levelname, '')}{log_message}{Style.RESET_ALL}"
 
 
 def setup_logger(name="logger"):
+    """Setup logger with colored output."""
     logger = logging.getLogger(name)
 
     # Remove any existing handlers
