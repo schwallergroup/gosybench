@@ -5,7 +5,7 @@ from typing import Callable, List
 from logger import setup_logger
 from metrics import TreeMetrics
 from pydantic import BaseModel
-from task import Task, _load_default_tasks
+from .task import Task, _load_default_tasks
 
 logger = setup_logger(__package__)
 
