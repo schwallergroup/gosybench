@@ -69,3 +69,72 @@ class STree(BaseModel):
                     )
                 )
             return cls(products=products, graph=graph)
+
+    def export(self):
+        """Export the STree's reachable subgraph from source nodes into JSON."""
+
+        json = {}
+        for k, g in self.get_components().items():
+            try:
+                smiles = g.nodes[k]["attr"].get("smiles") or k
+                json[k] = {
+                    "smiles": smiles,
+                    "type": "mol",
+                    "in_stock": False,
+                    "children": self.json_serialize(g, key=k),
+                }
+            except:
+                continue
+        return json
+
+    def json_serialize(self, G, key="10"):
+        """Serialize a single reachable subgraph from source node into JSON."""
+        # TODO finish this -> convert_to_smiles, etc. Add this somewhere else so that this function is simply format translation
+
+        successors = G.successors(key)
+        slist = []
+        for s in successors:
+            props = G.nodes[s]
+            if len(list(G.successors(s))) > 0:
+                # Get properties of the node
+                if "attr" not in props.keys():
+                    continue
+                name = props["attr"]["substance_name"]
+                if "smiles" in props["attr"].keys():
+                    smiles = props["attr"]["smiles"]
+                else:
+                    smiles = name
+
+                # Format json
+                slist.append(
+                    {
+                        "smiles": smiles,
+                        "name": name,
+                        "type": "mol",
+                        "in_stock": False,
+                        "children": self.json_serialize(G, key=s),
+                    }
+                )
+            else:
+                smiles = s
+                slist.append(
+                    {
+                        "smiles": s,
+                        "name": s,
+                        "type": "mol",
+                        "in_stock": False,
+                    }
+                )
+
+        final_json = [{"smiles": "", "type": "reaction", "children": slist}]
+        return final_json
+
+    def get_components(self):
+        G = self.graph
+        indegs = G.in_degree()
+        components = {}
+        for n in G.nodes:
+            if indegs[n] == 0:
+                desc = nx.descendants(G, n)
+                components[n] = G.subgraph(desc | {n})
+        return components

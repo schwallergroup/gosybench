@@ -7,7 +7,7 @@ from metrics import TreeMetrics
 from pydantic import BaseModel
 from task import Task, _load_default_tasks
 
-logger = setup_logger()
+logger = setup_logger(__package__)
 
 
 class GOSyBench(BaseModel):
@@ -18,8 +18,10 @@ class GOSyBench(BaseModel):
         """Run the evaluation."""
         logger.info("Running evaluation")
         for task in self.tasks:
-            logger.info(f"Running task {task}")
+            logger.info(f"Describing task {task}")
             self.metrics(task.tree)
+            logger.info(f"Done describing task {task}")
+            logger.info(f"Running task {task}")
             task.run(f)
 
 

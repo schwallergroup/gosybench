@@ -5,7 +5,7 @@ from typing import Callable, List, Optional
 
 import networkx as nx
 from basetypes import STree
-from logger import setup_logger
+from gosybench.logger import setup_logger
 from pydantic import BaseModel
 
 logger = setup_logger(__package__)
@@ -16,10 +16,7 @@ class Task(BaseModel):
 
     name: str = "Default Task"
     description: str = "Default Description"
-    dataset: str = "Default Dataset"
-    model: str = "Default Model"
-    metric: str = "Default Metric"
-    score: Optional[float] = None
+    dataset: str = "GOSyBench"
     path: str
     tree: STree
 
@@ -60,7 +57,9 @@ def _load_default_tasks() -> List[Task]:
     tpath = os.path.join(os.path.dirname(__file__), "data/papers/")
 
     tasks = []
-    for f in os.listdir(tpath)[:5]:
+    for f in os.listdir(tpath):
+        if "ja074300t" not in f:
+            continue
         try:
             path = os.path.join(tpath, f)
             tasks.append(Task.from_pickle(path))
