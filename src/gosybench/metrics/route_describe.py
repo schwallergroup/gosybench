@@ -8,11 +8,11 @@ import networkx as nx
 from colorama import Fore
 from pydantic import BaseModel
 
-from gosybench.logger import setup_logger
 from gosybench.basetypes import STree
-
+from gosybench.logger import setup_logger
 
 logger = setup_logger(__package__)
+
 
 class TreeMetrics(BaseModel):
 
@@ -57,7 +57,9 @@ class TreeMetrics(BaseModel):
         nodes_w_attr = [
             G.nodes[n] for n in G.nodes if "attr" in tree.graph.nodes[n]
         ]
-        logger.debug(f"Number of nodes with smiles: {len([n for n in nodes_w_attr if 'smiles' in n['attr']])}")
+        logger.debug(
+            f"Number of nodes with smiles: {len([n for n in nodes_w_attr if 'smiles' in n['attr']])}"
+        )
 
         # Count max node in-degree
         max_in_degree = max([G.in_degree(n) for n in G.nodes])

@@ -5,8 +5,9 @@ from typing import Callable, List, Optional
 
 import networkx as nx
 from basetypes import STree
-from gosybench.logger import setup_logger
 from pydantic import BaseModel
+
+from gosybench.logger import setup_logger
 
 logger = setup_logger(__package__)
 
