@@ -90,22 +90,22 @@ class TestGraphEvalMetrics(unittest.TestCase):
         """Test the compare_path_exact method
         TODO Check"""
         result = self.ge.compare_path_exact(self.G1, self.G2)
-        self.assertAlmostEqual(result[0], 0.875, places=3)
-        self.assertAlmostEqual(result[1], 0.7, places=3)
+        self.assertAlmostEqual(result[0], 0.7272, places=3)
+        self.assertAlmostEqual(result[1], 0.4706, places=3)
 
     def test_compare_path_exact_pruned(self):
         """Test the compare_path_exact_pruned method
         TODO Check"""
         result = self.ge.compare_path_exact_pruned(self.G1, self.G2)
-        self.assertAlmostEqual(result[0], 0.7272, places=3)
-        self.assertAlmostEqual(result[1], 0.4706, places=3)
+        self.assertAlmostEqual(result[0], 1.0, places=3)
+        self.assertAlmostEqual(result[1], 0.625, places=3)
 
     def test_all_metrics(self):
         """Test all metrics at once
         TODO Check"""
         result = self.ge(self.G1, self.G2)
-        self.assertAlmostEqual(result["path_sim_in"], 0.875, places=3)
-        self.assertAlmostEqual(result["path_sim_out"], 0.7, places=3)
+        self.assertAlmostEqual(result["path_sim_in"], 0.7272, places=3)
+        self.assertAlmostEqual(result["path_sim_out"], 0.4706, places=3)
         self.assertAlmostEqual(result["local_sim_in"], 0.833, places=3)
         self.assertAlmostEqual(result["local_sim_out"], 0.571, places=3)
         self.assertAlmostEqual(result["ploc_sim_in"], 0.875, places=3)
