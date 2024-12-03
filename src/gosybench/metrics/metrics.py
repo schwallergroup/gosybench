@@ -52,6 +52,9 @@ class GraphEval(BaseModel):
 
     def _compare_path_exact_0(self, G, gt_G):
         """How many paths in G are also in gt_G"""
+        if len(G) == 0 or len(gt_G) == 0:
+            return 0
+
         quant = []
         subgraphs = self._get_paths(G)
         for path in subgraphs:
@@ -59,7 +62,11 @@ class GraphEval(BaseModel):
                 sg = G.subgraph(path)
                 v = self._subgraph_in_gt_exact(sg, gt_G)
                 quant.append(v)
-        return (sum(quant) + 1) / (len(quant) + 1)
+
+        if len(quant) == 0:
+            return 0
+
+        return sum(quant) / len(quant)
 
     @staticmethod
     def _subgraph_in_gt_exact(subgraph, gt_G):
@@ -92,11 +99,11 @@ class GraphEval(BaseModel):
 
     def _compare_porder_0(self, G, gt_G):
         """Compare the partial order of the graphs."""
+        if len(G) == 0 or len(gt_G) == 0:
+            return 0
+
         quant = []
         subgraphs = self._get_paths(G)
-
-        for path in subgraphs:
-            logger.debug(f"Path: {path}")
 
         for path in subgraphs:
             if len(path) > 2:
@@ -104,7 +111,12 @@ class GraphEval(BaseModel):
                 gt_sg = POSet(path=gt_G.subgraph(path))
                 quant.append(sg.iso(gt_sg))
 
-        return (sum(quant)) / (len(quant) + 1)
+        if len(quant) == 0:
+            return 0
+
+        # logger.info(f"Quant: {quant}")
+
+        return (sum(quant)) / (len(quant))
 
 
 class POSet(BaseModel):

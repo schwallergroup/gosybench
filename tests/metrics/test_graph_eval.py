@@ -60,12 +60,14 @@ class TestGraphEvalMetrics(unittest.TestCase):
         G_empty_1 = nx.DiGraph()
         G_empty_2 = nx.DiGraph()
         result = self.ge(G_empty_1, G_empty_2)
-        self.assertEqual(result["path_sim_in"], 1.0)
-        self.assertEqual(result["path_sim_out"], 1.0)
-        self.assertEqual(result["local_sim_in"], 1.0)
-        self.assertEqual(result["local_sim_out"], 1.0)
-        self.assertEqual(result["ploc_sim_in"], 1.0)
-        self.assertEqual(result["ploc_sim_out"], 1.0)
+
+        # Empty graphs default to 0 sim (assume graph.nodes>0)
+        self.assertEqual(result["path_sim_in"], 0.0)
+        self.assertEqual(result["path_sim_out"], 0.0)
+        self.assertEqual(result["local_sim_in"], 0.0)
+        self.assertEqual(result["local_sim_out"], 0.0)
+        self.assertEqual(result["ploc_sim_in"], 0.0)
+        self.assertEqual(result["ploc_sim_out"], 0.0)
 
     def test_empty_and_non_empty_graphs(self):
         """Test the case of empty and non-empty graphs"""
