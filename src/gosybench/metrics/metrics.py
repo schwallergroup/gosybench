@@ -62,18 +62,31 @@ class GraphEval(BaseModel):
                 sg = G.subgraph(path)
                 v = self._subgraph_in_gt_exact(sg, gt_G)
                 quant.append(v)
+                logger.debug(f"Path: {path}, in gt: {v}")
 
         if len(quant) == 0:
             return 0
+        
+        logger.debug(f"{quant}")
 
         return sum(quant) / len(quant)
 
     @staticmethod
     def _subgraph_in_gt_exact(subgraph, gt_G):
         """Check if the subgraph is present in the host graph."""
-        subg_gt = gt_G.subgraph(subgraph.nodes)
-        if len(subg_gt) == len(subgraph):
+        def node_match(n1, n2):
+            return n1 == n2
+
+        def edge_match(e1, e2):
+            return e1 == e2
+
+        sg = gt_G.subgraph(subgraph.nodes)
+        if nx.is_isomorphic(sg, subgraph, node_match=node_match, edge_match=edge_match):
             return True
+
+        # subg_gt = gt_G.subgraph(subgraph.nodes)
+        # if len(subg_gt) == len(subgraph):
+        #     return True
         return False
 
     @staticmethod
@@ -114,9 +127,7 @@ class GraphEval(BaseModel):
         if len(quant) == 0:
             return 0
 
-        # logger.info(f"Quant: {quant}")
-
-        return (sum(quant)) / (len(quant))
+        return sum(quant) / len(quant)
 
 
 class POSet(BaseModel):

@@ -83,8 +83,8 @@ class TestGraphEvalMetrics(unittest.TestCase):
     def test_compare_porder(self):
         """Test the compare_porder method"""
         result = self.ge.compare_porder(self.G1, self.G2)
-        self.assertAlmostEqual(result[0], 0.571, places=3)
-        self.assertAlmostEqual(result[1], 0.5, places=3)
+        self.assertAlmostEqual(result[0], 0.6666, places=3)
+        self.assertAlmostEqual(result[1], 0.5454, places=3)
 
     def test_compare_path_exact(self):
         """Test the compare_path_exact method
@@ -97,8 +97,8 @@ class TestGraphEvalMetrics(unittest.TestCase):
         """Test the compare_path_exact_pruned method
         TODO Check"""
         result = self.ge.compare_path_exact_pruned(self.G1, self.G2)
-        self.assertAlmostEqual(result[0], 0.875, places=3)
-        self.assertAlmostEqual(result[1], 0.7, places=3)
+        self.assertAlmostEqual(result[0], 0.7272, places=3)
+        self.assertAlmostEqual(result[1], 0.4706, places=3)
 
     def test_all_metrics(self):
         """Test all metrics at once
