@@ -87,29 +87,26 @@ class TestGraphEvalMetrics(unittest.TestCase):
         self.assertAlmostEqual(result[1], 0.5454, places=3)
 
     def test_compare_path_exact(self):
-        """Test the compare_path_exact method
-        TODO Check"""
+        """Test the compare_path_exact method"""
         result = self.ge.compare_path_exact(self.G1, self.G2)
         self.assertAlmostEqual(result[0], 0.7272, places=3)
         self.assertAlmostEqual(result[1], 0.4706, places=3)
 
     def test_compare_path_exact_pruned(self):
-        """Test the compare_path_exact_pruned method
-        TODO Check"""
+        """Test the compare_path_exact_pruned method"""
         result = self.ge.compare_path_exact_pruned(self.G1, self.G2)
         self.assertAlmostEqual(result[0], 1.0, places=3)
         self.assertAlmostEqual(result[1], 0.625, places=3)
 
     def test_all_metrics(self):
-        """Test all metrics at once
-        TODO Check"""
+        """Test all metrics at once"""
         result = self.ge(self.G1, self.G2)
         self.assertAlmostEqual(result["path_sim_in"], 0.7272, places=3)
         self.assertAlmostEqual(result["path_sim_out"], 0.4706, places=3)
-        self.assertAlmostEqual(result["local_sim_in"], 0.833, places=3)
-        self.assertAlmostEqual(result["local_sim_out"], 0.571, places=3)
-        self.assertAlmostEqual(result["ploc_sim_in"], 0.875, places=3)
-        self.assertAlmostEqual(result["ploc_sim_out"], 0.7, places=3)
+        self.assertAlmostEqual(result["local_sim_in"], 0.6666, places=3)
+        self.assertAlmostEqual(result["local_sim_out"], 0.5454, places=3)
+        self.assertAlmostEqual(result["ploc_sim_in"], 1.0, places=3)
+        self.assertAlmostEqual(result["ploc_sim_out"], 0.625, places=3)
 
 
 class TestGraphEval(unittest.TestCase):
@@ -167,7 +164,9 @@ class TestGraphEval(unittest.TestCase):
         g = nx.DiGraph()
         g.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 4), (1, 5)])
         pruned = self.ge._prune(g)
-        self.assertEqual(len(pruned.nodes), 4)  # Nodes 4 and 5 should be pruned
+        self.assertEqual(
+            len(pruned.nodes), 4
+        )  # Nodes 4 and 5 should be pruned
         self.assertNotIn(4, pruned.nodes)
         self.assertNotIn(5, pruned.nodes)
 

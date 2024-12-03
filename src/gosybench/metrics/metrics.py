@@ -66,7 +66,7 @@ class GraphEval(BaseModel):
 
         if len(quant) == 0:
             return 0
-        
+
         logger.debug(f"{quant}")
 
         return sum(quant) / len(quant)
@@ -74,6 +74,7 @@ class GraphEval(BaseModel):
     @staticmethod
     def _subgraph_in_gt_exact(subgraph, gt_G):
         """Check if the subgraph is present in the host graph."""
+
         def node_match(n1, n2):
             return n1 == n2
 
@@ -81,7 +82,9 @@ class GraphEval(BaseModel):
             return e1 == e2
 
         sg = gt_G.subgraph(subgraph.nodes)
-        if nx.is_isomorphic(sg, subgraph, node_match=node_match, edge_match=edge_match):
+        if nx.is_isomorphic(
+            sg, subgraph, node_match=node_match, edge_match=edge_match
+        ):
             return True
 
         # subg_gt = gt_G.subgraph(subgraph.nodes)
@@ -178,9 +181,7 @@ if __name__ == "__main__":
     G1.add_edges_from([(0, 1), (1, 2), (2, 3), (1, 4), (4, 3)])
 
     G2 = nx.DiGraph()
-    G2.add_edges_from(
-        [(0, 1), (1, 2), (2, 3), (1, 4), (2, 4), (4, 5)]
-    )
+    G2.add_edges_from([(0, 1), (1, 2), (2, 3), (1, 4), (2, 4), (4, 5)])
 
     ge = GraphEval()
-    ge(G1,G2)
+    ge(G1, G2)
