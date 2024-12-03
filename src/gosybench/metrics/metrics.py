@@ -30,14 +30,14 @@ class GraphEval(BaseModel):
         """Compare the partial order of the graphs."""
         c0 = self._compare_porder_0(gt, G)
         c1 = self._compare_porder_0(G, gt)
-        logger.debug(f"Partial order similarity: {c0}, {c1}")
+        logger.info(f"Partial order similarity: {c0}, {c1}")
         return c0, c1
 
     def compare_path_exact(self, gt, G):
         """Compare the paths in the graphs."""
         c0 = self._compare_path_exact_0(gt, G)
         c1 = self._compare_path_exact_0(G, gt)
-        logger.debug(f"Path similarity: {c0}, {c1}")
+        logger.info(f"Path similarity: {c0}, {c1}")
         return c0, c1
 
     def compare_path_exact_pruned(self, gt, G):
@@ -47,7 +47,7 @@ class GraphEval(BaseModel):
 
         c0 = self._compare_path_exact_0(pgtG, pG)
         c1 = self._compare_path_exact_0(pG, pgtG)
-        logger.debug(f"Pruned path similarity: {c0}, {c1}")
+        logger.info(f"Pruned path similarity: {c0}, {c1}")
         return c0, c1
 
     def _compare_path_exact_0(self, G, gt_G):
@@ -62,12 +62,9 @@ class GraphEval(BaseModel):
                 sg = G.subgraph(path)
                 v = self._subgraph_in_gt_exact(sg, gt_G)
                 quant.append(v)
-                logger.debug(f"Path: {path}, in gt: {v}")
 
         if len(quant) == 0:
             return 0
-
-        logger.debug(f"{quant}")
 
         return sum(quant) / len(quant)
 
@@ -86,10 +83,6 @@ class GraphEval(BaseModel):
             sg, subgraph, node_match=node_match, edge_match=edge_match
         ):
             return True
-
-        # subg_gt = gt_G.subgraph(subgraph.nodes)
-        # if len(subg_gt) == len(subgraph):
-        #     return True
         return False
 
     @staticmethod
