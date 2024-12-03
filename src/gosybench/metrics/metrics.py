@@ -94,13 +94,17 @@ class GraphEval(BaseModel):
         """Compare the partial order of the graphs."""
         quant = []
         subgraphs = self._get_paths(G)
+
+        for path in subgraphs:
+            logger.debug(f"Path: {path}")
+
         for path in subgraphs:
             if len(path) > 2:
                 sg = POSet(path=G.subgraph(path))
                 gt_sg = POSet(path=gt_G.subgraph(path))
                 quant.append(sg.iso(gt_sg))
 
-        return (sum(quant) + 1) / (len(quant) + 1)
+        return (sum(quant)) / (len(quant) + 1)
 
 
 class POSet(BaseModel):
@@ -117,6 +121,9 @@ class POSet(BaseModel):
 
     def iso(self, _poset):
         """Check if this poset contains _poset."""
+        if len(_poset.path.nodes) == 0:
+            return False
+
         # If nodes in _poset not contained in self
         if set(self.path.nodes).intersection(_poset.path.nodes) != set(
             _poset.path.nodes
@@ -144,5 +151,13 @@ if __name__ == "__main__":
     og.add_edge(1, 0)
     og.add_edge(1, 2)
 
+    G1 = nx.DiGraph()
+    G1.add_edges_from([(0, 1), (1, 2), (2, 3), (1, 4), (4, 3)])
+
+    G2 = nx.DiGraph()
+    G2.add_edges_from(
+        [(0, 1), (1, 2), (2, 3), (1, 4), (2, 4), (4, 5)]
+    )
+
     ge = GraphEval()
-    ge(gt, og)
+    ge(G1,G2)
