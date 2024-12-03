@@ -165,8 +165,9 @@ class TestGraphEval(unittest.TestCase):
         g = nx.DiGraph()
         g.add_edges_from([(0, 1), (1, 2), (2, 3), (3, 4), (1, 5)])
         pruned = self.ge._prune(g)
-        self.assertEqual(len(pruned.nodes), 5)  # Node 4 should be pruned
+        self.assertEqual(len(pruned.nodes), 4)  # Nodes 4 and 5 should be pruned
         self.assertNotIn(4, pruned.nodes)
+        self.assertNotIn(5, pruned.nodes)
 
     def test_get_paths(self):
         """Test the get_paths method"""
