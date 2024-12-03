@@ -208,8 +208,14 @@ class TestPOSet(unittest.TestCase):
         g2.add_edges_from([(0, 1), (1, 2), (0, 2)])
         poset2 = POSet(path=g2)
 
+        g3 = nx.DiGraph()
+        g3.add_edges_from([(0, 2), (2, 1)])
+        poset3 = POSet(path=g3)
+
         self.assertTrue(self.poset.iso(poset1))
-        self.assertFalse(self.poset.iso(poset2))
+        self.assertTrue(self.poset.iso(poset2))
+        self.assertFalse(self.poset.iso(poset3))
+        self.assertFalse(poset1.iso(poset3))
 
 
 if __name__ == "__main__":
