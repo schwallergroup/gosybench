@@ -64,8 +64,8 @@ def _load_default_tasks() -> List[Task]:
 
     tasks = []
     for f in os.listdir(tpath):
-        if "ja074300t" not in f:
-            continue
+        # if "ja074300t" not in f:
+        #     continue
         try:
             path = os.path.join(tpath, f)
             tasks.append(Task.from_pickle(path))
