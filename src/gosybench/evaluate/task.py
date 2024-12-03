@@ -38,6 +38,15 @@ class Task(BaseModel):
     def from_pickle(cls, path: str):
         """Load a task from a directory."""
         tree = STree.from_pickle(os.path.join(path, "gt_graph.pickle"))
+
+        # Preprocess graph
+        G = tree.graph
+        for n in G.nodes:
+            if "attr" not in G.nodes[n]:
+                G.nodes[n]["attr"] = {}
+            G.nodes[n]["attr"]["name"] = n
+        tree.graph=G
+
         logger.debug(f"Loaded task from {path}")
         return cls(
             name=os.path.basename(path),
@@ -64,8 +73,6 @@ def _load_default_tasks() -> List[Task]:
 
     tasks = []
     for f in os.listdir(tpath):
-        # if "ja074300t" not in f:
-        #     continue
         try:
             path = os.path.join(tpath, f)
             tasks.append(Task.from_pickle(path))

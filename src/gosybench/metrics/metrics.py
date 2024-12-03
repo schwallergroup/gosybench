@@ -73,14 +73,11 @@ class GraphEval(BaseModel):
         """Check if the subgraph is present in the host graph."""
 
         def node_match(n1, n2):
-            return n1 == n2
-
-        def edge_match(e1, e2):
-            return e1 == e2
+            return n1['attr']['name'] == n2['attr']['name']
 
         sg = gt_G.subgraph(subgraph.nodes)
         if nx.is_isomorphic(
-            sg, subgraph, node_match=node_match, edge_match=edge_match
+            sg, subgraph, node_match=node_match
         ):
             return True
         return False
