@@ -12,7 +12,11 @@ from pydantic import BaseModel, model_validator
 
 import wandb
 from gosybench.evaluate import GOSyBench
-from gosybench.metrics import GraphEval, TreeMetrics
+from gosybench.metrics import GraphEval
+
+import networkx as nx
+
+from gosybench.basetypes import STree
 
 # TODO: all this goes ino jasyntho API
 
@@ -102,62 +106,18 @@ from gosybench.metrics import GraphEval, TreeMetrics
 #         return self
 
 
-# TODO: all this goes into task and evaluate classes
-# def run_single(
-#     paper, inst_model, dspy_model_1, dspy_model_2, wandb_pname="jasy-test"
-# ):
-#     # TODO put all this into the evaluate and task classes
-
-#     # Initialize stuff
-#     synthex = SynthesisExtract(
-#         inst_model=inst_model,
-#         dspy_model_1=dspy_model_1,
-#         dspy_model_2=dspy_model_2,
-#     )
-#     metrics = TreeMetrics()
-
-#     # Init before to keep track of time
-#     wandb.init(
-#         project=wandb_pname,
-#         config=dict(
-#             paper=paper.strip("/").split("/")[-1],
-#             start_model=inst_model,
-#             dspy_model_1=dspy_model_1,
-#             dspy_model_2=dspy_model_2,
-#         ),
-#     )
-
-#     # Run
-#     tree = synthex(paper, logger=wandb.run)
-#     m = metrics(tree)
-#     wandb.summary.update(m)
-
-#     # Upload plot of SI split
-#     wandb.log(
-#         {
-#             "si_split": wandb.Image(os.path.join(paper, "SIsignal.png")),
-#             "si_text": wandb.Table(columns=["si_text"], data=[[tree.si]]),
-#         }
-#     )
-#     wandb.finish()
-
+def test_method(x: str) -> STree:
+    """Test method."""
+    g = nx.DiGraph()
+    g.add_edge("a", "b")
+    return STree(graph=g)
 
 if __name__ == "__main__":
     gosybench = GOSyBench(
         project="GOSyBench",
-        describe=TreeMetrics(),
+        describe=None,
         metrics=GraphEval(),
     )
-
-    # Define method (Callable)
-    import networkx as nx
-
-    from gosybench.basetypes import STree
-
-    def test_method(x: str) -> STree:
-        g = nx.DiGraph()
-        g.add_edge("a", "b")
-        return STree(graph=g)
 
     # Evaluate
     gosybench.evaluate(test_method)
