@@ -13,6 +13,8 @@ class GraphEval(BaseModel):
 
     def __call__(self, gt, og):
         """Evaluate the extraction."""
+        logger.debug(f"Comparing graphs {gt} and {og}")
+
         loc = self.compare_porder(gt, og)
         pat = self.compare_path_exact(gt, og)
         prun = self.compare_path_exact_pruned(gt, og)
@@ -28,26 +30,35 @@ class GraphEval(BaseModel):
 
     def compare_porder(self, gt, G):
         """Compare the partial order of the graphs."""
+        gt = self._preprocess(gt)
+        G = self._preprocess(G)
+
         c0 = self._compare_porder_0(gt, G)
         c1 = self._compare_porder_0(G, gt)
-        logger.info(f"Partial order similarity: {c0}, {c1}")
+        logger.debug(f"Partial order similarity: {c0}, {c1}")
         return c0, c1
 
     def compare_path_exact(self, gt, G):
         """Compare the paths in the graphs."""
+        gt = self._preprocess(gt)
+        G = self._preprocess(G)
+
         c0 = self._compare_path_exact_0(gt, G)
         c1 = self._compare_path_exact_0(G, gt)
-        logger.info(f"Path similarity: {c0}, {c1}")
+        logger.debug(f"Path similarity: {c0}, {c1}")
         return c0, c1
 
     def compare_path_exact_pruned(self, gt, G):
         """Compare the paths in the pruned graphs."""
+        gt = self._preprocess(gt)
+        G = self._preprocess(G)
+
         pG = self._prune(G)
         pgtG = self._prune(gt)
 
         c0 = self._compare_path_exact_0(pgtG, pG)
         c1 = self._compare_path_exact_0(pG, pgtG)
-        logger.info(f"Pruned path similarity: {c0}, {c1}")
+        logger.debug(f"Pruned path similarity: {c0}, {c1}")
         return c0, c1
 
     def _compare_path_exact_0(self, G, gt_G):
@@ -73,12 +84,12 @@ class GraphEval(BaseModel):
         """Check if the subgraph is present in the host graph."""
 
         def node_match(n1, n2):
-            return n1['attr']['name'] == n2['attr']['name']
+            nam1 = n1.get("attr", {}).get("name", None)
+            nam2 = n2.get("attr", {}).get("name", None)
+            return (nam1 == nam2) and (nam1 is not None)
 
         sg = gt_G.subgraph(subgraph.nodes)
-        if nx.is_isomorphic(
-            sg, subgraph, node_match=node_match
-        ):
+        if nx.is_isomorphic(sg, subgraph, node_match=node_match):
             return True
         return False
 
@@ -121,6 +132,15 @@ class GraphEval(BaseModel):
             return 0
 
         return sum(quant) / len(quant)
+
+    def _preprocess(self, G):
+        # For each node, add attrs and name as an attr
+        logger.debug(f"Preprocessing graph {G}")
+        for n in G.nodes:
+            if "attr" not in G.nodes[n]:
+                G.nodes[n]["attr"] = {}
+            G.nodes[n]["attr"]["name"] = n
+        return G
 
 
 class POSet(BaseModel):

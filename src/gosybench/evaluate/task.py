@@ -45,7 +45,7 @@ class Task(BaseModel):
             if "attr" not in G.nodes[n]:
                 G.nodes[n]["attr"] = {}
             G.nodes[n]["attr"]["name"] = n
-        tree.graph=G
+        tree.graph = G
 
         logger.debug(f"Loaded task from {path}")
         return cls(
