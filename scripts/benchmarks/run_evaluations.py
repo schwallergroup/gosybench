@@ -1,21 +1,22 @@
-# For each paper, evaluate all the methods
+"""Load precomputed graphs for each method, and evaluate it."""
 
-import asyncio
 import os
+from functools import partial
+from itertools import product
 
 import networkx as nx
 
 from gosybench.basetypes import STree
 from gosybench.evaluate import GOSyBench
 from gosybench.logger import setup_logger
-from gosybench.metrics import GraphEval, TreeMetrics
+from gosybench.metrics import GraphEval
 
 logger = setup_logger(__package__)
 
-if __name__ == "__main__":
+
+def main():
     gosybench = GOSyBench(
         project="GOSyBench-eval",
-        # describe=TreeMetrics(),
         describe=None,
         metrics=GraphEval(),
     )
@@ -31,28 +32,17 @@ if __name__ == "__main__":
             logger.error(f"Error loading {pfile}: {e}")
             return STree(tree=[], graph=nx.DiGraph())
 
-    from functools import partial
-
-    llms = ["gpt35"]  # "gpt4t",
+    llms = ["gpt35", "gpt4t"]
     vis = ["vision", "text"]
     si_selects = ["", "select"]
-    from itertools import product
 
     for l, v, s in product(llms, vis, si_selects):
         le_method = partial(
             le_base_method, name=f"extracted_graph_{l}_{v}_{s}.pickle"
         )
         le_method.__name__ = f"le_{l}_{v}_{s}"
-
         gosybench.evaluate(le_method)
 
 
-# #         asyncio.run(main(path))
-
-
-# # for paper in papers:
-
-# #     for model in models:
-# #         for method in methods:
-# #             for si_select in si_selects:
-# #                 asyncio.run(extractg(paper, model, method, si_select))
+if __name__ == "__main__":
+    main()
