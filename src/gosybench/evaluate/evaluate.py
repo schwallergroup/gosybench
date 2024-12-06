@@ -21,38 +21,48 @@ class GOSyBench(BaseModel):
     describe: Callable | None = TreeMetrics()
     metrics: Callable | None = GraphEval()
 
-    def evaluate(self, f: Callable):
+    def evaluate(self, f: Callable | None = None):
         """Run the evaluation."""
         logger.info("Running evaluation")
         results = {}
+        gt_stats = {}
         with wandb.init(  # type: ignore
-            project=self.project, config={"method": f.__name__}
+            project=self.project, config={"method": f.__name__ if f else None}
         ):
 
             for task in self.tasks:
                 logger.info(f"Running task {task}")
                 if self.describe:
                     logger.debug(f"Describing task {task}")
-                    self.describe(task.tree)
+                    s = self.describe(task.tree)
                     logger.debug(f"Done describing task {task}")
-                logger.info(f"Running task {task} with method {f.__name__}")
-                result = task.run(f)
-                logger.info(
-                    f"Finished task {task}. Time: {result['time']:0.5f}s"
-                )
-                if self.describe:
-                    logger.debug(f"Describing task {task}")
-                    self.describe(result["tree"])
-                    logger.debug(f"Done describing task {task}")
-                if self.metrics:
-                    logger.debug(f"Calculating metrics for task {task}")
-                    metrics = self.metrics(
-                        task.tree.graph, result["tree"].graph
+                    gt_stats[task.name] = s
+
+                if f:
+                    logger.info(
+                        f"Running task {task} with method {f.__name__}"
                     )
-                    results[task.name] = metrics
-                    logger.debug(f"Done calculating metrics for task {task}")
+                    result = task.run(f)
+                    logger.info(
+                        f"Finished task {task}. Time: {result['time']:0.5f}s"
+                    )
+                    if self.describe:
+                        logger.debug(f"Describing task {task}")
+                        self.describe(result["tree"])
+                        logger.debug(f"Done describing task {task}")
+                    if self.metrics:
+                        logger.debug(f"Calculating metrics for task {task}")
+                        metrics = self.metrics(
+                            task.tree.graph, result["tree"].graph
+                        )
+                        results[task.name] = metrics
+                        logger.debug(
+                            f"Done calculating metrics for task {task}"
+                        )
             logger.info("Done evaluating")
-            self.report(results)
+            self.report_stats(gt_stats)
+            if f:
+                self.report(results)
 
     def report(self, results: dict):
         """Make a table and report to wandb."""
@@ -69,6 +79,22 @@ class GOSyBench(BaseModel):
             for var in varnames
         }
         wandb.summary.update(means)  # type: ignore
+
+    def report_stats(self, stats: dict):
+        """Make a table and report to wandb."""
+        table = wandb.Table(columns=["Task", "Stats"])  # type: ignore
+        for task, metrics in stats.items():
+            table.add_data(task, metrics)
+        wandb.log({"Metrics": table})  # type: ignore
+
+        # Calc sum
+        varnames = stats[list(stats.keys())[0]].keys()
+        summ = {
+            var: sum([result[var] for result in stats.values()])
+            for var in varnames
+            if not var.endswith("src")
+        }
+        wandb.summary.update(summ)  # type: ignore
 
 
 if __name__ == "__main__":
