@@ -9,7 +9,7 @@ import networkx as nx
 from gosybench.basetypes import STree
 from gosybench.evaluate import GOSyBench
 from gosybench.logger import setup_logger
-from gosybench.metrics import GraphEval
+from gosybench.metrics import GraphEval, TreeMetrics
 
 logger = setup_logger(__package__)
 
@@ -17,7 +17,7 @@ logger = setup_logger(__package__)
 def main():
     gosybench = GOSyBench(
         project="GOSyBench-eval",
-        describe=None,
+        describe=TreeMetrics(),
         metrics=GraphEval(),
     )
 

@@ -2,20 +2,23 @@
 
 import json
 import os
-from typing import Dict, List, Tuple, Union
+from typing import Any
 
 import networkx as nx
-from colorama import Fore
 from pydantic import BaseModel
 
 from gosybench.basetypes import STree
 from gosybench.logger import setup_logger
+
+from .utils import SmilesPathFinder
 
 logger = setup_logger(__package__)
 
 
 class TreeMetrics(BaseModel):
     """Calculate descriptive metrics for an extracted tree."""
+
+    smiles_path_solver: Any = SmilesPathFinder()
 
     def __call__(self, tree, directory="."):
         """Run all metrics."""
@@ -115,47 +118,6 @@ class TreeMetrics(BaseModel):
 
     def max_seq_smiles(self, tree: STree):
         """Find the top-3 longest paths in the tree such that all nodes have smiles."""
-        logger.debug("Calculating maximum path length with SMILES.")
 
-        tree_components = tree.get_components()
-
-        len_paths_d: Dict[str, int] = {}
-        src_paths: Dict[str, str] = {}
-        for k, g in tree_components.items():
-            if len(g) > 1:
-                for n in g.nodes:
-                    ml_path_tmp = self._max_length_smiles_one_path(g, n)
-                    len_paths_d[str(ml_path_tmp)] = len(ml_path_tmp)
-                    src_paths[str(ml_path_tmp)] = k
-
-        # Sort len_paths by value
-        len_paths: List[Tuple[str, int]] = sorted(
-            len_paths_d.items(), key=lambda item: item[1], reverse=True
-        )[:3]
-
-        results: Dict[str, Union[str, int]] = {}
-        for i, (p, l) in enumerate(len_paths):
-            logger.debug(f"\tPath: {p}, length: {l}. Source: {src_paths[p]}")
-            results[f"long_path_{i}_src"] = src_paths[p]
-            results[f"long_path_{i}_len"] = l
-
-        return results
-
-    def _max_length_smiles_one_path(self, G, source):
-        """Find the longest path in a components such that all nodes have smiles."""
-
-        max_length = 0
-        max_path = []
-        for end_node in G.nodes:
-            for path in nx.all_simple_paths(G, source=source, target=end_node):
-                if all(["attr" in G.nodes[n].keys() for n in path]):
-                    if all(
-                        [
-                            G.nodes[n]["attr"].get("smiles") is not None
-                            for n in path
-                        ]
-                    ):
-                        if len(path) > max_length:
-                            max_length = len(path)
-                            max_path = path
-        return max_path
+        result = self.smiles_path_solver.max_seq_smiles(self.stree)
+        return result

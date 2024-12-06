@@ -3,6 +3,7 @@
 """API for GOSyBench."""
 
 import networkx as nx
+
 from gosybench.basetypes import STree
 from gosybench.evaluate import GOSyBench
 from gosybench.metrics import GraphEval
