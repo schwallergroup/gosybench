@@ -24,7 +24,7 @@ class TreeMetrics(BaseModel):
         """Run all metrics."""
         gd = self.graph_describe(tree)
         rxns = self.total_reactions(tree)
-        max_source = self.max_seq_smiles(tree)
+        max_source = self.smiles_path_solver.max_seq_smiles(tree)
 
         tjson = tree.export()
         with open(os.path.join(directory, "tree.json"), "w") as f:
@@ -115,9 +115,3 @@ class TreeMetrics(BaseModel):
                     count += 1
         logger.debug(f"Number of reactions recovered (smiles): {count}")
         return dict(total_single_reactions=count)
-
-    def max_seq_smiles(self, tree: STree):
-        """Find the top-3 longest paths in the tree such that all nodes have smiles."""
-
-        result = self.smiles_path_solver.max_seq_smiles(self.stree)
-        return result
