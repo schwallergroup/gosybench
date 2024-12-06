@@ -5,9 +5,9 @@ import os
 import pickle
 
 import wandb
+from gosybench import TreeMetrics
 from jasyntho import SynthTree
 from jasyntho.extract import ExtractReaction
-from gosybench import TreeMetrics
 
 # For an input paper, run extraction using various methods, log each
 
