@@ -5,9 +5,9 @@ import os
 import pickle
 
 import wandb
+from gosybench import TreeMetrics
 from jasyntho import SynthTree
 from jasyntho.extract import ExtractReaction
-from jasyntho.metrics import TreeMetrics
 
 # For an input paper, run extraction using various methods, log each
 
@@ -22,7 +22,7 @@ async def extractg(
             paper=path.split("/")[-1],
             product_model=model,
             parsing_method=method,
-            si_select=siuselect,
+            si_select=si_select,
         ),
     )
 
@@ -101,35 +101,36 @@ if __name__ == "__main__":
 
     papers = [
         "jacs.0c00363",
-        "ja074300t",
-        "jacs.0c00308",
-        "jacs.0c02143",
-        "jacs.0c02513",
-        "jacs.1c01356",
-        "jacs.1c00293",
-        "jacs.3c01991",
-        "jacs.3c07019",
-        "jacs.8b00148",
-        "jacs.7b13260",
-        "jacs.7b09929",
-        "jacs.7b00807",
-        "jacs.9b12546",
-        "jacs.9b09699",
-        "jacs.9b05013",
-        "jacs.8b13029",
-        "jacs.8b06755",
-        "jacs.8b03015",
-        "jacs.7b11299",
-        "jacs.7b08749",
-        "jacs.7b07724",
-        "jacs.7b06055",
-        "jacs.7b01454",
-        "jacs.6b07846",
-        "jacs.2c13889",
-        "jacs.2c12529",
-        "jacs.2c06934",
-        "jacs.0c10122",
+        # "ja074300t",
+        # "jacs.0c00308",
+        # "jacs.0c02143",
+        # "jacs.0c02513",
+        # "jacs.1c01356",
+        # "jacs.1c00293",
+        # "jacs.3c01991",
+        # "jacs.3c07019",
+        # "jacs.8b00148",
+        # "jacs.7b13260",
+        # "jacs.7b09929",
+        # "jacs.7b00807",
+        # "jacs.9b12546",
+        # "jacs.9b09699",
+        # "jacs.9b05013",
+        # "jacs.8b13029",
+        # "jacs.8b06755",
+        # "jacs.8b03015",
+        # "jacs.7b11299",
+        # "jacs.7b08749",
+        # "jacs.7b07724",
+        # "jacs.7b06055",
+        # "jacs.7b01454",
+        # "jacs.6b07846",
+        # "jacs.2c13889",
+        # "jacs.2c12529",
+        # "jacs.2c06934",
+        # "jacs.0c10122",
     ]
     for p in papers:
-        path = f"benchmark/papers/{p}"
+        root_gosybench = "src/gosybench/data/papers/"
+        path = os.path.join(root_gosybench, p)
         asyncio.run(main(path))

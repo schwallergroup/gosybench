@@ -4,8 +4,8 @@ import os
 import click
 
 import wandb
-from jasyntho.api import SynthesisExtract
-from jasyntho.metrics import TreeMetrics
+from gosybench import TreeMetrics
+from gosybench.api import SynthesisExtract
 
 
 def run(inst_model, dspy_model_1, dspy_model_2, paper):
@@ -60,7 +60,7 @@ def run(inst_model, dspy_model_1, dspy_model_2, paper):
 )
 @click.option(
     "--dir_",
-    default=".",
+    default="data/papers/",
     type=click.Path(exists=True),
     help="Path to directory containing papers.",
 )
