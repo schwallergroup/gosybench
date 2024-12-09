@@ -73,7 +73,9 @@ jobs:
       - name: Install dependencies
         run:
           pip install tox
-          pip install -e .[tests,jasyntho]
+          pip install -e .
+      - name: Install jasyntho dependencies
+        run: pip install .[jasyntho]
       - name: Test with pytest and generate coverage file
         run:
           tox run -e py
