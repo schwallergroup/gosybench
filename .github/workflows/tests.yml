@@ -71,7 +71,9 @@ jobs:
         with:
           python-version: ${{ matrix.python-version }}
       - name: Install dependencies
-        run: pip install tox
+        run:
+          pip install tox
+          pip install -e .[tests,jasyntho]
       - name: Test with pytest and generate coverage file
         run:
           tox run -e py
