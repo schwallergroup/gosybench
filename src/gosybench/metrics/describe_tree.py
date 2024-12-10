@@ -78,7 +78,7 @@ class TreeMetrics(BaseModel):
             )
             logger.debug(f"Longest sequence of nodes: {max_node_seq}")
         except:
-            max_node_seq = "--"
+            max_node_seq = -1
             logger.debug("Error calculating longest sequence.")
 
         # Count how many sequences are longer than 5

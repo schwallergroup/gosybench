@@ -57,27 +57,27 @@ class SmilesPathFinder:
 
         tree_components = tree.get_components()
 
+        all_paths = []
         results: Dict[str, Union[str, int]] = {}
         for k, g in tree_components.items():
+            self.top_paths = []  # Reset for each component
             if len(g) > 1:
-                self.top_paths = []  # Reset for each component
-                root_nodes = [
-                    n
-                    for n in g.nodes()
-                    if g.in_degree(n) == 0 and self.has_smiles(g, n)
-                ]
-                for root in root_nodes:
-                    self.dfs_longest_path(g, root)
+                self.dfs_longest_path(g, k)
+                all_paths += [(p, l, k) for p, l in self.top_paths]
 
-                for i in range(3):
-                    if i < len(self.top_paths):
-                        path, length = self.top_paths[i]
-                        smi_path = [g.nodes[n]["attr"]["smiles"] for n in path]
-                        results[f"long_path_{i}_src"] = k
-                        results[f"long_path_{i}_len"] = length
-                    else:
-                        # If we have fewer than 3 paths, add placeholder values
-                        results[f"long_path_{i}_src"] = ""
-                        results[f"long_path_{i}_len"] = 0
+        # Add placeholders
+        for i in range(3):
+            results[f"long_path_{i}_len"] = 0
+            results[f"long_path_{i}_src"] = "None"
+
+        # Sort by length
+        all_paths.sort(key=lambda x: x[1], reverse=True)
+        for i, (path, length, source) in enumerate(all_paths):
+            if i == 3:
+                break
+            smi_path = [tree.graph.nodes[n]["attr"]["smiles"] for n in path]
+            logger.debug(f"Longest path {i}: {smi_path}")
+            results[f"long_path_{i}_len"] = length
+            results[f"long_path_{i}_src"] = source
 
         return results
